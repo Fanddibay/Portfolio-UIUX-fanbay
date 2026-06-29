@@ -1,0 +1,203 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Design tokens (see DESIGN.md §2).
+ * Light mode is the default on :root; .dark is toggled on <html> by next-themes.
+ * Tailwind colors reference these variables, so swapping the class re-themes
+ * the whole app with no per-component overrides.
+ */
+@layer base {
+  :root {
+    --background: #fafafa;
+    --foreground: #09090b;
+    --card: #ffffff;
+    --card-foreground: #09090b;
+    --primary: #18181b;
+    --primary-foreground: #ffffff;
+    --secondary: #3f3f46;
+    --secondary-foreground: #ffffff;
+    --accent: #2563eb;
+    --accent-foreground: #ffffff;
+    --muted: #f4f4f5;
+    --muted-foreground: #64748b;
+    --border: #e4e4e7;
+    --ring: #2563eb;
+    --destructive: #dc2626;
+  }
+
+  .dark {
+    --background: #09090b;
+    --foreground: #f4f4f5;
+    --card: #18181b;
+    --card-foreground: #f4f4f5;
+    --primary: #f4f4f5;
+    --primary-foreground: #09090b;
+    --secondary: #27272a;
+    --secondary-foreground: #a1a1aa;
+    --accent: #3b82f6;
+    --accent-foreground: #ffffff;
+    --muted: #27272a;
+    --muted-foreground: #71717a;
+    --border: #27272a;
+    --ring: #3b82f6;
+    --destructive: #ef4444;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+  }
+
+  /* Smooth in-page anchor scrolling for the single-page nav */
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/*
+ * Reusable component classes (see DESIGN.md §8).
+ * Kept here rather than repeated as utility strings across components.
+ */
+@layer components {
+  /* Eyebrow label above every section heading */
+  .overline {
+    @apply font-mono text-label uppercase tracking-[0.2em] text-accent;
+  }
+
+  /* Standard section wrapper: vertical rhythm + centered max-width */
+  .section {
+    @apply mx-auto w-full max-w-content px-6 py-24 md:px-8;
+  }
+
+  /* Outlined display text — used for the first word of the hero name */
+  .text-outline {
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--foreground);
+  }
+}
+
+@layer utilities {
+  /*
+   * Signature interaction: profile photo is grayscale by default and
+   * reveals full color on hover/focus (see DESIGN.md "signature element").
+   */
+  .photo-grayscale {
+    filter: grayscale(100%);
+    transition: filter 400ms ease-out, transform 400ms ease-out;
+  }
+  .photo-grayscale:hover,
+  .photo-grayscale:focus-visible {
+    filter: grayscale(0%);
+  }
+
+  /* Hide scrollbar for horizontal carousels (still scrollable/swipeable) */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/*
+ * Hero signature: cursor spotlight. The photo is grayscale by default; a
+ * full-color copy is revealed inside a soft circle that tracks the cursor.
+ * --spot-r is registered with @property so it can transition smoothly as the
+ * spotlight grows on enter / shrinks on leave. --spot-x/y are updated per
+ * mousemove by SpotlightPhoto (directly on the node, not via React state).
+ */
+@property --spot-r {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+
+@layer components {
+  .spotlight {
+    position: relative;
+  }
+  /* Color layer, masked to a moving circle */
+  .spotlight__color {
+    --spot-x: 50%;
+    --spot-y: 50%;
+    --spot-r: 0px;
+    -webkit-mask-image: radial-gradient(
+      circle var(--spot-r) at var(--spot-x) var(--spot-y),
+      #000 0%,
+      #000 55%,
+      transparent 100%
+    );
+    mask-image: radial-gradient(
+      circle var(--spot-r) at var(--spot-x) var(--spot-y),
+      #000 0%,
+      #000 55%,
+      transparent 100%
+    );
+    transition: --spot-r 350ms ease-out;
+  }
+  .spotlight:hover .spotlight__color,
+  .spotlight:focus-within .spotlight__color {
+    --spot-r: 150px;
+  }
+  /* Touch / no-hover devices can't track a cursor — just show full color */
+  @media (hover: none) {
+    .spotlight__color {
+      -webkit-mask-image: none;
+      mask-image: none;
+    }
+  }
+}
+
+/*
+ * Marquee — auto-scrolling row (used by AI Tools on mobile). The track holds
+ * two identical sets of cards; translating by -50% loops seamlessly. Pauses on
+ * hover (CSS) or tap (data-paused, toggled in JS). Each card carries its own
+ * right margin (no flex gap) so the -50% offset stays perfectly seamless.
+ */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee {
+  overflow: hidden;
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 30s linear infinite;
+}
+.marquee:hover .marquee-track,
+.marquee[data-paused='true'] .marquee-track {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  /* No auto-motion — let the user scroll the row by hand instead */
+  .marquee {
+    overflow-x: auto;
+  }
+  .marquee-track {
+    animation: none;
+  }
+}
+
+/* Accessibility: honor reduced-motion across all animations (DESIGN.md §7) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

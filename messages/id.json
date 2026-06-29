@@ -1,0 +1,107 @@
+{
+  "nav": {
+    "home": "Beranda",
+    "work": "Karya",
+    "about": "Tentang",
+    "experience": "Pengalaman",
+    "process": "Proses",
+    "contact": "Kontak",
+    "resume": "Résumé",
+    "letsTalk": "Mari bicara"
+  },
+  "hero": {
+    "available": "Terbuka untuk proyek baru",
+    "role": "UI/UX Designer",
+    "tagline": "Merancang produk digital yang jernih, mudah dipakai, dan berorientasi konversi.",
+    "description": "4 tahun mengubah riset menjadi antarmuka yang benar-benar dipakai orang — dari Figma ke React siap produksi, diperkuat tools AI seperti Claude.",
+    "cta": "Mari berkolaborasi"
+  },
+  "about": {
+    "overline": "Tentang",
+    "title": "Desainer yang merilis — bukan sekadar handoff.",
+    "body": "Saya UI/UX Designer yang tetap mengawal produk setelah handoff. Saya riset masalahnya, rancang solusinya di Figma, dan — karena saya juga bisa membangun di React — memastikan hasil rilis sesuai maksud desain, sampai ke detail piksel.",
+    "designerTitle": "Desain",
+    "designerBody": "Mengubah masalah yang kabur menjadi antarmuka yang jernih dan mudah dipakai — berbasis riset dan sistem yang konsisten.",
+    "designItems": ["Riset & alur pengguna", "Wireframe", "Design system", "Prototipe high-fidelity"],
+    "engineerTitle": "Bangun",
+    "engineerBody": "Membawa desain ke produksi sendiri, jadi hasil rilis sesuai maksud desain — sampai ke piksel.",
+    "buildItems": ["React & Vue", "Tailwind CSS", "Responsif & aksesibel", "Integrasi Supabase"],
+    "stackLabel": "Tools yang saya pakai"
+  },
+  "aiTools": {
+    "overline": "Diperkuat AI",
+    "title": "AI adalah bagian dari cara saya bekerja — bukan gimmick.",
+    "body": "Saya memadukan tools AI di setiap tahap proses untuk bergerak lebih cepat tanpa mengorbankan kualitas.",
+    "claudeCodeTitle": "Claude Code",
+    "claudeCodeBody": "Prototyping cepat, refactor, dan code review — merilis frontend production dalam waktu jauh lebih singkat.",
+    "claudeDesignTitle": "Claude Design & Stitch",
+    "claudeDesignBody": "Iterasi desain dan generasi komponen, mengeksplorasi lebih banyak arah sebelum memutuskan.",
+    "aiStudioTitle": "Google AI Studio",
+    "aiStudioBody": "Menyintesis riset pengguna dan menyusun strategi konten dari data mentah."
+  },
+  "experience": {
+    "overline": "Pengalaman",
+    "title": "Empat tahun, terjun langsung di setiap prosesnya.",
+    "lead": "Rekam jejak merancang dan merilis produk nyata — didukung reputasi freelance yang terbukti.",
+    "collaborateCta": "Kolaborasi via Upwork"
+  },
+  "process": {
+    "overline": "Cara Saya Bekerja",
+    "title": "Jalur yang jelas dari masalah ke produk.",
+    "step1Title": "Riset",
+    "step1Body": "Memahami pengguna, tujuan bisnis, dan batasan sebelum menggambar satu layar pun.",
+    "step2Title": "Desain",
+    "step2Body": "Wireframe, bangun design system, dan prototipe di Figma sampai alurnya terasa pas.",
+    "step3Title": "Bangun",
+    "step3Body": "Membawa desain ke produksi dengan kode frontend yang bersih, responsif, dan aksesibel.",
+    "step4Title": "Perkuat dengan AI",
+    "step4Body": "Memakai tools AI di sepanjang proses untuk iterasi lebih cepat dan kualitas lebih tinggi."
+  },
+  "work": {
+    "overline": "Karya Pilihan",
+    "title": "Karya yang berawal dari masalah.",
+    "lead": "Cara saya menangani tiap proyek — masalahnya, metodenya, bisnis di baliknya, dan hasilnya.",
+    "viewProcess": "Lihat proses",
+    "protected": "Terlindungi — dibagikan atas permintaan",
+    "requestAccess": "Minta akses"
+  },
+  "project": {
+    "back": "Kembali ke karya",
+    "role": "Peran",
+    "timeline": "Durasi",
+    "problem": "Masalahnya",
+    "method": "Metode & pendekatan",
+    "businessProcess": "Proses bisnis",
+    "goal": "Tujuan & hasil",
+    "protectedTitle": "Karya ini di bawah NDA",
+    "protectedBody": "Visual finalnya terlindungi. Saya bisa membagikan versi yang sudah disterilkan dan belum final yang menunjukkan pemikiran dan prosesnya — tinggal hubungi saya.",
+    "requestCta": "Minta akses",
+    "viewExternal": "Lihat di Behance"
+  },
+  "testimonials": {
+    "overline": "Testimoni",
+    "title": "Kata mereka tentang bekerja dengan saya.",
+    "via": "via"
+  },
+  "contact": {
+    "overline": "Kontak",
+    "title": "Mari bangun sesuatu.",
+    "body": "Punya proyek atau posisi yang perlu diisi? Kirim pesan dan saya akan segera membalas.",
+    "nameLabel": "Nama",
+    "namePlaceholder": "Nama Anda",
+    "emailLabel": "Email",
+    "emailPlaceholder": "anda@contoh.com",
+    "messageLabel": "Pesan",
+    "messagePlaceholder": "Ceritakan tentang proyek Anda…",
+    "send": "Kirim pesan",
+    "sending": "Mengirim…",
+    "success": "Terima kasih — pesan Anda sedang dikirim. Saya akan segera membalas.",
+    "error": "Terjadi kesalahan. Coba lagi atau email saya langsung.",
+    "socials": "Temukan saya di"
+  },
+  "footer": {
+    "tagline": "UI/UX Designer yang merancang produk jernih, mudah dipakai, dan berorientasi konversi.",
+    "rights": "Hak cipta dilindungi.",
+    "builtWith": "Dirancang & dibangun oleh Fandi Bayu"
+  }
+}

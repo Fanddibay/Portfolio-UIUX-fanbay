@@ -1,0 +1,12 @@
+<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Claude">
+  <g stroke="#D97757" stroke-width="2.1" stroke-linecap="round">
+    <line x1="12" y1="2.5" x2="12" y2="21.5" />
+    <line x1="2.5" y1="12" x2="21.5" y2="12" />
+    <line x1="5.2" y1="5.2" x2="18.8" y2="18.8" />
+    <line x1="18.8" y1="5.2" x2="5.2" y2="18.8" />
+    <line x1="12" y1="3.6" x2="12" y2="20.4" transform="rotate(22.5 12 12)" />
+    <line x1="12" y1="3.6" x2="12" y2="20.4" transform="rotate(67.5 12 12)" />
+    <line x1="12" y1="3.6" x2="12" y2="20.4" transform="rotate(112.5 12 12)" />
+    <line x1="12" y1="3.6" x2="12" y2="20.4" transform="rotate(157.5 12 12)" />
+  </g>
+</svg>

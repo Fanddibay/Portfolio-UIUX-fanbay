@@ -1,0 +1,107 @@
+{
+  "nav": {
+    "home": "Home",
+    "work": "Work",
+    "about": "About",
+    "experience": "Experience",
+    "process": "Process",
+    "contact": "Contact",
+    "resume": "Résumé",
+    "letsTalk": "Let's talk"
+  },
+  "hero": {
+    "available": "Available for new projects",
+    "role": "UI/UX Designer",
+    "tagline": "Designing digital products that are clear, usable, and conversion-focused.",
+    "description": "4 years turning research into interfaces people actually use — from Figma to production-ready React, amplified by AI tools like Claude.",
+    "cta": "Let's collaborate"
+  },
+  "about": {
+    "overline": "About",
+    "title": "A designer who ships — not just hands off.",
+    "body": "I'm a UI/UX Designer who stays with a product past the handoff. I research the problem, design the solution in Figma, and — because I can also build in React — I make sure what ships matches the intent, pixel for pixel.",
+    "designerTitle": "Design",
+    "designerBody": "I turn fuzzy problems into clear, usable interfaces — grounded in research and a consistent system.",
+    "designItems": ["User research & flows", "Wireframing", "Design systems", "High-fidelity prototypes"],
+    "engineerTitle": "Build",
+    "engineerBody": "I take designs to production myself, so what ships matches the intent — pixel for pixel.",
+    "buildItems": ["React & Vue", "Tailwind CSS", "Responsive & accessible", "Supabase integration"],
+    "stackLabel": "Tools I work with"
+  },
+  "aiTools": {
+    "overline": "AI-Augmented",
+    "title": "AI is part of how I work — not a gimmick.",
+    "body": "I fold AI tooling into every stage of the process to move faster without cutting corners on quality.",
+    "claudeCodeTitle": "Claude Code",
+    "claudeCodeBody": "Rapid prototyping, refactors, and code review — shipping production frontends in a fraction of the time.",
+    "claudeDesignTitle": "Claude Design & Stitch",
+    "claudeDesignBody": "Design iteration and component generation, exploring more directions before committing.",
+    "aiStudioTitle": "Google AI Studio",
+    "aiStudioBody": "Synthesizing user research and shaping content strategy from raw inputs."
+  },
+  "experience": {
+    "overline": "Experience",
+    "title": "Four years, hands-on the whole way.",
+    "lead": "A track record of designing and shipping real products — backed by a proven freelance record.",
+    "collaborateCta": "Collaborate via Upwork"
+  },
+  "process": {
+    "overline": "How I Work",
+    "title": "A clear path from problem to product.",
+    "step1Title": "Research",
+    "step1Body": "Understand the user, the business goal, and the constraints before drawing a single screen.",
+    "step2Title": "Design",
+    "step2Body": "Wireframe, build the design system, and prototype in Figma until the flow feels right.",
+    "step3Title": "Build",
+    "step3Body": "Take the design to production in clean, responsive, accessible frontend code.",
+    "step4Title": "AI-Augment",
+    "step4Body": "Use AI tooling throughout to iterate faster and raise the quality floor."
+  },
+  "work": {
+    "overline": "Selected Work",
+    "title": "Work that starts with a problem.",
+    "lead": "How I approach each project — the problem, the method, the business behind it, and the outcome.",
+    "viewProcess": "View process",
+    "protected": "Protected — shared on request",
+    "requestAccess": "Request access"
+  },
+  "project": {
+    "back": "Back to work",
+    "role": "Role",
+    "timeline": "Timeline",
+    "problem": "The problem",
+    "method": "Method & approach",
+    "businessProcess": "Business process",
+    "goal": "Goals & outcome",
+    "protectedTitle": "This work is under NDA",
+    "protectedBody": "The final visuals are protected. I can share sanitized, non-final work that shows the thinking and process — just reach out.",
+    "requestCta": "Request access",
+    "viewExternal": "View on Behance"
+  },
+  "testimonials": {
+    "overline": "Testimonials",
+    "title": "What people say about working with me.",
+    "via": "via"
+  },
+  "contact": {
+    "overline": "Contact",
+    "title": "Let's build something.",
+    "body": "Have a project in mind or a role to fill? Drop me a message and I'll get back to you.",
+    "nameLabel": "Name",
+    "namePlaceholder": "Your name",
+    "emailLabel": "Email",
+    "emailPlaceholder": "you@example.com",
+    "messageLabel": "Message",
+    "messagePlaceholder": "Tell me about your project…",
+    "send": "Send message",
+    "sending": "Sending…",
+    "success": "Thanks — your message is on its way. I'll reply soon.",
+    "error": "Something went wrong. Please try again or email me directly.",
+    "socials": "Find me on"
+  },
+  "footer": {
+    "tagline": "UI/UX Designer crafting clear, usable, conversion-focused products.",
+    "rights": "All rights reserved.",
+    "builtWith": "Designed & built by Fandi Bayu"
+  }
+}
