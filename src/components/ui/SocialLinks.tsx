@@ -36,7 +36,7 @@ export function SocialLinks({
   const isPill = variant === 'pill';
 
   return (
-    <ul className={`flex ${isPill ? 'flex-col items-stretch gap-2' : 'items-center gap-2'} ${className}`}>
+    <ul className={`${isPill ? 'grid grid-cols-2 gap-2 md:flex md:flex-col align-center md:items-stretch' : 'flex items-center gap-2'} ${className}`}>
       {socials.map(({ key, label, url }) => {
         const Icon = ICONS[key];
         return (
@@ -48,7 +48,7 @@ export function SocialLinks({
               aria-label={label}
               className={
                 isPill
-                  ? 'flex items-center gap-2.5 rounded-full border border-border bg-card px-4 py-2.5 font-body text-body-sm text-foreground transition-colors duration-150 ease-out hover:border-accent hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background'
+                  ? 'flex items-center justify-center gap-2.5 rounded-full border border-border bg-card px-4 py-2.5 font-body text-body-sm text-foreground transition-colors duration-150 ease-out hover:border-accent hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background'
                   : 'flex h-11 w-11 items-center justify-center rounded-md border border-border text-muted-foreground transition-colors duration-150 ease-out hover:border-accent hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background'
               }
             >
