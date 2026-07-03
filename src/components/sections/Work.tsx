@@ -2,11 +2,13 @@
 
 import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useTranslations } from 'next-intl';
-import { ArrowRight, Lock } from 'lucide-react';
+import { useTranslations, useLocale } from 'next-intl';
+import Image from 'next/image';
+import { ArrowRight, ExternalLink, Images, Lock, Rocket } from 'lucide-react';
 import { SectionHeader } from '@/components/ui/SectionHeader';
+import { LiveBadge } from '@/components/ui/ProjectGallery';
 import { Link } from '@/i18n/navigation';
-import { projects, type Project } from '@/lib/data';
+import { projects, loc, type Project } from '@/lib/data';
 
 /**
  * Work — adaptive showcase.
@@ -43,20 +45,59 @@ export function Work() {
 
 function ProjectPanel({ project }: { project: Project }) {
   const t = useTranslations('work');
+  const locale = useLocale();
   return (
-    <article className="flex h-full flex-col rounded-2xl border border-border bg-card p-6 md:p-8">
-      {/* Visual (locked for NDA) */}
-      <div className="relative flex aspect-video items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-muted to-card">
-        <span className="font-heading text-h3 font-bold text-muted-foreground/30">
-          {project.category}
-        </span>
-        {project.protected && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-background/60 backdrop-blur-md">
-            <Lock className="h-5 w-5 text-foreground" />
-            <span className="px-4 text-center font-mono text-label uppercase tracking-widest text-muted-foreground">
-              {t('protected')}
+    <article
+      className={`flex h-full flex-col rounded-2xl border p-6 transition-shadow duration-250 ease-out md:p-8 ${
+        project.ownProduct
+          ? 'border-accent/40 bg-gradient-to-b from-accent/[0.05] to-card shadow-lg shadow-accent/10'
+          : 'border-border bg-card'
+      }`}
+    >
+      {/* Visual — shows screenshot when available; NDA badge for protected */}
+      <div className="group relative flex aspect-video items-center justify-center overflow-hidden rounded-xl border border-border bg-gradient-to-br from-muted to-card">
+        {/* Highlight: self-initiated product (Product Owner) */}
+        {project.ownProduct && (
+          <span className="badge-shine absolute left-3 top-3 z-10 inline-flex items-center gap-1.5 overflow-hidden rounded-full bg-accent px-3 py-1 font-mono text-label uppercase tracking-widest text-accent-foreground shadow-md">
+            <Rocket className="h-3 w-3" aria-hidden="true" />
+            {t('ownProduct')}
+          </span>
+        )}
+        {project.image ? (
+          <>
+            <Image
+              src={project.image}
+              alt={project.title}
+              fill
+              sizes="(max-width: 768px) 85vw, 600px"
+              className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+            />
+            {project.protected && (
+              <span className="absolute right-3 top-3 rounded-full border border-border bg-background/80 px-3 py-1 font-mono text-label uppercase tracking-widest text-muted-foreground backdrop-blur-sm">
+                NDA · Edited
+              </span>
+            )}
+            {project.live && <LiveBadge className="absolute right-3 top-3" />}
+            {project.images && project.images.length > 1 && (
+              <span className="absolute bottom-3 right-3 flex items-center gap-1.5 rounded-full border border-border bg-background/80 px-2.5 py-1 font-mono text-label tabular-nums text-muted-foreground backdrop-blur-sm">
+                <Images className="h-3 w-3" aria-hidden="true" />+{project.images.length}
+              </span>
+            )}
+          </>
+        ) : (
+          <>
+            <span className="font-heading text-h3 font-bold text-muted-foreground/30">
+              {project.category}
             </span>
-          </div>
+            {project.protected && (
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-background/60 backdrop-blur-md">
+                <Lock className="h-5 w-5 text-foreground" />
+                <span className="px-4 text-center font-mono text-label uppercase tracking-widest text-muted-foreground">
+                  {t('protected')}
+                </span>
+              </div>
+            )}
+          </>
         )}
       </div>
 
@@ -67,9 +108,22 @@ function ProjectPanel({ project }: { project: Project }) {
         </span>
         <h3 className="mt-2 font-heading text-h3 text-card-foreground md:text-h2">{project.title}</h3>
         <p className="mt-1 font-body text-body-sm text-accent">
-          {project.role} · {project.timeline}
+          {project.role} · {loc(project.timeline, locale)}
         </p>
-        <p className="mt-3 text-body text-muted-foreground">{project.summary}</p>
+
+        {/* Traction — self-initiated product only */}
+        {project.ownProduct && project.metrics && (
+          <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1">
+            {project.metrics.map((m) => (
+              <span key={loc(m.label, locale)} className="font-mono text-label text-muted-foreground">
+                <span className="font-semibold tabular-nums text-accent">{m.value}</span>{' '}
+                {loc(m.label, locale)}
+              </span>
+            ))}
+          </div>
+        )}
+
+        <p className="mt-3 text-body text-muted-foreground">{loc(project.summary, locale)}</p>
 
         <ul className="mt-4 flex flex-wrap gap-2">
           {project.tags.map((tag) => (
@@ -82,13 +136,27 @@ function ProjectPanel({ project }: { project: Project }) {
           ))}
         </ul>
 
-        <Link
-          href={`/work/${project.slug}`}
-          className="mt-6 inline-flex items-center gap-1.5 font-body text-body-sm font-medium text-accent transition-colors hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card"
-        >
-          {t('viewProcess')}
-          <ArrowRight className="h-4 w-4" />
-        </Link>
+        <div className="mt-auto flex flex-wrap items-center gap-x-5 gap-y-2 pt-6">
+          <Link
+            href={`/work/${project.slug}`}
+            className="inline-flex items-center gap-1.5 font-body text-body-sm font-medium text-accent transition-colors hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card"
+          >
+            {t('viewProcess')}
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+          {/* Live product: jump straight to the app */}
+          {project.ownProduct && project.externalLinks?.[0] && (
+            <a
+              href={project.externalLinks[0].url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 font-body text-body-sm font-medium text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card"
+            >
+              {loc(project.externalLinks[0].label, locale)}
+              <ExternalLink className="h-3.5 w-3.5" />
+            </a>
+          )}
+        </div>
       </div>
     </article>
   );
@@ -138,6 +206,7 @@ function WorkTabs({ items }: { items: Project[] }) {
                 <span className="flex items-center gap-1.5">
                   <span className="truncate font-heading text-h4 text-foreground">{project.title}</span>
                   {project.protected && <Lock className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />}
+                  {project.ownProduct && <Rocket className="h-3.5 w-3.5 shrink-0 text-accent" />}
                 </span>
                 <span className="block font-body text-body-sm text-muted-foreground">
                   {project.category} · {project.year}

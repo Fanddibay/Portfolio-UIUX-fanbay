@@ -6,6 +6,7 @@ import { Plus_Jakarta_Sans, Open_Sans } from 'next/font/google';
 
 import { routing } from '@/i18n/routing';
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
+import { BackToTop } from '@/components/ui/BackToTop';
 import { SITE } from '@/lib/data';
 import '../globals.css';
 
@@ -69,7 +70,10 @@ export default async function LocaleLayout({
           the resulting attribute mismatch here. */}
       <body suppressHydrationWarning>
         <ThemeProvider>
-          <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
+          <NextIntlClientProvider messages={messages}>
+            {children}
+            <BackToTop />
+          </NextIntlClientProvider>
         </ThemeProvider>
       </body>
     </html>

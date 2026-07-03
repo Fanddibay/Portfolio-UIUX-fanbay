@@ -7,55 +7,57 @@
     "process": "Process",
     "contact": "Contact",
     "resume": "Résumé",
-    "letsTalk": "Let's talk"
+    "letsTalk": "Get in touch"
   },
   "hero": {
     "available": "Available for new projects",
     "role": "UI/UX Designer",
-    "tagline": "Designing digital products that are clear, usable, and conversion-focused.",
-    "description": "4 years turning research into interfaces people actually use — from Figma to production-ready React, amplified by AI tools like Claude.",
-    "cta": "Let's collaborate"
+    "tagline": "I design products people use — then I build them.",
+    "description": "**4 years** of full-cycle product work — research, Figma, production code. I bridge both sides: what users need and what the business must achieve. **10+ live launches** across SaaS, fintech, and web — **10+ international clients**.",
+    "cta": "Let's work together"
   },
   "about": {
     "overline": "About",
-    "title": "A designer who ships — not just hands off.",
-    "body": "I'm a UI/UX Designer who stays with a product past the handoff. I research the problem, design the solution in Figma, and — because I can also build in React — I make sure what ships matches the intent, pixel for pixel.",
+    "title": "Design built to survive the handoff",
+    "body": "Most handoffs lose something between Figma and code. I close that gap myself — I design in Figma and can read/build in React, Vue, and Tailwind, so what I design is what actually ships, pixel for pixel.",
     "designerTitle": "Design",
-    "designerBody": "I turn fuzzy problems into clear, usable interfaces — grounded in research and a consistent system.",
+    "designerBody": "Research first, then wireframes, systems, and high-fidelity screens that hold up under real use.",
     "designItems": ["User research & flows", "Wireframing", "Design systems", "High-fidelity prototypes"],
     "engineerTitle": "Build",
-    "engineerBody": "I take designs to production myself, so what ships matches the intent — pixel for pixel.",
+    "engineerBody": "Fluent enough in React, Vue, and Tailwind to hand off cleanly — or ship it myself, pixel for pixel.",
     "buildItems": ["React & Vue", "Tailwind CSS", "Responsive & accessible", "Supabase integration"],
     "stackLabel": "Tools I work with"
   },
   "aiTools": {
     "overline": "AI-Augmented",
-    "title": "AI is part of how I work — not a gimmick.",
-    "body": "I fold AI tooling into every stage of the process to move faster without cutting corners on quality.",
-    "claudeCodeTitle": "Claude Code",
-    "claudeCodeBody": "Rapid prototyping, refactors, and code review — shipping production frontends in a fraction of the time.",
-    "claudeDesignTitle": "Claude Design & Stitch",
-    "claudeDesignBody": "Design iteration and component generation, exploring more directions before committing.",
+    "title": "AI is built into how I work.",
+    "body": "From research to production, AI tooling helps me iterate faster and explore more directions — so more of my time goes to the decisions that actually matter.",
+    "claudeCodeTitle": "Claude AI",
+    "claudeCodeBody": "My everyday design partner — connected to Figma through the Figma MCP, with custom skills that speed up real UI/UX work without giving up control of the details.",
+    "claudeDesignTitle": "Stitch",
+    "claudeDesignBody": "An AI design-generation tool I use to spin up layouts and visual directions fast — great for gathering references and exploring ideas before refining in Figma.",
     "aiStudioTitle": "Google AI Studio",
-    "aiStudioBody": "Synthesizing user research and shaping content strategy from raw inputs."
+    "aiStudioBody": "Building real, working products end-to-end — like FanLearn, which I prototyped during a vibe-coding challenge.",
+    "aiStudioLinkLabel": "See the build"
   },
   "experience": {
     "overline": "Experience",
     "title": "Four years, hands-on the whole way.",
     "lead": "A track record of designing and shipping real products — backed by a proven freelance record.",
-    "collaborateCta": "Collaborate via Upwork"
+    "collaborateCta": "Collaborate via Upwork",
+    "viewCertificate": "View certificate"
   },
   "process": {
     "overline": "How I Work",
-    "title": "A clear path from problem to product.",
+    "title": "From problem to shipped — I stay across the whole path.",
     "step1Title": "Research",
-    "step1Body": "Understand the user, the business goal, and the constraints before drawing a single screen.",
+    "step1Body": "Start with why: the user's problem and the business outcome, so design decisions have a reason.",
     "step2Title": "Design",
-    "step2Body": "Wireframe, build the design system, and prototype in Figma until the flow feels right.",
+    "step2Body": "Wireframe, build the system, and prototype in Figma until the flow earns its place.",
     "step3Title": "Build",
-    "step3Body": "Take the design to production in clean, responsive, accessible frontend code.",
+    "step3Body": "Take it to production myself in clean, responsive, accessible code — so what ships matches the design.",
     "step4Title": "AI-Augment",
-    "step4Body": "Use AI tooling throughout to iterate faster and raise the quality floor."
+    "step4Body": "Use AI across the process to compress timelines while keeping the bar high."
   },
   "work": {
     "overline": "Selected Work",
@@ -63,19 +65,23 @@
     "lead": "How I approach each project — the problem, the method, the business behind it, and the outcome.",
     "viewProcess": "View process",
     "protected": "Protected — shared on request",
-    "requestAccess": "Request access"
+    "requestAccess": "Request access",
+    "ownProduct": "My Product"
   },
   "project": {
     "back": "Back to work",
     "role": "Role",
     "timeline": "Timeline",
+    "tools": "Tools",
+    "traction": "Traction",
+    "roadmap": "Shipped in phases",
     "problem": "The problem",
     "method": "Method & approach",
     "businessProcess": "Business process",
     "goal": "Goals & outcome",
     "protectedTitle": "This work is under NDA",
     "protectedBody": "The final visuals are protected. I can share sanitized, non-final work that shows the thinking and process — just reach out.",
-    "requestCta": "Request access",
+    "requestCta": "Contact me for more information",
     "viewExternal": "View on Behance"
   },
   "testimonials": {
@@ -85,8 +91,8 @@
   },
   "contact": {
     "overline": "Contact",
-    "title": "Let's build something.",
-    "body": "Have a project in mind or a role to fill? Drop me a message and I'll get back to you.",
+    "title": "Let's build something worth shipping.",
+    "body": "I'm open to new projects and roles. Share a few lines about what you need — I usually reply within a day.",
     "nameLabel": "Name",
     "namePlaceholder": "Your name",
     "emailLabel": "Email",
@@ -99,9 +105,24 @@
     "error": "Something went wrong. Please try again or email me directly.",
     "socials": "Find me on"
   },
+  "actions": {
+    "backToTop": "Back to top"
+  },
   "footer": {
-    "tagline": "UI/UX Designer crafting clear, usable, conversion-focused products.",
+    "tagline": "UI/UX Designer who designs products people use — and builds them too.",
+    "location": "Based in Indonesia · Remote-friendly",
+    "emailLabel": "Email me",
     "rights": "All rights reserved.",
     "builtWith": "Designed & built by Fandi Bayu"
+  },
+  "resume": {
+    "trigger": "Download Resume",
+    "title": "Download Resume",
+    "subtitle": "Available in two languages — pick the one you need.",
+    "optionIdLabel": "Bahasa Indonesia",
+    "optionIdMeta": "PDF · 94 KB",
+    "optionEnLabel": "English",
+    "optionEnMeta": "PDF · 94 KB",
+    "close": "Close"
   }
 }

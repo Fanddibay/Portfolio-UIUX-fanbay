@@ -190,6 +190,34 @@
   }
 }
 
+/*
+ * Badge sheen — a slow light sweep across the "My Product" highlight badge.
+ * Overlay element sits above the badge fill; the moving gradient reads as a
+ * gentle premium shine. Auto-disabled by the reduced-motion guard below.
+ */
+@keyframes badge-shine {
+  0% {
+    transform: translateX(-120%);
+  }
+  60%,
+  100% {
+    transform: translateX(220%);
+  }
+}
+.badge-shine::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    110deg,
+    transparent 35%,
+    rgb(255 255 255 / 0.5) 50%,
+    transparent 65%
+  );
+  transform: translateX(-120%);
+  animation: badge-shine 4s ease-in-out infinite;
+}
+
 /* Accessibility: honor reduced-motion across all animations (DESIGN.md §7) */
 @media (prefers-reduced-motion: reduce) {
   *,
