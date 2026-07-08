@@ -33,7 +33,7 @@ export type Project = {
   summary: Localized;
   /** Tools / methods used — rendered as mono tags. Technical — kept in English. */
   tags: string[];
-  /** Path under /public, e.g. "/projects/benchtop.png". Used as the card poster. */
+  /** Path under /public, e.g. "/projects/benchtop.webp". Used as the card poster. */
   image: string;
   /**
    * Optional multi-image gallery shown on the detail page (paginated + lightbox).
@@ -96,7 +96,7 @@ export const projects: Project[] = [
       id: 'Redesign platform weather-nowcasting publik milik BMKG — memberi siapa saja pandangan real-time dan sekilas atas kondisi cuaca yang terbentuk di seluruh Indonesia, dengan timeline prakiraan per wilayah dan laporan PDF sekali klik.',
     },
     tags: ['Figma', 'Cursor', 'Vue', 'Tailwind CSS', 'AI Coding'],
-    image: '/projects/nowcasting.png',
+    image: '/projects/nowcasting.webp',
     live: true,
     featured: true,
     protected: false,
@@ -131,15 +131,15 @@ export const projects: Project[] = [
       id: 'Redesign data-workflow builder milik Hgrid 247 — mengubah antarmuka yang kaku dan sulit diikuti menjadi kanvas step-by-step yang bersih dan modern, di mana membangun data pipeline jadi mudah dipahami dan benar-benar nyaman digunakan.',
     },
     tags: ['Figma', 'Claude', 'Stitch', 'Google Docs', 'Claude Design', 'build design.md'],
-    image: '/projects/hgrid.png',
+    image: '/projects/hgrid.webp',
     // Gallery ordered by the app's sidebar nav: Workflow → Datasets → HDFS → Job → Cluster → Users
     images: [
-      '/projects/hgrid.png',
-      '/projects/hgrid-datasets.png',
-      '/projects/hgrid-hdfs.png',
-      '/projects/hgrid-job.png',
-      '/projects/hgrid-cluster.png',
-      '/projects/hgrid-user.png',
+      '/projects/hgrid.webp',
+      '/projects/hgrid-datasets.webp',
+      '/projects/hgrid-hdfs.webp',
+      '/projects/hgrid-job.webp',
+      '/projects/hgrid-cluster.webp',
+      '/projects/hgrid-user.webp',
     ],
     featured: true,
     protected: false,
@@ -172,7 +172,7 @@ export const projects: Project[] = [
       id: 'Mendesain modul pelacakan dokumen untuk platform konstruksi — menggantikan follow-up transmittal manual dengan pelacakan pengiriman otomatis dan tanda terima baca ke seluruh stakeholder proyek.',
     },
     tags: ['Figma', 'Design System', 'Claude Design', 'SaaS', 'Design Thinking'],
-    image: '/projects/benchtop.png',
+    image: '/projects/benchtop.webp',
     featured: true,
     protected: false,
     problem: {
@@ -205,7 +205,7 @@ export const projects: Project[] = [
       id: 'Mendesain sistem POS berfitur lengkap untuk restoran Eropa — menggantikan operasi manual dengan platform otomatis yang mencakup transaksi, pelaporan, marketing, dan integrasi delivery pihak ketiga.',
     },
     tags: ['Figma', 'Design System', 'User-Centric', 'Auto Layout'],
-    image: '/projects/upvendo.png',
+    image: '/projects/upvendo.webp',
     featured: true,
     protected: false,
     problem: {
@@ -237,7 +237,7 @@ export const projects: Project[] = [
       id: 'Dashboard telehealth untuk klinisi — menggantikan workflow manual yang terfragmentasi dengan platform terintegrasi untuk manajemen sesi, dokumentasi klinis, dan asesmen psikometrik.',
     },
     tags: ['Figma', 'SaaS', 'Dashboard', 'Auto Layout', 'MUI Components'],
-    image: '/projects/threadline.png',
+    image: '/projects/threadline.webp',
     featured: true,
     protected: true,
     problem: {
@@ -269,7 +269,7 @@ export const projects: Project[] = [
       id: 'Mendigitalkan pengalaman asuransi end-to-end untuk pengguna yang kurang terlayani — menggantikan kunjungan agen dan dokumen kertas dengan bot percakapan yang memandu pembelian dan klaim lewat chat berbahasa sederhana.',
     },
     tags: ['Figma', 'Brainstorming', 'Wireframe', 'Animation', 'Mobile App'],
-    image: '/projects/kitasemua.png',
+    image: '/projects/kitasemua.webp',
     featured: true,
     protected: true,
     problem: {
@@ -310,18 +310,18 @@ export const projects: Project[] = [
       'Social Media',
       'MVP',
     ],
-    image: '/projects/fanplanner.png',
+    image: '/projects/fanplanner.webp',
     // Gallery ordered as the product story: overview → input → tracking → pockets → assistant → account
     images: [
-      '/projects/fanplanner-home.png',
-      '/projects/fanplanner-light.png',
-      '/projects/fanplanner-trans.png',
-      '/projects/fanplanner-input.png',
-      '/projects/fanplanner-history.png',
-      '/projects/fanplanner-pocket.png',
-      '/projects/fanplanner-detailpocket.png',
-      '/projects/fanplanner-chatbot.png',
-      '/projects/fanplanner-setting.png',
+      '/projects/fanplanner-home.webp',
+      '/projects/fanplanner-light.webp',
+      '/projects/fanplanner-trans.webp',
+      '/projects/fanplanner-input.webp',
+      '/projects/fanplanner-history.webp',
+      '/projects/fanplanner-pocket.webp',
+      '/projects/fanplanner-detailpocket.webp',
+      '/projects/fanplanner-chatbot.webp',
+      '/projects/fanplanner-setting.webp',
     ],
     live: true,
     ownProduct: true,
@@ -598,7 +598,7 @@ export const experience: ExperienceEntry[] = [
           en: 'Supported the design team on immersive VR/AR experiences — interface layouts, interaction flows, and usability improvements — turning concepts into interactive prototypes.',
           id: 'Mendukung tim desain pada pengalaman VR/AR yang imersif — layout antarmuka, alur interaksi, dan peningkatan usability — mengubah konsep menjadi prototipe interaktif.',
         },
-        certificateUrl: '/certificate-primeskills.jpeg',
+        certificateUrl: '/certificate-primeskills.webp',
       },
     ],
   },

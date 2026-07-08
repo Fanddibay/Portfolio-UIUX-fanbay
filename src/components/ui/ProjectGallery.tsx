@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import Image from 'next/image';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Expand, Lock, X } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Expand, X } from 'lucide-react';
 
 type Props = {
   images: string[];
@@ -276,7 +276,10 @@ function Lightbox({
                 <LightboxArrow dir="prev" onClick={() => go(-1)} />
               )}
 
-              {/* Intrinsic-sized image, capped to viewport */}
+              {/* Intrinsic-sized image, capped to viewport. Plain <img> on
+                  purpose: dimensions are unknown at build time and Cloudflare
+                  Pages has no runtime optimizer (assets are pre-optimized WebP). */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={images[index]}
                 alt={`${title} — screen ${index + 1} of ${images.length}`}

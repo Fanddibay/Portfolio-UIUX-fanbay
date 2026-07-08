@@ -1,14 +1,24 @@
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { ArrowLeft, ExternalLink } from 'lucide-react';
 
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
+import { Button } from '@/components/ui/Button';
 import { NDASection } from '@/components/ui/NDASection';
 import { ProjectGallery } from '@/components/ui/ProjectGallery';
 import { Link } from '@/i18n/navigation';
 import { routing } from '@/i18n/routing';
 import { projects, loc, SITE } from '@/lib/data';
+import {
+  BASE_URL,
+  languageAlternates,
+  localePath,
+  projectJsonLd,
+  breadcrumbJsonLd,
+  jsonLdString,
+} from '@/lib/seo';
 
 /**
  * Case study / workflow detail page.
@@ -22,6 +32,44 @@ export function generateStaticParams() {
   return routing.locales.flatMap((locale) =>
     projects.map((project) => ({ locale, slug: project.slug })),
   );
+}
+
+/** Per-project SEO: localized title/description, canonical + hreflang, OG poster. */
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string; slug: string }>;
+}): Promise<Metadata> {
+  const { locale, slug } = await params;
+  const project = projects.find((p) => p.slug === slug);
+  if (!project) return {};
+
+  const title = `${project.title} — ${project.category} Case Study`;
+  const description = loc(project.summary, locale);
+  const path = `/work/${slug}`;
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: localePath(locale, path),
+      languages: languageAlternates(path),
+    },
+    openGraph: {
+      type: 'article',
+      url: localePath(locale, path),
+      title,
+      description,
+      locale: locale === 'id' ? 'id_ID' : 'en_US',
+      images: [{ url: `${BASE_URL}${project.image}`, width: 1200, height: 675, alt: project.title }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [`${BASE_URL}${project.image}`],
+    },
+  };
 }
 
 export default async function CaseStudyPage({
@@ -47,6 +95,15 @@ export default async function CaseStudyPage({
 
   return (
     <>
+      {/* Case-study entity + breadcrumb trail for search / AI citation */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdString(projectJsonLd(project, locale)) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdString(breadcrumbJsonLd(project, locale)) }}
+      />
       <Navbar />
       <main className="mx-auto max-w-3xl px-6 pt-12 pb-24 md:px-8">
         {/* Back */}
@@ -206,20 +263,17 @@ export default async function CaseStudyPage({
             {project.externalLinks ? (
               <div className="mt-12 flex flex-wrap items-center gap-3">
                 {project.externalLinks.map((link, i) => (
-                  <a
+                  <Button
                     key={link.url}
+                    as="a"
                     href={link.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={
-                      i === 0
-                        ? 'inline-flex min-h-[44px] items-center gap-1.5 rounded-md bg-accent px-5 py-2.5 font-body text-body-sm font-medium text-accent-foreground transition-colors hover:bg-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background'
-                        : 'inline-flex min-h-[44px] items-center gap-1.5 rounded-md border border-border px-5 py-2.5 font-body text-body-sm font-medium text-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background'
-                    }
+                    variant={i === 0 ? 'primary' : 'secondary'}
                   >
                     {loc(link.label, locale)}
                     <ExternalLink className="h-4 w-4" />
-                  </a>
+                  </Button>
                 ))}
               </div>
             ) : (

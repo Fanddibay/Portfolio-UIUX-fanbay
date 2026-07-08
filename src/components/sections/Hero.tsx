@@ -87,7 +87,7 @@ export function Hero() {
             className="order-1 mx-auto hidden w-[min(330px,72vw)] md:order-2 md:block md:w-full"
           >
             <div className="relative aspect-[4/5] overflow-hidden rounded-3xl">
-              <SpotlightPhoto src="/profile.png" alt={SITE.name} priority />
+              <SpotlightPhoto src="/profile.webp" alt={SITE.name} priority />
             </div>
           </motion.div>
 
