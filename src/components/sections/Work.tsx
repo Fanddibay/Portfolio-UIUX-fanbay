@@ -54,50 +54,60 @@ function ProjectPanel({ project }: { project: Project }) {
           : 'border-border bg-card'
       }`}
     >
-      {/* Visual — shows screenshot when available; NDA badge for protected */}
+      {/* Visual — screenshot when available; identity/status badges overlaid */}
       <div className="group relative flex aspect-video items-center justify-center overflow-hidden rounded-xl border border-border bg-gradient-to-br from-muted to-card">
-        {/* Highlight: self-initiated product (Product Owner) */}
-        {project.ownProduct && (
-          <span className="badge-shine absolute left-3 top-3 z-10 inline-flex items-center gap-1.5 overflow-hidden rounded-full bg-accent px-3 py-1 font-mono text-label uppercase tracking-widest text-accent-foreground shadow-md">
-            <Rocket className="h-3 w-3" aria-hidden="true" />
-            {t('ownProduct')}
+        {project.image ? (
+          <Image
+            src={project.image}
+            alt={project.title}
+            fill
+            sizes="(max-width: 768px) 85vw, 600px"
+            className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+          />
+        ) : (
+          <span className="font-heading text-h3 font-bold text-muted-foreground/30">
+            {project.category}
           </span>
         )}
-        {project.image ? (
-          <>
-            <Image
-              src={project.image}
-              alt={project.title}
-              fill
-              sizes="(max-width: 768px) 85vw, 600px"
-              className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
-            />
-            {project.protected && (
-              <span className="absolute right-3 top-3 rounded-full border border-border bg-background/80 px-3 py-1 font-mono text-label uppercase tracking-widest text-muted-foreground backdrop-blur-sm">
-                NDA · Edited
-              </span>
-            )}
-            {project.live && <LiveBadge className="absolute right-3 top-3" />}
-            {project.images && project.images.length > 1 && (
-              <span className="absolute bottom-3 right-3 flex items-center gap-1.5 rounded-full border border-border bg-background/80 px-2.5 py-1 font-mono text-label tabular-nums text-muted-foreground backdrop-blur-sm">
-                <Images className="h-3 w-3" aria-hidden="true" />+{project.images.length}
-              </span>
-            )}
-          </>
-        ) : (
-          <>
-            <span className="font-heading text-h3 font-bold text-muted-foreground/30">
-              {project.category}
+
+        {/* Status bar: identity (left) + status (right). A single flex row
+            instead of two corner-pinned pills, so they can never overlap on
+            narrow cards. Higher opacity + ring + shadow lifts them clearly off
+            the artwork in both themes. */}
+        <div className="pointer-events-none absolute inset-x-0 top-0 z-10 flex items-start gap-2 p-3">
+          {project.ownProduct && (
+            <span className="badge-shine inline-flex shrink-0 items-center gap-1.5 overflow-hidden rounded-full bg-accent px-2.5 py-1 font-mono text-label uppercase tracking-widest text-accent-foreground shadow-md">
+              <Rocket className="h-3 w-3" aria-hidden="true" />
+              {t('ownProduct')}
             </span>
-            {project.protected && (
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-background/60 backdrop-blur-md">
-                <Lock className="h-5 w-5 text-foreground" />
-                <span className="px-4 text-center font-mono text-label uppercase tracking-widest text-muted-foreground">
-                  {t('protected')}
-                </span>
-              </div>
+          )}
+          <div className="ml-auto flex shrink-0 flex-col items-end gap-2">
+            {project.live && <LiveBadge label={t('liveShort')} />}
+            {project.protected && project.image && (
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-background/90 px-2.5 py-1 font-mono text-label uppercase tracking-widest text-foreground shadow-sm ring-1 ring-border backdrop-blur-md">
+                <Lock className="h-3 w-3" aria-hidden="true" />
+                NDA
+              </span>
             )}
-          </>
+          </div>
+        </div>
+
+        {/* Gallery count — clear "N screens inside" affordance */}
+        {project.image && project.images && project.images.length > 1 && (
+          <span className="pointer-events-none absolute bottom-3 right-3 z-10 inline-flex items-center gap-1.5 rounded-full bg-background/90 px-2.5 py-1 font-mono text-label tabular-nums text-foreground shadow-sm ring-1 ring-border backdrop-blur-md">
+            <Images className="h-3.5 w-3.5" aria-hidden="true" />
+            {project.images.length}
+          </span>
+        )}
+
+        {/* Protected work without a shareable screenshot */}
+        {!project.image && project.protected && (
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-background/70 backdrop-blur-md">
+            <Lock className="h-5 w-5 text-foreground" />
+            <span className="px-4 text-center font-mono text-label uppercase tracking-widest text-foreground">
+              {t('protected')}
+            </span>
+          </div>
         )}
       </div>
 
@@ -144,8 +154,8 @@ function ProjectPanel({ project }: { project: Project }) {
             {t('viewProcess')}
             <ArrowRight className="h-4 w-4" />
           </Link>
-          {/* Live product: jump straight to the app */}
-          {project.ownProduct && project.externalLinks?.[0] && (
+          {/* Live/public project: jump straight to the site or app */}
+          {project.externalLinks?.[0] && (
             <a
               href={project.externalLinks[0].url}
               target="_blank"

@@ -118,16 +118,23 @@ export function ProjectGallery({ images, title, isProtected, live }: Props) {
 /* Live badge — pulsing green dot (mirrors the "available" indicator)   */
 /* ------------------------------------------------------------------ */
 
-export function LiveBadge({ className = '' }: { className?: string }) {
+export function LiveBadge({
+  className = '',
+  label = 'Live Public',
+}: {
+  className?: string;
+  /** Short form ("Live") for tight card covers; full form on detail heroes. */
+  label?: string;
+}) {
   return (
     <span
-      className={`inline-flex items-center gap-2 rounded-full border border-border bg-background/85 px-3 py-1 backdrop-blur-sm ${className}`}
+      className={`inline-flex items-center gap-1.5 rounded-full bg-background/90 px-2.5 py-1 shadow-sm ring-1 ring-border backdrop-blur-md ${className}`}
     >
       <span className="relative flex h-2 w-2">
         <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-75" />
         <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
       </span>
-      <span className="font-mono text-label uppercase tracking-widest text-foreground">Live Public</span>
+      <span className="font-mono text-label uppercase tracking-widest text-foreground">{label}</span>
     </span>
   );
 }
