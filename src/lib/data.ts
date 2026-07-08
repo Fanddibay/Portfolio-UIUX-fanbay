@@ -206,6 +206,7 @@ export const projects: Project[] = [
     },
     tags: ['Figma', 'Design System', 'User-Centric', 'Auto Layout'],
     image: '/projects/upvendo.webp',
+    live: true,
     featured: true,
     protected: false,
     problem: {
@@ -224,6 +225,9 @@ export const projects: Project[] = [
       en: 'The goal was to move European restaurants from fragmented, manual operations to a fully automated POS — with a third-party integration model that connects rather than replaces (restaurants plug Deliveroo and similar platforms directly into Upvendo without rebuilding their existing setup). AI-generated product photography is built into the menu management flow, giving every item a professional visual without extra effort. Result: 6+ restaurants in Belgium are now live on the platform, with the integration model enabling fast onboarding for new users.',
       id: 'Tujuannya adalah memindahkan restoran Eropa dari operasi manual yang terfragmentasi ke POS yang sepenuhnya otomatis — dengan model integrasi pihak ketiga yang menghubungkan alih-alih menggantikan (restoran menyambungkan Deliveroo dan platform serupa langsung ke Upvendo tanpa membangun ulang setup yang sudah ada). Fotografi produk hasil AI tertanam dalam alur pengelolaan menu, memberi setiap item visual profesional tanpa usaha tambahan. Hasilnya: 6+ restoran di Belgia kini live di platform, dengan model integrasi yang memungkinkan onboarding cepat untuk pengguna baru.',
     },
+    externalLinks: [
+      { label: { en: 'Visit Upvendo', id: 'Kunjungi Upvendo' }, url: 'https://upvendo.com/' },
+    ],
   },
   {
     slug: 'threadline-telehealth',

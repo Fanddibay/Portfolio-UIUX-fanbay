@@ -154,8 +154,8 @@ function ProjectPanel({ project }: { project: Project }) {
             {t('viewProcess')}
             <ArrowRight className="h-4 w-4" />
           </Link>
-          {/* Live product: jump straight to the app */}
-          {project.ownProduct && project.externalLinks?.[0] && (
+          {/* Live/public project: jump straight to the site or app */}
+          {project.externalLinks?.[0] && (
             <a
               href={project.externalLinks[0].url}
               target="_blank"

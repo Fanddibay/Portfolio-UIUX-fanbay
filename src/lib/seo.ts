@@ -110,6 +110,12 @@ export function profilePageJsonLd(locale: string) {
 
 /** CreativeWork for a case study page — grounds project citations. */
 export function projectJsonLd(project: Project, locale: string) {
+  // Link a live product to its public site(s) so search/AI associate this
+  // case study with the real, visitable URL.
+  const liveUrls =
+    project.externalLinks?.map((l) => l.url) ??
+    (project.externalUrl ? [project.externalUrl] : []);
+
   return {
     '@context': 'https://schema.org',
     '@type': 'CreativeWork',
@@ -121,6 +127,7 @@ export function projectJsonLd(project: Project, locale: string) {
     dateCreated: project.year.slice(0, 4),
     keywords: [project.category, ...project.tags].join(', '),
     author: { '@id': `${BASE_URL}/#person` },
+    ...(liveUrls.length > 0 && { sameAs: liveUrls }),
   };
 }
 
