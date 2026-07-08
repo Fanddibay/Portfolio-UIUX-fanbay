@@ -8,6 +8,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "pages:build": "npx @cloudflare/next-on-pages@1 && node scripts/check-pages-assets.mjs",
+    "pages:preview": "npm run pages:build && npx wrangler pages dev",
+    "pages:deploy": "npm run pages:build && npx wrangler pages deploy",
     "images": "node scripts/optimize-images.mjs"
   },
   "dependencies": {

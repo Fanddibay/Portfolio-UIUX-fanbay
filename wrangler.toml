@@ -1,0 +1,15 @@
+# Cloudflare Pages configuration — source of truth for the deploy.
+#
+# The build MUST go through the @cloudflare/next-on-pages adapter
+# (build command: `npx @cloudflare/next-on-pages@1`), which compiles
+# `next build` output into a Pages-compatible bundle at
+# `.vercel/output/static`. Uploading `.next` directly fails: the
+# webpack cache inside it exceeds the 25 MiB per-file Pages limit.
+name = "fandi-bayu-portfolio"
+compatibility_date = "2026-07-08"
+
+# Required by next-on-pages: middleware (next-intl) and the Next.js
+# runtime use Node.js built-ins that Workers only expose behind this flag.
+compatibility_flags = ["nodejs_compat"]
+
+pages_build_output_dir = ".vercel/output/static"
