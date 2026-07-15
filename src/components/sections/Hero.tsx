@@ -9,6 +9,18 @@ import { SocialLinks } from '@/components/ui/SocialLinks';
 import { SpotlightPhoto } from '@/components/ui/SpotlightPhoto';
 import { SITE } from '@/lib/data';
 
+function renderHighlighted(text: string) {
+  return text.split(/\*\*(.*?)\*\*/g).map((part, i) =>
+    i % 2 === 1 ? (
+      <span key={i} className="font-bold text-foreground">
+        {part}
+      </span>
+    ) : (
+      part
+    ),
+  );
+}
+
 /**
  * Hero — the page thesis (DESIGN.md §9; frontend-design "hero is a thesis").
  *
@@ -28,21 +40,21 @@ export function Hero() {
     <section id="top" className="mx-auto max-w-content px-6 md:px-8">
       {/* Fills one viewport (minus the 4rem navbar); content vertically centered
           so there's no dead space below the fold. */}
-      <div className="relative flex min-h-[calc(100dvh-4rem)] flex-col justify-center py-10 md:py-12">
+      <div className="relative flex min-h-[calc(100svh-4rem)] flex-col justify-center py-0 md:min-h-[calc(100dvh-4rem)] md:py-12">
         {/* --- Oversized name (sits behind the portrait) --- */}
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           aria-label={SITE.name}
-          className="pointer-events-none relative z-0 select-none text-center font-heading font-black uppercase leading-[0.85] tracking-tight text-foreground"
+          className="pointer-events-none relative z-0 select-none text-left font-heading font-black uppercase leading-[0.85] tracking-tight text-foreground md:text-center"
           style={{ fontSize: 'clamp(2.75rem, 13vw, 10.5rem)' }}
         >
           <span className="text-outline">{first}</span> <span>{last}</span>
         </motion.h1>
 
         {/* --- Flanking row: intro · portrait · socials --- */}
-        <div className="relative z-10 grid items-end gap-8 md:-mt-[6vw] md:grid-cols-[1fr_minmax(300px,440px)_1fr] md:gap-8">
+        <div className="relative z-10 mt-4 grid items-end gap-8 md:-mt-[6vw] md:grid-cols-[1fr_minmax(300px,440px)_1fr] md:gap-8">
           {/* Intro (left) */}
           <motion.div
             variants={staggerContainer}
@@ -57,7 +69,7 @@ export function Hero() {
               {t('tagline')}
             </motion.p>
             <motion.p variants={fadeUp} className="mt-3 text-body-sm text-muted-foreground">
-              {t('description')}
+              {renderHighlighted(t('description'))}
             </motion.p>
             <motion.div variants={fadeUp} className="mt-6">
               <Button as="a" href="#contact" variant="primary">
@@ -72,10 +84,10 @@ export function Hero() {
             initial={{ opacity: 0, scale: 0.97 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="order-1 mx-auto w-[min(330px,72vw)] md:order-2 md:w-full"
+            className="order-1 mx-auto hidden w-[min(330px,72vw)] md:order-2 md:block md:w-full"
           >
             <div className="relative aspect-[4/5] overflow-hidden rounded-3xl">
-              <SpotlightPhoto src="/profile.png" alt={SITE.name} priority />
+              <SpotlightPhoto src="/profile.webp" alt={SITE.name} priority />
             </div>
           </motion.div>
 
@@ -86,7 +98,7 @@ export function Hero() {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="order-3 md:pb-6"
           >
-            <SocialLinks variant="pill" className="md:ml-auto md:w-fit md:min-w-[180px]" />
+            <SocialLinks variant="pill" className="md:ml-auto" />
           </motion.div>
         </div>
       </div>

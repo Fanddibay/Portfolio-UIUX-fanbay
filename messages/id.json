@@ -7,43 +7,45 @@
     "process": "Proses",
     "contact": "Kontak",
     "resume": "Résumé",
-    "letsTalk": "Mari bicara"
+    "letsTalk": "Hubungi saya"
   },
   "hero": {
     "available": "Terbuka untuk proyek baru",
     "role": "UI/UX Designer",
-    "tagline": "Merancang produk digital yang jernih, mudah dipakai, dan berorientasi konversi.",
-    "description": "4 tahun mengubah riset menjadi antarmuka yang benar-benar dipakai orang — dari Figma ke React siap produksi, diperkuat tools AI seperti Claude.",
-    "cta": "Mari berkolaborasi"
+    "tagline": "Saya merancang produk yang dipakai orang — lalu membangunnya.",
+    "description": "**4 tahun** pengalaman penuh siklus — riset, Figma, hingga kode siap produksi. Saya memahami dua sisi: apa yang dibutuhkan pengguna dan apa yang harus dicapai bisnis. **10+ produk live** di SaaS, fintech, dan web — **10+ klien internasional**.",
+    "cta": "Mari bekerja sama"
   },
   "about": {
     "overline": "Tentang",
-    "title": "Desainer yang merilis — bukan sekadar handoff.",
-    "body": "Saya UI/UX Designer yang tetap mengawal produk setelah handoff. Saya riset masalahnya, rancang solusinya di Figma, dan — karena saya juga bisa membangun di React — memastikan hasil rilis sesuai maksud desain, sampai ke detail piksel.",
+    "title": "Desain yang dirancang untuk bertahan saat handoff.",
+    "body": "Kebanyakan handoff kehilangan sesuatu antara Figma dan kode. Saya menutup celah itu sendiri — saya mendesain di Figma dan bisa membaca/membangun dengan React, Vue, dan Tailwind, jadi apa yang saya desain adalah apa yang benar-benar dirilis, sampai ke detail piksel.",
     "designerTitle": "Desain",
-    "designerBody": "Mengubah masalah yang kabur menjadi antarmuka yang jernih dan mudah dipakai — berbasis riset dan sistem yang konsisten.",
+    "designerBody": "Diawali riset, lalu wireframe, sistem, dan layar high-fidelity yang tetap kokoh saat dipakai nyata.",
     "designItems": ["Riset & alur pengguna", "Wireframe", "Design system", "Prototipe high-fidelity"],
     "engineerTitle": "Bangun",
-    "engineerBody": "Membawa desain ke produksi sendiri, jadi hasil rilis sesuai maksud desain — sampai ke piksel.",
+    "engineerBody": "Cukup mahir di React, Vue, dan Tailwind untuk handoff yang bersih — atau langsung saya bangun sendiri, sampai ke piksel.",
     "buildItems": ["React & Vue", "Tailwind CSS", "Responsif & aksesibel", "Integrasi Supabase"],
     "stackLabel": "Tools yang saya pakai"
   },
   "aiTools": {
     "overline": "Diperkuat AI",
-    "title": "AI adalah bagian dari cara saya bekerja — bukan gimmick.",
-    "body": "Saya memadukan tools AI di setiap tahap proses untuk bergerak lebih cepat tanpa mengorbankan kualitas.",
-    "claudeCodeTitle": "Claude Code",
-    "claudeCodeBody": "Prototyping cepat, refactor, dan code review — merilis frontend production dalam waktu jauh lebih singkat.",
-    "claudeDesignTitle": "Claude Design & Stitch",
-    "claudeDesignBody": "Iterasi desain dan generasi komponen, mengeksplorasi lebih banyak arah sebelum memutuskan.",
+    "title": "AI sudah menyatu dalam cara saya bekerja.",
+    "body": "Dari riset sampai produksi, tools AI membantu saya beriterasi lebih cepat dan mengeksplorasi lebih banyak arah — jadi lebih banyak waktu saya untuk keputusan yang benar-benar penting.",
+    "claudeCodeTitle": "Claude AI",
+    "claudeCodeBody": "Partner desain harian saya — terhubung ke Figma lewat Figma MCP, dengan skill khusus yang mempercepat pekerjaan UI/UX nyata tanpa melepas kendali atas detailnya.",
+    "claudeDesignTitle": "Stitch",
+    "claudeDesignBody": "Tools AI untuk generate desain — saya pakai untuk membuat layout dan arah visual dengan cepat, cocok untuk mengumpulkan referensi dan eksplorasi ide sebelum dirapikan di Figma.",
     "aiStudioTitle": "Google AI Studio",
-    "aiStudioBody": "Menyintesis riset pengguna dan menyusun strategi konten dari data mentah."
+    "aiStudioBody": "Membangun produk nyata yang berfungsi secara end-to-end — seperti FanLearn, yang saya prototipe dalam sebuah tantangan vibe-coding.",
+    "aiStudioLinkLabel": "Lihat hasilnya"
   },
   "experience": {
     "overline": "Pengalaman",
     "title": "Empat tahun, terjun langsung di setiap prosesnya.",
     "lead": "Rekam jejak merancang dan merilis produk nyata — didukung reputasi freelance yang terbukti.",
-    "collaborateCta": "Kolaborasi via Upwork"
+    "collaborateCta": "Kolaborasi via Upwork",
+    "viewCertificate": "Lihat sertifikat"
   },
   "statsMarquee": {
     "aria": "Sorotan karier",
@@ -61,15 +63,15 @@
   },
   "process": {
     "overline": "Cara Saya Bekerja",
-    "title": "Jalur yang jelas dari masalah ke produk.",
+    "title": "Dari masalah sampai rilis — saya mengawal seluruh prosesnya.",
     "step1Title": "Riset",
-    "step1Body": "Memahami pengguna, tujuan bisnis, dan batasan sebelum menggambar satu layar pun.",
+    "step1Body": "Mulai dari alasannya: masalah pengguna dan hasil bisnis, jadi tiap keputusan desain punya dasar.",
     "step2Title": "Desain",
-    "step2Body": "Wireframe, bangun design system, dan prototipe di Figma sampai alurnya terasa pas.",
+    "step2Body": "Wireframe, bangun sistemnya, dan prototipe di Figma sampai alurnya benar-benar layak.",
     "step3Title": "Bangun",
-    "step3Body": "Membawa desain ke produksi dengan kode frontend yang bersih, responsif, dan aksesibel.",
+    "step3Body": "Bawa ke produksi sendiri dengan kode yang bersih, responsif, dan aksesibel — jadi hasil rilis sesuai desain.",
     "step4Title": "Perkuat dengan AI",
-    "step4Body": "Memakai tools AI di sepanjang proses untuk iterasi lebih cepat dan kualitas lebih tinggi."
+    "step4Body": "Pakai AI di sepanjang proses untuk memangkas waktu tanpa menurunkan standar."
   },
   "work": {
     "overline": "Karya Pilihan",
@@ -77,19 +79,24 @@
     "lead": "Cara saya menangani tiap proyek — masalahnya, metodenya, bisnis di baliknya, dan hasilnya.",
     "viewProcess": "Lihat proses",
     "protected": "Terlindungi — dibagikan atas permintaan",
-    "requestAccess": "Minta akses"
+    "requestAccess": "Minta akses",
+    "ownProduct": "Produk Saya",
+    "liveShort": "Live"
   },
   "project": {
     "back": "Kembali ke karya",
     "role": "Peran",
     "timeline": "Durasi",
+    "tools": "Tools",
+    "traction": "Traksi",
+    "roadmap": "Dirilis bertahap",
     "problem": "Masalahnya",
     "method": "Metode & pendekatan",
     "businessProcess": "Proses bisnis",
     "goal": "Tujuan & hasil",
     "protectedTitle": "Karya ini di bawah NDA",
     "protectedBody": "Visual finalnya terlindungi. Saya bisa membagikan versi yang sudah disterilkan dan belum final yang menunjukkan pemikiran dan prosesnya — tinggal hubungi saya.",
-    "requestCta": "Minta akses",
+    "requestCta": "Hubungi saya untuk informasi lebih lanjut",
     "viewExternal": "Lihat di Behance"
   },
   "testimonials": {
@@ -99,8 +106,8 @@
   },
   "contact": {
     "overline": "Kontak",
-    "title": "Mari bangun sesuatu.",
-    "body": "Punya proyek atau posisi yang perlu diisi? Kirim pesan dan saya akan segera membalas.",
+    "title": "Mari bangun sesuatu yang layak dirilis.",
+    "body": "Saya terbuka untuk proyek dan posisi baru. Ceritakan sedikit tentang kebutuhan Anda — biasanya saya membalas dalam sehari.",
     "nameLabel": "Nama",
     "namePlaceholder": "Nama Anda",
     "emailLabel": "Email",
@@ -113,9 +120,24 @@
     "error": "Terjadi kesalahan. Coba lagi atau email saya langsung.",
     "socials": "Temukan saya di"
   },
+  "actions": {
+    "backToTop": "Kembali ke atas"
+  },
   "footer": {
-    "tagline": "UI/UX Designer yang merancang produk jernih, mudah dipakai, dan berorientasi konversi.",
+    "tagline": "UI/UX Designer yang merancang produk yang dipakai orang — dan membangunnya juga.",
+    "location": "Berbasis di Indonesia · Terbuka untuk remote",
+    "emailLabel": "Email saya",
     "rights": "Hak cipta dilindungi.",
     "builtWith": "Dirancang & dibangun oleh Fandi Bayu"
+  },
+  "resume": {
+    "trigger": "Unduh Resume",
+    "title": "Unduh Resume",
+    "subtitle": "Tersedia dalam dua bahasa — pilih yang kamu perlukan.",
+    "optionIdLabel": "Bahasa Indonesia",
+    "optionIdMeta": "PDF · 94 KB",
+    "optionEnLabel": "English",
+    "optionEnMeta": "PDF · 94 KB",
+    "close": "Tutup"
   }
 }

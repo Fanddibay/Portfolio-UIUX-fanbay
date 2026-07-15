@@ -1,8 +1,10 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
+import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Mail } from 'lucide-react';
 import { ThemeToggle } from './ThemeToggle';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { Button } from '@/components/ui/Button';
@@ -25,10 +27,17 @@ const LINKS = ['work', 'about', 'experience', 'process', 'contact'] as const;
 export function Navbar() {
   const t = useTranslations('nav');
   const tHero = useTranslations('hero');
+  const locale = useLocale();
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
 
   const workCount = projects.filter((p) => p.featured).length;
+
+  // On sub-pages (e.g. /en/work/slug) hash-only links won't scroll the homepage.
+  // Prefix with the locale root so the browser navigates home first, then scrolls.
+  const isHome = pathname === `/${locale}` || pathname === '/';
+  const navHref = (hash: string) => (isHome ? `#${hash}` : `/${locale}#${hash}`);
 
   useEffect(() => {
     let last = window.scrollY;
@@ -56,7 +65,7 @@ export function Navbar() {
     >
       <nav className="mx-auto flex h-16 max-w-content items-center justify-between px-4 md:px-8">
         {/* Left: wordmark on mobile; animated pill ↔ wordmark on desktop */}
-        <a href="#top" className="flex items-center focus-visible:outline-none">
+        <a href={navHref('top')} className="flex items-center focus-visible:outline-none">
           <span className="whitespace-nowrap font-heading text-h4 font-bold text-foreground md:hidden">
             {SITE.name}
             <span className="text-accent">.</span>
@@ -103,7 +112,7 @@ export function Navbar() {
           {LINKS.map((link) => (
             <li key={link}>
               <a
-                href={`#${link}`}
+                href={navHref(link)}
                 className="inline-flex items-baseline gap-1 font-body text-body-sm text-muted-foreground transition-colors duration-150 ease-out hover:text-foreground"
               >
                 {t(link)}
@@ -124,12 +133,12 @@ export function Navbar() {
           <LanguageSwitcher />
           <Button
             as="a"
-            href={SITE.resumeUrl}
-            target="_blank"
+            href={`mailto:${SITE.email}`}
             variant="primary"
-            className="!min-h-[36px] !py-1.5 md:!min-h-[44px] md:!py-2.5"
+            className="group !h-10 !min-h-0 !rounded-full !px-4 !py-0 sm:!px-5"
           >
-            {t('resume')}
+            <Mail className="h-4 w-4 transition-transform duration-150 ease-out group-hover:-translate-y-0.5" />
+            {t('letsTalk')}
           </Button>
         </div>
       </nav>

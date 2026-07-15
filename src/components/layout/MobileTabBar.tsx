@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
+import { usePathname } from 'next/navigation';
 import { Home, LayoutGrid, User, Mail, type LucideIcon } from 'lucide-react';
 import { ThemeToggle } from './ThemeToggle';
 
@@ -22,7 +23,12 @@ const TABS: { id: string; key: 'home' | 'work' | 'about' | 'contact'; icon: Luci
 
 export function MobileTabBar() {
   const t = useTranslations('nav');
+  const locale = useLocale();
+  const pathname = usePathname();
   const [active, setActive] = useState('top');
+
+  const isHome = pathname === `/${locale}` || pathname === '/';
+  const navHref = (hash: string) => (isHome ? `#${hash}` : `/${locale}#${hash}`);
 
   // Scroll spy: highlight whichever section is closest to the top of the viewport
   useEffect(() => {
@@ -56,7 +62,7 @@ export function MobileTabBar() {
           return (
             <a
               key={id}
-              href={`#${id}`}
+              href={navHref(id)}
               aria-current={isActive ? 'page' : undefined}
               className={`flex min-w-[60px] flex-col items-center gap-0.5 rounded-full px-3 py-2 transition-colors duration-150 ease-out ${
                 isActive ? 'bg-accent text-accent-foreground' : 'text-muted-foreground hover:text-foreground'

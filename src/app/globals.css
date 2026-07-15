@@ -9,22 +9,29 @@
  * the whole app with no per-component overrides.
  */
 @layer base {
+  /*
+   * Tokens are stored as space-separated RGB channels (not hex) so Tailwind's
+   * opacity modifiers work: `bg-background/90` compiles to
+   * `rgb(var(--background) / 0.9)`. A hex value here would make every
+   * `/opacity` utility resolve to transparent. Read them back with rgb(),
+   * e.g. `rgb(var(--foreground))`.
+   */
   :root {
-    --background: #fafafa;
-    --foreground: #09090b;
-    --card: #ffffff;
-    --card-foreground: #09090b;
-    --primary: #18181b;
-    --primary-foreground: #ffffff;
-    --secondary: #3f3f46;
-    --secondary-foreground: #ffffff;
-    --accent: #2563eb;
-    --accent-foreground: #ffffff;
-    --muted: #f4f4f5;
-    --muted-foreground: #64748b;
-    --border: #e4e4e7;
-    --ring: #2563eb;
-    --destructive: #dc2626;
+    --background: 250 250 250;
+    --foreground: 9 9 11;
+    --card: 255 255 255;
+    --card-foreground: 9 9 11;
+    --primary: 24 24 27;
+    --primary-foreground: 255 255 255;
+    --secondary: 63 63 70;
+    --secondary-foreground: 255 255 255;
+    --accent: 37 99 235;
+    --accent-foreground: 255 255 255;
+    --muted: 244 244 245;
+    --muted-foreground: 100 116 139;
+    --border: 228 228 231;
+    --ring: 37 99 235;
+    --destructive: 220 38 38;
 
     /* Sticky-header choreography (StatsMarquee + Navbar).
      * --marquee-h is measured/overwritten by StatsMarquee on mount; the
@@ -35,21 +42,21 @@
   }
 
   .dark {
-    --background: #09090b;
-    --foreground: #f4f4f5;
-    --card: #18181b;
-    --card-foreground: #f4f4f5;
-    --primary: #f4f4f5;
-    --primary-foreground: #09090b;
-    --secondary: #27272a;
-    --secondary-foreground: #a1a1aa;
-    --accent: #3b82f6;
-    --accent-foreground: #ffffff;
-    --muted: #27272a;
-    --muted-foreground: #71717a;
-    --border: #27272a;
-    --ring: #3b82f6;
-    --destructive: #ef4444;
+    --background: 9 9 11;
+    --foreground: 244 244 245;
+    --card: 24 24 27;
+    --card-foreground: 244 244 245;
+    --primary: 244 244 245;
+    --primary-foreground: 9 9 11;
+    --secondary: 39 39 42;
+    --secondary-foreground: 161 161 170;
+    --accent: 59 130 246;
+    --accent-foreground: 255 255 255;
+    --muted: 39 39 42;
+    --muted-foreground: 113 113 122;
+    --border: 39 39 42;
+    --ring: 59 130 246;
+    --destructive: 239 68 68;
   }
 
   * {
@@ -84,7 +91,7 @@
   /* Outlined display text — used for the first word of the hero name */
   .text-outline {
     color: transparent;
-    -webkit-text-stroke: 1.5px var(--foreground);
+    -webkit-text-stroke: 1.5px rgb(var(--foreground));
   }
 }
 
@@ -130,7 +137,7 @@ html.marquee-docked {
 @media (pointer: fine) {
   html {
     scrollbar-width: thin;
-    scrollbar-color: var(--accent) transparent;
+    scrollbar-color: rgb(var(--accent)) transparent;
   }
   ::-webkit-scrollbar {
     width: 12px;
@@ -141,8 +148,8 @@ html.marquee-docked {
   }
   ::-webkit-scrollbar-thumb {
     border-radius: 9999px;
-    background-color: var(--accent);
-    border: 3px solid var(--background);
+    background-color: rgb(var(--accent));
+    border: 3px solid rgb(var(--background));
     background-clip: padding-box;
     transition: background-color 0.2s ease;
   }
@@ -265,6 +272,34 @@ html.marquee-docked {
     -webkit-mask-image: none;
     mask-image: none;
   }
+}
+
+/*
+ * Badge sheen — a slow light sweep across the "My Product" highlight badge.
+ * Overlay element sits above the badge fill; the moving gradient reads as a
+ * gentle premium shine. Auto-disabled by the reduced-motion guard below.
+ */
+@keyframes badge-shine {
+  0% {
+    transform: translateX(-120%);
+  }
+  60%,
+  100% {
+    transform: translateX(220%);
+  }
+}
+.badge-shine::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    110deg,
+    transparent 35%,
+    rgb(255 255 255 / 0.5) 50%,
+    transparent 65%
+  );
+  transform: translateX(-120%);
+  animation: badge-shine 4s ease-in-out infinite;
 }
 
 /* Accessibility: honor reduced-motion across all animations (DESIGN.md §7) */

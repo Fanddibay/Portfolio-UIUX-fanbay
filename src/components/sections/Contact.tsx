@@ -7,15 +7,22 @@ import { Mail, Send } from 'lucide-react';
 import { fadeUp, staggerContainer } from '@/lib/motion';
 import { Button } from '@/components/ui/Button';
 import { SocialLinks } from '@/components/ui/SocialLinks';
-import { supabase, isSupabaseConfigured } from '@/lib/supabase';
+import { sendContactMessage, isContactConfigured } from '@/lib/contact';
 import { SITE } from '@/lib/data';
 
 type Status = 'idle' | 'sending' | 'success' | 'error';
 
+/** Shared input/textarea styling (DESIGN.md §8) — one source for all fields. */
+const FIELD_CLASSES =
+  'rounded-xl border border-border bg-card px-4 py-3 font-body text-body text-foreground ' +
+  'placeholder:text-muted-foreground focus-visible:border-accent focus-visible:outline-none ' +
+  'focus-visible:ring-2 focus-visible:ring-ring';
+
 /**
- * Contact — form (Supabase) + direct email + social links.
- * The form degrades gracefully: if Supabase env vars are missing, it falls
- * back to a mailto link instead of failing silently.
+ * Contact — form (Google Sheets via Apps Script) + direct email + socials.
+ * Submissions append a row to a Google Sheet and email Fandi a notification
+ * (see src/lib/contact.ts). The form degrades gracefully: if the endpoint env
+ * var is missing, it falls back to a mailto link instead of failing silently.
  */
 export function Contact() {
   const t = useTranslations('contact');
@@ -23,7 +30,6 @@ export function Contact() {
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setStatus('sending');
 
     const form = e.currentTarget;
     const data = new FormData(form);
@@ -33,17 +39,24 @@ export function Contact() {
       message: String(data.get('message') ?? ''),
     };
 
+    // Honeypot: bots fill hidden fields. Pretend success without sending.
+    if (String(data.get('_gotcha') ?? '')) {
+      form.reset();
+      setStatus('success');
+      return;
+    }
+
+    setStatus('sending');
+
     try {
-      if (!isSupabaseConfigured || !supabase) {
-        // No backend configured yet — open the user's mail client instead.
+      if (!isContactConfigured) {
+        // No endpoint configured yet — open the user's mail client instead.
         window.location.href = `mailto:${SITE.email}?subject=Portfolio enquiry from ${payload.name}&body=${encodeURIComponent(payload.message)}`;
         setStatus('idle');
         return;
       }
 
-      const { error } = await supabase.from('messages').insert(payload);
-      if (error) throw error;
-
+      await sendContactMessage(payload);
       form.reset();
       setStatus('success');
     } catch {
@@ -91,6 +104,17 @@ export function Contact() {
 
         {/* --- Right: form --- */}
         <motion.form variants={fadeUp} onSubmit={handleSubmit} className="flex flex-col gap-4">
+          {/* Honeypot — hidden from people, tempting to bots. Off-screen, not
+              announced to screen readers, and skipped in the tab order. */}
+          <input
+            type="text"
+            name="_gotcha"
+            tabIndex={-1}
+            autoComplete="off"
+            aria-hidden="true"
+            className="absolute left-[-9999px] h-0 w-0 opacity-0"
+          />
+
           <div className="flex flex-col gap-1.5">
             <label htmlFor="name" className="font-body text-body-sm font-medium text-foreground">
               {t('nameLabel')}
@@ -102,7 +126,7 @@ export function Contact() {
               required
               autoComplete="name"
               placeholder={t('namePlaceholder')}
-              className="rounded-xl border border-border bg-card px-4 py-3 font-body text-body text-foreground placeholder:text-muted-foreground focus-visible:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className={FIELD_CLASSES}
             />
           </div>
 
@@ -117,7 +141,7 @@ export function Contact() {
               required
               autoComplete="email"
               placeholder={t('emailPlaceholder')}
-              className="rounded-xl border border-border bg-card px-4 py-3 font-body text-body text-foreground placeholder:text-muted-foreground focus-visible:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className={FIELD_CLASSES}
             />
           </div>
 
@@ -131,7 +155,7 @@ export function Contact() {
               required
               rows={5}
               placeholder={t('messagePlaceholder')}
-              className="resize-y rounded-xl border border-border bg-card px-4 py-3 font-body text-body text-foreground placeholder:text-muted-foreground focus-visible:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className={`resize-y ${FIELD_CLASSES}`}
             />
           </div>
 

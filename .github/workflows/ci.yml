@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    name: Lint + Cloudflare Pages build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint (warnings fail the build)
+        run: npm run lint -- --max-warnings 0
+
+      # Same command Cloudflare Pages runs, including the 25 MiB asset
+      # guard — catches deploy-breaking output before it reaches Cloudflare.
+      - name: Build for Cloudflare Pages
+        run: npm run pages:build
