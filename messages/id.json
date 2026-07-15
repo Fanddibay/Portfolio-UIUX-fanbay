@@ -45,6 +45,20 @@
     "lead": "Rekam jejak merancang dan merilis produk nyata — didukung reputasi freelance yang terbukti.",
     "collaborateCta": "Kolaborasi via Upwork"
   },
+  "statsMarquee": {
+    "aria": "Sorotan karier",
+    "years": "Tahun Pengalaman",
+    "hours": "Jam Kerja",
+    "projects": "Proyek Diselesaikan",
+    "clients": "Klien di Seluruh Dunia",
+    "earned": "Penghasilan di Upwork",
+    "topRated": "Freelancer Upwork",
+    "tags": [
+      "Desain UI/UX + Frontend Engineering",
+      "Alur Kerja Didukung AI",
+      "SaaS · Dashboard · Aplikasi Web"
+    ]
+  },
   "process": {
     "overline": "Cara Saya Bekerja",
     "title": "Jalur yang jelas dari masalah ke produk.",

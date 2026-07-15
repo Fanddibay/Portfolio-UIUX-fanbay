@@ -4,6 +4,7 @@ import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { MobileTabBar } from '@/components/layout/MobileTabBar';
 import { Hero } from '@/components/sections/Hero';
+import { StatsMarquee } from '@/components/sections/StatsMarquee';
 import { About } from '@/components/sections/About';
 import { AITools } from '@/components/sections/AITools';
 import { Process } from '@/components/sections/Process';
@@ -26,6 +27,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       <Navbar />
       <main>
         <Hero />
+        <StatsMarquee />
         <Work />
         <About />
         <Experience />

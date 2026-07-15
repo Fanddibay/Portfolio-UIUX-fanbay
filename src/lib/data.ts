@@ -223,6 +223,21 @@ export const upwork = {
   url: 'https://www.upwork.com/freelancers/~015efc2530d0409842?mp_source=share',
 } as const;
 
+/**
+ * Highlights ticker — feeds the blue auto-scrolling stat band shown right below
+ * the hero (StatsMarquee). `value` is the headline number (locale-independent,
+ * so it lives here); `labelKey` resolves to a translated label in the messages
+ * `statsMarquee` namespace. Numbers tagged (est.) are safe to tune to taste.
+ */
+export const highlights: { value: string; labelKey: string }[] = [
+  { value: '4+', labelKey: 'years' }, // years of experience (see CLAUDE.md)
+  { value: upwork.hours, labelKey: 'hours' }, // 2,034 — real Upwork total
+  { value: '20+', labelKey: 'projects' }, // est. — projects delivered
+  { value: '25+', labelKey: 'clients' }, // 10+ Upwork · 15+ Fiverr
+  { value: upwork.earned, labelKey: 'earned' }, // $10K+
+  { value: upwork.status, labelKey: 'topRated' }, // Top Rated
+];
+
 export type ExperienceMetric = { value: string; label: string };
 
 export type ExperienceRole = {

@@ -45,6 +45,20 @@
     "lead": "A track record of designing and shipping real products — backed by a proven freelance record.",
     "collaborateCta": "Collaborate via Upwork"
   },
+  "statsMarquee": {
+    "aria": "Career highlights",
+    "years": "Years of Experience",
+    "hours": "Hours Logged",
+    "projects": "Projects Delivered",
+    "clients": "Clients Worldwide",
+    "earned": "Earned on Upwork",
+    "topRated": "Upwork Freelancer",
+    "tags": [
+      "UI/UX Design + Frontend Engineering",
+      "AI-Augmented Workflow",
+      "SaaS · Dashboards · Web Apps"
+    ]
+  },
   "process": {
     "overline": "How I Work",
     "title": "A clear path from problem to product.",

@@ -25,6 +25,13 @@
     --border: #e4e4e7;
     --ring: #2563eb;
     --destructive: #dc2626;
+
+    /* Sticky-header choreography (StatsMarquee + Navbar).
+     * --marquee-h is measured/overwritten by StatsMarquee on mount; the
+     * fallback here matches its rendered height so there's no first-paint jump.
+     * --nav-top offsets the navbar down to sit *below* the docked marquee. */
+    --marquee-h: 3.375rem;
+    --nav-top: 0px;
   }
 
   .dark {
@@ -106,6 +113,45 @@
 }
 
 /*
+ * Sticky choreography: once the blue StatsMarquee docks to the top, push the
+ * navbar down so the two stack (marquee on top, navbar directly beneath) rather
+ * than overlapping. The class is toggled on <html> by StatsMarquee.
+ */
+html.marquee-docked {
+  --nav-top: var(--marquee-h);
+}
+
+/*
+ * Prettier blue scrollbar — pointer-fine (desktop) only. Touch devices hide the
+ * native bar, so the ScrollProgress component carries the scroll cue on mobile.
+ * The thumb uses a padding-box border in the page colour so it reads as a
+ * floating rounded pill instead of a full-width block.
+ */
+@media (pointer: fine) {
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent) transparent;
+  }
+  ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 9999px;
+    background-color: var(--accent);
+    border: 3px solid var(--background);
+    background-clip: padding-box;
+    transition: background-color 0.2s ease;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #1d4ed8;
+  }
+}
+
+/*
  * Hero signature: cursor spotlight. The photo is grayscale by default; a
  * full-color copy is revealed inside a soft circle that tracks the cursor.
  * --spot-r is registered with @property so it can transition smoothly as the
@@ -155,9 +201,9 @@
 }
 
 /*
- * Marquee — auto-scrolling row (used by AI Tools on mobile). The track holds
- * two identical sets of cards; translating by -50% loops seamlessly. Pauses on
- * hover (CSS) or tap (data-paused, toggled in JS). Each card carries its own
+ * Marquee — auto-scrolling row (StatsMarquee band + AI Tools on mobile). The
+ * track holds two identical sets; translating by -50% loops seamlessly. Pauses
+ * on hover (CSS) or tap (data-paused, toggled in JS). Each item carries its own
  * right margin (no flex gap) so the -50% offset stays perfectly seamless.
  */
 @keyframes marquee {
@@ -175,11 +221,37 @@
   display: flex;
   width: max-content;
   animation: marquee 30s linear infinite;
+  will-change: transform;
 }
 .marquee:hover .marquee-track,
 .marquee[data-paused='true'] .marquee-track {
   animation-play-state: paused;
 }
+
+/* Soft dissolve at both ends so items enter/leave the band gracefully. Masks
+ * only the content layer, so a solid band background stays fully opaque. */
+.marquee--fade {
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0,
+    #000 7%,
+    #000 93%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0,
+    #000 7%,
+    #000 93%,
+    transparent 100%
+  );
+}
+
+/* Slower, calmer pace for the wide stats band (vs. the tight AI-tools row). */
+.marquee--slow .marquee-track {
+  animation-duration: 45s;
+}
+
 @media (prefers-reduced-motion: reduce) {
   /* No auto-motion — let the user scroll the row by hand instead */
   .marquee {
@@ -187,6 +259,11 @@
   }
   .marquee-track {
     animation: none;
+  }
+  /* Drop the edge mask so no content is hidden when scrolling by hand. */
+  .marquee--fade {
+    -webkit-mask-image: none;
+    mask-image: none;
   }
 }
 

@@ -47,7 +47,8 @@ export function Navbar() {
       initial={{ y: 0 }}
       animate={{ y: hidden ? '-110%' : '0%' }}
       transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-      className={`sticky top-0 z-30 transition-colors duration-250 ease-out ${
+      style={{ top: 'var(--nav-top, 0px)' }}
+      className={`sticky z-30 transition-[top,background-color,border-color] duration-300 ease-out ${
         scrolled
           ? 'border-b border-border bg-background/80 backdrop-blur-md'
           : 'border-b border-transparent bg-transparent'
