@@ -7,7 +7,7 @@
     "process": "Process",
     "contact": "Contact",
     "resume": "Résumé",
-    "letsTalk": "Get in touch"
+    "letsTalk": "Let's Collaborate"
   },
   "hero": {
     "available": "Available for new projects",
@@ -102,7 +102,9 @@
   "testimonials": {
     "overline": "Testimonials",
     "title": "What people say about working with me.",
-    "via": "via"
+    "via": "via",
+    "prev": "Previous testimonial",
+    "next": "Next testimonial"
   },
   "contact": {
     "overline": "Contact",

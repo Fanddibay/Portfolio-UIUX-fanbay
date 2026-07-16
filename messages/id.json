@@ -7,7 +7,7 @@
     "process": "Proses",
     "contact": "Kontak",
     "resume": "Résumé",
-    "letsTalk": "Hubungi saya"
+    "letsTalk": "Mari Berkolaborasi"
   },
   "hero": {
     "available": "Terbuka untuk proyek baru",
@@ -102,7 +102,9 @@
   "testimonials": {
     "overline": "Testimoni",
     "title": "Kata mereka tentang bekerja dengan saya.",
-    "via": "via"
+    "via": "via",
+    "prev": "Testimoni sebelumnya",
+    "next": "Testimoni berikutnya"
   },
   "contact": {
     "overline": "Kontak",

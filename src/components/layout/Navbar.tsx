@@ -4,10 +4,9 @@ import { useEffect, useState } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mail } from 'lucide-react';
 import { ThemeToggle } from './ThemeToggle';
 import { LanguageSwitcher } from './LanguageSwitcher';
-import { Button } from '@/components/ui/Button';
+import { CollaborateButton } from '@/components/ui/CollaborateButton';
 import { SITE, projects } from '@/lib/data';
 
 /** In-page anchor targets — keys match the `nav` namespace in /messages. */
@@ -131,15 +130,7 @@ export function Navbar() {
             <ThemeToggle />
           </span>
           <LanguageSwitcher />
-          <Button
-            as="a"
-            href={`mailto:${SITE.email}`}
-            variant="primary"
-            className="group !h-10 !min-h-0 !rounded-full !px-4 !py-0 sm:!px-5"
-          >
-            <Mail className="h-4 w-4 transition-transform duration-150 ease-out group-hover:-translate-y-0.5" />
-            {t('letsTalk')}
-          </Button>
+          <CollaborateButton href={`mailto:${SITE.email}`} label={t('letsTalk')} />
         </div>
       </nav>
     </motion.header>

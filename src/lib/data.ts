@@ -389,9 +389,11 @@ export type Testimonial = {
   quote: string;
   name: string;
   role: string;
-  /** Source platform — shown as a verified link on the card. */
-  platform: 'Upwork' | 'Fiverr' | 'LinkedIn';
-  url: string;
+  /** Short project context — what the engagement was about (bilingual). */
+  project: Localized;
+  /** Source platform — shown as a verified link on the card (optional). */
+  platform?: 'Upwork' | 'Fiverr' | 'LinkedIn';
+  url?: string;
 };
 
 export const testimonials: Testimonial[] = [
@@ -400,6 +402,10 @@ export const testimonials: Testimonial[] = [
       'Fandi went above and beyond with high quality work and on timely manner. He’s very professional and friendly, as well. ✨',
     name: 'Mira C.',
     role: 'Client',
+    project: {
+      en: 'Design system for their design pages',
+      id: 'Design system untuk halaman desain mereka',
+    },
     platform: 'Upwork',
     url: 'https://www.upwork.com/freelancers/~015efc2530d0409842?mp_source=share',
   },
@@ -408,6 +414,10 @@ export const testimonials: Testimonial[] = [
       'Working with Fanbayy on our website design was a stellar experience! His creativity and professionalism were top-notch, perfectly aligning with our brand. Proactive communication and deep understanding made collaboration a breeze — LOVED working with him and will definitely be back for future projects! 😊',
     name: 'Rhanie',
     role: 'Website Design Client',
+    project: {
+      en: 'Web design, built out in WordPress',
+      id: 'Desain web, dibangun ke WordPress',
+    },
     platform: 'Fiverr',
     url: 'https://www.fiverr.com/fanddibayy',
   },
@@ -416,8 +426,24 @@ export const testimonials: Testimonial[] = [
       'Fandi is a highly capable UX/Design professional who consistently delivers thoughtful, user-centric solutions. He has a strong grasp of design fundamentals and pairs that with a practical understanding of how products are built, which makes his work both elegant and implementable.',
     name: 'Abhiram Sampath',
     role: 'Design Recommendation',
+    project: {
+      en: 'UI/UX design for a micro-SaaS',
+      id: 'Desain UI/UX untuk micro-SaaS',
+    },
     platform: 'LinkedIn',
     url: 'https://www.linkedin.com/in/fandibayu/',
+  },
+  {
+    quote:
+      'It was a pleasure working with Fandi. They are a highly talented UI/UX designer who truly understands how to translate a brief into a polished, professional design. Their communication was excellent, and they were very proactive throughout the entire process. I am happy with the final result and would highly recommend them to anyone looking for high-quality, creative work.',
+    name: 'Bechir A.',
+    role: 'Client',
+    project: {
+      en: 'UI/UX design for a mobile app',
+      id: 'Desain UI/UX untuk aplikasi mobile',
+    },
+    platform: 'Upwork',
+    url: 'https://www.upwork.com/freelancers/~015efc2530d0409842?mp_source=share',
   },
 ];
 
