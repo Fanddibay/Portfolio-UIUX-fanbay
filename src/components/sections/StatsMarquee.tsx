@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
 import { useTranslations } from 'next-intl';
 
 import { highlights } from '@/lib/data';
@@ -129,13 +128,9 @@ export function StatsMarquee() {
   );
 
   return (
-    <motion.section
+    <section
       ref={ref}
       aria-label={t('aria')}
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      viewport={{ once: true, margin: '-60px' }}
       className="sticky top-0 z-40 w-full overflow-hidden border-y border-white/15 bg-[#2563eb] shadow-md"
     >
       {/* subtle top sheen for depth without hurting contrast */}
@@ -149,6 +144,6 @@ export function StatsMarquee() {
           {track(true)}
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 }
