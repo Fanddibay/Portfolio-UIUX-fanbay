@@ -8,6 +8,8 @@ import { routing } from '@/i18n/routing';
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import { ScrollProgress } from '@/components/layout/ScrollProgress';
 import { BackToTop } from '@/components/ui/BackToTop';
+import { Preloader } from '@/components/layout/Preloader';
+import { PRELOADER_KEY } from '@/lib/preloader';
 import { SITE } from '@/lib/data';
 import {
   BASE_URL,
@@ -132,6 +134,16 @@ export default async function LocaleLayout({
           attributes onto <body> before React hydrates — harmless, so we ignore
           the resulting attribute mismatch here. */}
       <body suppressHydrationWarning>
+        {/* Runs before first paint: skip the preloader for returning visitors in
+            this session and for anyone who prefers reduced motion — no flash. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{if(sessionStorage.getItem('${PRELOADER_KEY}')||matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.setAttribute('data-preloader','off')}catch(e){}`,
+          }}
+        />
+        <noscript>
+          <style>{'.preloader{display:none!important}'}</style>
+        </noscript>
         {/* Entity data for Google + AI answer engines (ChatGPT, Perplexity,
             Claude, Gemini) — mirrors the visible content so it can be cited. */}
         <script
@@ -148,6 +160,7 @@ export default async function LocaleLayout({
         />
         <ThemeProvider>
           <NextIntlClientProvider messages={messages}>
+            <Preloader />
             <ScrollProgress />
             {children}
             <BackToTop />

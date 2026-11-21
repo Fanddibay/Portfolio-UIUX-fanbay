@@ -26,7 +26,13 @@
     "engineerTitle": "Build",
     "engineerBody": "Fluent enough in React, Vue, and Tailwind to hand off cleanly — or ship it myself, pixel for pixel.",
     "buildItems": ["React & Vue", "Tailwind CSS", "Responsive & accessible", "Supabase integration"],
-    "stackLabel": "Tools I work with"
+    "stackLabel": "Tools I work with",
+    "roleTabsLabel": "Design or build",
+    "systemsTitle": "Design systems from the first frame",
+    "aiTitle": "Figma to code, with AI in the loop",
+    "codeTitle": "Production code, not just mockups",
+    "stackTitle": "One stack, from design to deploy",
+    "motionTitle": "Motion that feels intentional"
   },
   "aiTools": {
     "overline": "AI-Augmented",
@@ -45,7 +51,8 @@
     "title": "Four years, hands-on the whole way.",
     "lead": "A track record of designing and shipping real products — backed by a proven freelance record.",
     "collaborateCta": "Collaborate via Upwork",
-    "viewCertificate": "View certificate"
+    "viewCertificate": "View certificate",
+    "skills": "Skills & tools"
   },
   "statsMarquee": {
     "aria": "Career highlights",
@@ -53,7 +60,6 @@
     "hours": "Hours Logged",
     "projects": "Projects Delivered",
     "clients": "Clients Worldwide",
-    "earned": "Earned on Upwork",
     "topRated": "Upwork Freelancer",
     "tags": [
       "UI/UX Design + Frontend Engineering",
@@ -130,7 +136,23 @@
     "location": "Based in Indonesia · Remote-friendly",
     "emailLabel": "Email me",
     "rights": "All rights reserved.",
-    "builtWith": "Designed & built by Fandi Bayu"
+    "builtWith": "Designed & built by Fandi Bayu",
+    "ctaLine1": "Have a product in mind?",
+    "ctaLine2": "Let's design it and ship it.",
+    "navLabel": "Navigation",
+    "findLabel": "Find me",
+    "contactLabel": "Contact",
+    "localTime": "local time",
+    "copyEmail": "Copy email address",
+    "copied": "Copied"
+  },
+  "preloader": {
+    "loading": "Loading portfolio",
+    "opening": "Opening portfolio.fig",
+    "designing": "Designing…",
+    "building": "Building…",
+    "ready": "Ready",
+    "skip": "Skip"
   },
   "resume": {
     "trigger": "Download Resume",

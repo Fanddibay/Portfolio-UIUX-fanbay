@@ -26,7 +26,13 @@
     "engineerTitle": "Bangun",
     "engineerBody": "Cukup mahir di React, Vue, dan Tailwind untuk handoff yang bersih — atau langsung saya bangun sendiri, sampai ke piksel.",
     "buildItems": ["React & Vue", "Tailwind CSS", "Responsif & aksesibel", "Integrasi Supabase"],
-    "stackLabel": "Tools yang saya pakai"
+    "stackLabel": "Tools yang saya pakai",
+    "roleTabsLabel": "Desain atau bangun",
+    "systemsTitle": "Design system sejak frame pertama",
+    "aiTitle": "Dari Figma ke kode, dengan AI di dalam alurnya",
+    "codeTitle": "Kode produksi, bukan sekadar mockup",
+    "stackTitle": "Satu stack, dari desain sampai deploy",
+    "motionTitle": "Motion yang terasa disengaja"
   },
   "aiTools": {
     "overline": "Diperkuat AI",
@@ -45,7 +51,8 @@
     "title": "Empat tahun, terjun langsung di setiap prosesnya.",
     "lead": "Rekam jejak merancang dan merilis produk nyata — didukung reputasi freelance yang terbukti.",
     "collaborateCta": "Kolaborasi via Upwork",
-    "viewCertificate": "Lihat sertifikat"
+    "viewCertificate": "Lihat sertifikat",
+    "skills": "Keahlian & tools"
   },
   "statsMarquee": {
     "aria": "Sorotan karier",
@@ -53,7 +60,6 @@
     "hours": "Jam Kerja",
     "projects": "Proyek Diselesaikan",
     "clients": "Klien di Seluruh Dunia",
-    "earned": "Penghasilan di Upwork",
     "topRated": "Freelancer Upwork",
     "tags": [
       "Desain UI/UX + Frontend Engineering",
@@ -130,7 +136,23 @@
     "location": "Berbasis di Indonesia · Terbuka untuk remote",
     "emailLabel": "Email saya",
     "rights": "Hak cipta dilindungi.",
-    "builtWith": "Dirancang & dibangun oleh Fandi Bayu"
+    "builtWith": "Dirancang & dibangun oleh Fandi Bayu",
+    "ctaLine1": "Punya ide produk?",
+    "ctaLine2": "Mari desain dan rilis bersama.",
+    "navLabel": "Navigasi",
+    "findLabel": "Temukan saya",
+    "contactLabel": "Kontak",
+    "localTime": "waktu lokal",
+    "copyEmail": "Salin alamat email",
+    "copied": "Tersalin"
+  },
+  "preloader": {
+    "loading": "Memuat portofolio",
+    "opening": "Membuka portfolio.fig",
+    "designing": "Mendesain…",
+    "building": "Membangun…",
+    "ready": "Siap",
+    "skip": "Lewati"
   },
   "resume": {
     "trigger": "Unduh Resume",

@@ -17,13 +17,27 @@ import { ArrowUp } from 'lucide-react';
 export function BackToTop() {
   const t = useTranslations('actions');
   const reduce = useReducedMotion();
-  const [visible, setVisible] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [footerInView, setFooterInView] = useState(false);
+  const visible = scrolled && !footerInView;
 
   useEffect(() => {
-    const onScroll = () => setVisible(window.scrollY > window.innerHeight * 0.8);
+    const onScroll = () => setScrolled(window.scrollY > window.innerHeight * 0.8);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  // The footer has its own "Back to top" — step aside once it's on screen so
+  // the two never stack (and the floating one doesn't cover footer links).
+  useEffect(() => {
+    const footer = document.querySelector('footer');
+    if (!footer) return;
+    const io = new IntersectionObserver(([entry]) => setFooterInView(entry.isIntersecting), {
+      rootMargin: '0px 0px -120px 0px',
+    });
+    io.observe(footer);
+    return () => io.disconnect();
   }, []);
 
   const scrollToTop = () =>

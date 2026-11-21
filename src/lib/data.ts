@@ -85,6 +85,46 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    slug: 'amanahfy',
+    title: 'Amanahfy — Charity Fundraising Platform',
+    category: 'Fundraising SaaS',
+    year: '2026',
+    role: 'Senior UI/UX Designer',
+    timeline: { en: 'Aug 2026 — ongoing', id: 'Agu 2026 — berjalan' },
+    summary: {
+      en: 'Designing the admin side of a fundraising platform for Islamic charities — turning dense PRDs into analytics, campaign, and registration flows that operators can run without a manual.',
+      id: 'Mendesain sisi admin platform fundraising untuk lembaga amal Islam — mengubah PRD yang padat menjadi alur analitik, kampanye, dan registrasi yang bisa dijalankan operator tanpa perlu manual.',
+    },
+    tags: ['Figma', 'Design System', 'User Flows', 'Edge-case States', 'Dev Handoff', 'Claude Code'],
+    image: '/projects/amanahfy.webp',
+    // Gallery follows the product's sidebar: Dashboards → Campaigns → Registrations
+    images: [
+      '/projects/amanahfy.webp',
+      '/projects/amanahfy-analytics.webp',
+      '/projects/amanahfy-labels.webp',
+      '/projects/amanahfy-views.webp',
+      '/projects/amanahfy-registrations.webp',
+    ],
+    featured: true,
+    protected: false,
+    problem: {
+      en: 'Amanahfy runs fundraising for Islamic non-profits: campaigns, event registrations, sponsorships, and donations in several currencies. Every new feature arrives as a dense PRD and has to fit into an admin that is already crowded. Lists must scale to hundreds of campaigns, setup must be hard to get wrong, and every edge case (missing details, failed loads, version conflicts) needs a clear answer on screen, not a support ticket.',
+      id: 'Amanahfy menjalankan fundraising untuk lembaga nirlaba Islam: kampanye, registrasi event, sponsorship, dan donasi dalam beberapa mata uang. Setiap fitur baru datang sebagai PRD yang padat dan harus masuk ke admin yang sudah ramai. Daftar harus tetap rapi untuk ratusan kampanye, setup harus sulit untuk salah, dan setiap edge case (data belum lengkap, gagal memuat, konflik versi) butuh jawaban yang jelas di layar, bukan tiket support.',
+    },
+    method: {
+      en: 'Spec-first: I read the PRD, map every requirement to a screen and a state, then design the flow and hi-fi screens in Figma on the Brand V2 design system, reusing existing patterns before inventing new ones. Each ticket ships with its edge-case states, a PRD coverage check (covered, partly, later) and dev-ready components with an interactive prototype. Claude Code with a Figma MCP bridge speeds up audits and documentation; the design decisions stay mine.',
+      id: 'Spec-first: saya membaca PRD, memetakan setiap requirement ke layar dan state, lalu mendesain alur dan layar hi-fi di Figma di atas design system Brand V2, memakai ulang pola yang sudah ada sebelum membuat yang baru. Setiap tiket diserahkan lengkap dengan state edge case, pengecekan cakupan PRD (tercakup, sebagian, nanti), dan komponen siap-dev dengan prototipe interaktif. Claude Code dengan bridge Figma MCP mempercepat audit dan dokumentasi; keputusan desain tetap di tangan saya.',
+    },
+    businessProcess: {
+      en: 'Work runs on a ticket loop with the product team: product writes the ticket, I design, product reviews, then it goes to developers or back for rework. A single decision log ties every choice to a PRD requirement, so reviews focus on product questions instead of re-explaining past calls, and developers get one source of truth.',
+      id: 'Pekerjaan berjalan dalam siklus tiket bersama tim produk: tim produk menulis tiket, saya mendesain, tim produk mereview, lalu diteruskan ke developer atau kembali untuk revisi. Satu decision log mengaitkan setiap keputusan ke requirement PRD, jadi review fokus pada pertanyaan produk alih-alih menjelaskan ulang keputusan lama, dan developer punya satu sumber kebenaran.',
+    },
+    goal: {
+      en: 'Help charities raise more with less admin effort: faster campaign setup, clearer reporting, fewer support questions. Designs so far include a multi-currency Funds Raised analytics view, labels and saved views for large campaign lists, and group-booking registration with missing-details tracking. Since August 2026: 44 feature tickets across the Charity Dashboard, Charity Week, and white-label checkout, 37 designed through base screens or beyond, and 14 handed off to developers. Work is ongoing.',
+      id: 'Membantu lembaga amal menggalang lebih banyak dengan usaha admin yang lebih sedikit: setup kampanye lebih cepat, laporan lebih jelas, pertanyaan support lebih sedikit. Desain yang sudah dikerjakan antara lain tampilan analitik Funds Raised multi-mata uang, label dan saved views untuk daftar kampanye yang besar, serta registrasi group booking dengan pelacakan data yang belum lengkap. Sejak Agustus 2026: 44 tiket fitur di Charity Dashboard, Charity Week, dan white-label checkout, 37 sudah didesain sampai base screen atau lebih, dan 14 sudah diserahkan ke developer. Pekerjaan masih berjalan.',
+    },
+  },
+  {
     slug: 'nowcasting-bmkg',
     title: 'Nowcasting BMKG — Weather Nowcasting Dashboard',
     category: 'Map Dashboard',
@@ -396,6 +436,12 @@ export type Testimonial = {
   url?: string;
 };
 
+/** Fiverr profile — linked from the footer and the Fiverr testimonial.
+ * Declared before `testimonials`, which reads it. */
+export const fiverr = {
+  url: 'https://www.fiverr.com/fanddibayy',
+} as const;
+
 export const testimonials: Testimonial[] = [
   {
     quote:
@@ -419,7 +465,7 @@ export const testimonials: Testimonial[] = [
       id: 'Desain web, dibangun ke WordPress',
     },
     platform: 'Fiverr',
-    url: 'https://www.fiverr.com/fanddibayy',
+    url: fiverr.url,
   },
   {
     quote:
@@ -488,12 +534,12 @@ export const stack: string[] = [
 
 /**
  * Upwork freelance highlight — the featured stat block in the Experience
- * section. `hours` is the headline; `earned`/`clients` are supporting stats.
+ * section. Only hours and clients are public; earnings are intentionally
+ * not shown anywhere on the site.
  */
 export const upwork = {
-  hours: '2,034',
-  earned: '$10K+',
-  clients: '10+',
+  hours: '2,400+',
+  clients: '13',
   status: 'Top Rated',
   url: 'https://www.upwork.com/freelancers/~015efc2530d0409842?mp_source=share',
 } as const;
@@ -506,10 +552,9 @@ export const upwork = {
  */
 export const highlights: { value: string; labelKey: string }[] = [
   { value: '4+', labelKey: 'years' }, // years of experience (see CLAUDE.md)
-  { value: upwork.hours, labelKey: 'hours' }, // 2,034 — real Upwork total
+  { value: upwork.hours, labelKey: 'hours' }, // 2,400+ — Upwork total
   { value: '20+', labelKey: 'projects' }, // est. — projects delivered
-  { value: '25+', labelKey: 'clients' }, // 10+ Upwork · 15+ Fiverr
-  { value: upwork.earned, labelKey: 'earned' }, // $10K+
+  { value: '25+', labelKey: 'clients' }, // 13 Upwork · 15+ Fiverr (kept conservative)
   { value: upwork.status, labelKey: 'topRated' }, // Top Rated
 ];
 
@@ -522,7 +567,13 @@ export type ExperienceRole = {
   /** Time range, e.g. "May 2023 — Present" / "Mei 2023 — Sekarang". */
   period: Localized;
   description: Localized;
-  /** Plain metric chips, e.g. ["$1K+ earned", "15+ clients"] (Fiverr-style). */
+  /**
+   * Skills & tools used in this role, shown as scannable chips for recruiters.
+   * Industry terms stay in English (they're what recruiters search for) and also
+   * feed the Person JSON-LD `knowsAbout` in seo.ts.
+   */
+  skills?: string[];
+  /** Plain metric chips, e.g. ["20+ projects", "15+ clients"] (Fiverr-style). */
   stats?: Localized[];
   /** Structured value+label metrics, rendered elegantly (featured roles). */
   metrics?: ExperienceMetric[];
@@ -548,6 +599,23 @@ export type ExperienceEntry = {
 
 export const experience: ExperienceEntry[] = [
   {
+    company: 'Amanahfy',
+    location: 'Remote',
+    roles: [
+      {
+        title: 'Senior UI/UX Designer',
+        type: { en: 'Freelance', id: 'Freelance' },
+        period: { en: 'Aug 2026 — Present', id: 'Agu 2026 — Sekarang' },
+        skills: ['Figma', 'SaaS Dashboard', 'User Flows', 'UI States & Edge Cases', 'Design System', 'Interactive Prototyping', 'Developer Handoff', 'Claude Code'],
+        current: true,
+        description: {
+          en: 'Designing the operator side of a fundraising platform for Islamic non-profits — the Charity Dashboard and the role-based Charity Week USA campaign dashboard. I turn PRDs into user flows, UI states, and hi-fi Figma screens for features like sponsorship (beneficiary assignment, events, check-in), CRM integrations, and reporting, then hand off dev-ready components and interactive prototypes — keeping every screen traceable to its requirements and consistent with the Brand V2 design system.',
+          id: 'Mendesain sisi operator dari platform fundraising untuk lembaga nirlaba Islam — Charity Dashboard dan dashboard kampanye Charity Week USA berbasis peran. Saya mengubah PRD menjadi user flow, state UI, dan layar hi-fi di Figma untuk fitur seperti sponsorship (penugasan beneficiary, event, check-in), integrasi CRM, dan pelaporan, lalu menyerahkan komponen siap-dev dan prototipe interaktif — memastikan setiap layar bisa ditelusuri ke requirement-nya dan konsisten dengan design system Brand V2.',
+        },
+      },
+    ],
+  },
+  {
     company: 'Solusi247',
     location: 'Jakarta, Indonesia',
     roles: [
@@ -555,6 +623,7 @@ export const experience: ExperienceEntry[] = [
         title: 'UI/UX Engineer',
         type: { en: 'Contract', id: 'Kontrak' },
         period: { en: 'May 2023 — Present', id: 'Mei 2023 — Sekarang' },
+        skills: ['Figma', 'Vue.js', 'Tailwind CSS', 'Bootstrap', 'Dashboard Design', 'Design to Code', 'Cursor'],
         current: true,
         description: {
           en: 'Design and build dashboards and web apps for government and enterprise clients — including BMKG products like Nowcasting and Dashboard Signature. I work both sides: designing flows in Figma to match the client brief, then slicing them into production code (Vue, Tailwind, Bootstrap), with AI-assisted tooling like Cursor to move faster. Sitting between design and engineering, I make sure what ships matches the design — cutting the miscommunication and rework that usually happens on handoff between designers and FE/BE developers.',
@@ -571,6 +640,7 @@ export const experience: ExperienceEntry[] = [
         title: 'UI/UX Designer',
         type: { en: 'Freelance', id: 'Freelance' },
         period: { en: 'Dec 2024 — Present', id: 'Des 2024 — Sekarang' },
+        skills: ['Figma', 'Dashboard Design', 'Web App Design', 'UX Research', 'Prototyping', 'AI-assisted Workflow'],
         current: true,
         featured: true,
         badge: upwork.status,
@@ -580,8 +650,7 @@ export const experience: ExperienceEntry[] = [
         },
         metrics: [
           { value: upwork.hours, label: { en: 'hours worked', id: 'jam kerja' } },
-          { value: upwork.clients, label: { en: 'clients', id: 'klien' } },
-          { value: upwork.earned, label: { en: 'earned', id: 'pendapatan' } },
+          { value: upwork.clients, label: { en: 'international clients', id: 'klien mancanegara' } },
         ],
         ctaUrl: upwork.url,
       },
@@ -595,6 +664,7 @@ export const experience: ExperienceEntry[] = [
         title: 'Web Designer',
         type: { en: 'Part-time', id: 'Paruh Waktu' },
         period: { en: 'Apr 2025 · 1 mo', id: 'Apr 2025 · 1 bln' },
+        skills: ['Stakeholder Research', 'Figma', 'HTML', 'Tailwind CSS 4', 'JavaScript'],
         description: {
           en: 'Owned the homepage end-to-end — ran stakeholder research to define the right flow and sections, designed it, then shipped it as production code in HTML, Tailwind CSS 4, and JavaScript.',
           id: 'Menangani homepage secara end-to-end — menjalankan riset stakeholder untuk menentukan alur dan bagian yang tepat, mendesainnya, lalu merilisnya sebagai kode produksi dengan HTML, Tailwind CSS 4, dan JavaScript.',
@@ -604,6 +674,7 @@ export const experience: ExperienceEntry[] = [
         title: 'UI Designer',
         type: { en: 'Freelance', id: 'Freelance' },
         period: { en: 'Oct 2024 — Mar 2025 · 6 mos', id: 'Okt 2024 — Mar 2025 · 6 bln' },
+        skills: ['Figma', 'Mobile App Design', 'User Flows', 'Interactive Prototyping'],
         description: {
           en: 'Designed mobile apps in Figma aligned to business workflows, built interactive prototypes, and partnered with the team to turn business processes into intuitive, seamless user flows.',
           id: 'Mendesain aplikasi mobile di Figma yang selaras dengan workflow bisnis, membangun prototipe interaktif, dan bermitra dengan tim untuk mengubah proses bisnis menjadi alur pengguna yang intuitif dan mulus.',
@@ -619,6 +690,7 @@ export const experience: ExperienceEntry[] = [
         title: 'UI/UX Designer',
         type: { en: 'Freelance', id: 'Freelance' },
         period: { en: 'Nov 2024 — Oct 2025', id: 'Nov 2024 — Okt 2025' },
+        skills: ['Figma', 'Dashboard UI', 'Web App Design', 'Marketing Sites', 'UX Design'],
         description: {
           en: 'Designed user-centered interfaces for startups and small businesses — dashboard UI, web apps, and marketing sites with structured UX thinking and pixel-precise execution.',
           id: 'Mendesain antarmuka yang berpusat pada pengguna untuk startup dan bisnis kecil — dashboard UI, web app, dan situs marketing dengan pemikiran UX terstruktur dan eksekusi presisi.',
@@ -626,7 +698,6 @@ export const experience: ExperienceEntry[] = [
         stats: [
           { en: '20+ projects delivered', id: '20+ proyek selesai' },
           { en: '15+ clients served', id: '15+ klien terlayani' },
-          { en: '$1K+ earned', id: '$1K+ pendapatan' },
         ],
       },
     ],
@@ -639,6 +710,7 @@ export const experience: ExperienceEntry[] = [
         title: 'UI/UX Design Intern',
         type: { en: 'Internship', id: 'Magang' },
         period: { en: 'Mar 2023 — Aug 2023', id: 'Mar 2023 — Agu 2023' },
+        skills: ['Figma', 'VR/AR Interfaces', 'Interaction Design', 'Usability', 'Prototyping'],
         description: {
           en: 'Supported the design team on immersive VR/AR experiences — interface layouts, interaction flows, and usability improvements — turning concepts into interactive prototypes.',
           id: 'Mendukung tim desain pada pengalaman VR/AR yang imersif — layout antarmuka, alur interaksi, dan peningkatan usability — mengubah konsep menjadi prototipe interaktif.',

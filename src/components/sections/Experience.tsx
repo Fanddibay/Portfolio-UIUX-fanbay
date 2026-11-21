@@ -68,6 +68,7 @@ export function Experience() {
                       company={entry.company}
                       ctaLabel={t('collaborateCta')}
                       certLabel={t('viewCertificate')}
+                      skillsLabel={t('skills')}
                       showPeriod={multiRole}
                     />
                   ))}
@@ -87,12 +88,14 @@ function RoleBlock({
   company,
   ctaLabel,
   certLabel,
+  skillsLabel,
   showPeriod = false,
 }: {
   role: ExperienceRole;
   company: string;
   ctaLabel: string;
   certLabel: string;
+  skillsLabel: string;
   /** Multi-role entries render the period here; single-role show it in the meta rail. */
   showPeriod?: boolean;
 }) {
@@ -128,6 +131,26 @@ function RoleBlock({
       <p className="mt-1.5 max-w-3xl text-body-sm text-muted-foreground">
         {loc(role.description, locale)}
       </p>
+
+      {/* Skills & tools — scannable keywords for recruiters. Outlined chips so
+          they read as tools, distinct from the filled achievement chips below. */}
+      {role.skills && role.skills.length > 0 && (
+        <div className="mt-3">
+          <p className="font-mono text-label uppercase tracking-widest text-muted-foreground">
+            {skillsLabel}
+          </p>
+          <ul className="mt-2 flex flex-wrap gap-1.5">
+            {role.skills.map((skill) => (
+              <li
+                key={skill}
+                className="rounded-md border border-border px-2 py-0.5 font-mono text-label text-foreground"
+              >
+                {skill}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       {/* Elegant value + label metrics (featured) */}
       {role.metrics && (

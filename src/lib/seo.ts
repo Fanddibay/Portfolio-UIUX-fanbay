@@ -4,7 +4,7 @@
  * CreativeWork). Consumed by [locale]/layout.tsx, work/[slug]/page.tsx,
  * sitemap.ts, robots.ts, and manifest.ts so nothing drifts out of sync.
  */
-import { SITE, socials, upwork, type Project } from '@/lib/data';
+import { SITE, socials, upwork, experience, type Project } from '@/lib/data';
 import { loc } from '@/lib/data';
 
 export const BASE_URL = 'https://fandibayu.com';
@@ -46,8 +46,8 @@ export const KEYWORDS = [
 
 export const DESCRIPTIONS = {
   en:
-    'Fandi Bayu is a UI/UX Designer & Engineer from Jakarta, Indonesia with 4+ years of experience — designing SaaS dashboards, web apps, and design systems in Figma, then building them in production code (Vue, React, Tailwind CSS). Top Rated on Upwork with 2,000+ hours for 10+ international clients.',
-  id: 'Fandi Bayu adalah UI/UX Designer & Engineer dari Jakarta, Indonesia dengan 4+ tahun pengalaman — mendesain dashboard SaaS, web app, dan design system di Figma, lalu membangunnya menjadi kode produksi (Vue, React, Tailwind CSS). Top Rated di Upwork dengan 2.000+ jam untuk 10+ klien internasional.',
+    'Fandi Bayu is a UI/UX Designer & Engineer from Jakarta, Indonesia with 4+ years of experience — designing SaaS dashboards, web apps, and design systems in Figma, then building them in production code (Vue, React, Tailwind CSS). Top Rated on Upwork with 2,400+ hours for 13 international clients.',
+  id: 'Fandi Bayu adalah UI/UX Designer & Engineer dari Jakarta, Indonesia dengan 4+ tahun pengalaman — mendesain dashboard SaaS, web app, dan design system di Figma, lalu membangunnya menjadi kode produksi (Vue, React, Tailwind CSS). Top Rated di Upwork dengan 2.400+ jam untuk 13 klien mancanegara.',
 } as const;
 
 export const TITLE_DEFAULT = `${SITE.name} — UI/UX Designer & Engineer · SaaS Dashboard & Web Design`;
@@ -79,8 +79,19 @@ export function personJsonLd() {
       addressCountry: 'ID',
     },
     sameAs: [...socials.map((s) => s.url), upwork.url],
-    knowsAbout: KEYWORDS.filter((k) => k !== 'Fandi Bayu'),
-    worksFor: { '@type': 'Organization', name: 'Solusi247' },
+    // Target keywords + every skill shown in the Experience timeline (deduped),
+    // so the entity data matches the visible "Skills & tools" chips.
+    knowsAbout: [
+      ...new Set([
+        ...KEYWORDS.filter((k) => k !== 'Fandi Bayu'),
+        ...experience.flatMap((e) => e.roles.flatMap((r) => r.skills ?? [])),
+      ]),
+    ],
+    // Current (ongoing) engagements — mirrors the live roles in the timeline.
+    worksFor: [
+      { '@type': 'Organization', name: 'Amanahfy' },
+      { '@type': 'Organization', name: 'Solusi247' },
+    ],
     knowsLanguage: ['en', 'id'],
   };
 }

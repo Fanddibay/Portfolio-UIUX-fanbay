@@ -302,6 +302,33 @@ html.marquee-docked {
   animation: badge-shine 4s ease-in-out infinite;
 }
 
+/*
+ * About bento — "Motion" card. Two balls cross the same track: one linear, one
+ * on the site's enter curve (DESIGN.md §7) so the difference is visible side by
+ * side. `.is-paused` stops them while the card is off-screen.
+ */
+@keyframes ease-travel {
+  from {
+    left: 0;
+  }
+  to {
+    left: calc(100% - 0.875rem);
+  }
+}
+.ease-ball {
+  animation: ease-travel 1.6s infinite alternate;
+  animation-delay: 0.3s;
+}
+.ease-ball--linear {
+  animation-timing-function: linear;
+}
+.ease-ball--spring {
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+.is-paused .ease-ball {
+  animation-play-state: paused;
+}
+
 /* Accessibility: honor reduced-motion across all animations (DESIGN.md §7) */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -312,4 +339,16 @@ html.marquee-docked {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* ------------------------------------------------------------------ */
+/* Preloader (src/components/layout/Preloader.tsx)                     */
+/* Hidden before first paint when already seen / reduced motion (inline */
+/* script sets data-preloader="off"); locks page scroll while it plays. */
+/* ------------------------------------------------------------------ */
+html[data-preloader='off'] .preloader {
+  display: none;
+}
+html:not([data-preloader='off']):has(.preloader) {
+  overflow: hidden;
 }
