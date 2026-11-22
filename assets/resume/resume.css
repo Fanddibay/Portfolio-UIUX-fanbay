@@ -1,0 +1,236 @@
+/*
+ * Résumé print stylesheet, shared by resume-en.html and resume-id.html.
+ * Tokens follow DESIGN.md (light mode): foreground #09090B, muted-foreground
+ * #586779, accent #2563EB, border #E4E4E7. Fonts: Plus Jakarta Sans for
+ * headings, Open Sans for body, same pairing as the portfolio.
+ *
+ * Single column, real text, standard section names: this keeps the PDF
+ * readable by ATS parsers, which choke on multi-column layouts and icons.
+ *
+ * Build: npm run resume
+ */
+
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  src: url('fonts/plus-jakarta-sans-latin.woff2') format('woff2');
+  font-weight: 400 800;
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  src: url('fonts/open-sans-latin.woff2') format('woff2');
+  font-weight: 400 700;
+}
+
+@page {
+  size: A4;
+  margin: 12mm 14mm 11mm;
+}
+
+:root {
+  --fg: #09090b;
+  --body: #27272a;
+  --muted: #586779;
+  --accent: #2563eb;
+  --border: #e4e4e7;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+body {
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-size: 9.2pt;
+  line-height: 1.37;
+  color: var(--body);
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+.headline,
+.date {
+  font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+}
+
+/* ---------- Header ---------- */
+
+header {
+  margin-bottom: 9pt;
+}
+
+h1 {
+  font-size: 21pt;
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--fg);
+}
+
+.headline {
+  margin-top: 3pt;
+  font-size: 11pt;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.contact {
+  margin-top: 4pt;
+  font-size: 8.6pt;
+  color: var(--muted);
+}
+
+.contact a {
+  color: var(--body);
+}
+
+/* Keep each "Label: value" pair on one line. */
+.contact span {
+  white-space: nowrap;
+}
+
+/* ---------- Sections ---------- */
+
+section {
+  margin-top: 8pt;
+}
+
+h2 {
+  font-size: 9pt;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--accent);
+  padding-bottom: 2.5pt;
+  margin-bottom: 5pt;
+  border-bottom: 1px solid var(--border);
+  break-after: avoid;
+}
+
+.summary {
+  text-align: left;
+}
+
+/* ---------- Skills ---------- */
+
+.skills {
+  list-style: none;
+}
+
+.skills li {
+  margin-bottom: 1.5pt;
+}
+
+.skills strong {
+  font-weight: 700;
+  color: var(--fg);
+}
+
+/* ---------- Jobs & projects ---------- */
+
+.job {
+  margin-bottom: 6pt;
+}
+
+.job:last-child {
+  margin-bottom: 0;
+}
+
+.job-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12pt;
+  break-after: avoid;
+}
+
+h3 {
+  font-size: 10.2pt;
+  font-weight: 700;
+  color: var(--fg);
+}
+
+.date {
+  flex-shrink: 0;
+  font-size: 8.6pt;
+  font-weight: 600;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.meta {
+  font-size: 8.8pt;
+  color: var(--muted);
+  break-after: avoid;
+}
+
+.meta strong {
+  font-weight: 700;
+  color: var(--body);
+}
+
+.context {
+  margin-top: 1.5pt;
+  font-size: 8.8pt;
+  font-style: italic;
+  color: var(--muted);
+  break-after: avoid;
+}
+
+ul.bullets {
+  margin-top: 2pt;
+  padding-left: 12pt;
+}
+
+ul.bullets li {
+  margin-bottom: 1.2pt;
+  padding-left: 1pt;
+  break-inside: avoid;
+}
+
+ul.bullets li::marker {
+  color: var(--muted);
+}
+
+.sub {
+  font-weight: 700;
+  color: var(--fg);
+}
+
+/* Projects use the same block, with links under the title. */
+.links {
+  font-size: 8.6pt;
+  color: var(--muted);
+}
+
+/* ---------- Simple lists (education, certifications) ---------- */
+
+ul.plain {
+  padding-left: 12pt;
+}
+
+ul.plain li {
+  margin-bottom: 1.6pt;
+  break-inside: avoid;
+}
+
+ul.plain strong {
+  font-weight: 700;
+  color: var(--fg);
+}
+
+.keep {
+  break-inside: avoid;
+}

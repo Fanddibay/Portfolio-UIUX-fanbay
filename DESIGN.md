@@ -29,10 +29,11 @@
 | `--primary-foreground`   | `#FFFFFF` | Text on primary                      |
 | `--secondary`            | `#3F3F46` | Secondary labels, subtext            |
 | `--secondary-foreground` | `#FFFFFF` | Text on secondary bg                 |
-| `--accent`               | `#2563EB` | CTA, links, highlights, hover states |
-| `--accent-foreground`    | `#FFFFFF` | Text on accent                       |
+| `--accent`               | `#2563EB` | Links, icons, highlights, strokes    |
+| `--accent-foreground`    | `#FFFFFF` | Text on accent-solid                 |
+| `--accent-solid`         | `#2563EB` | Filled CTA / badge / active chip     |
 | `--muted`                | `#F4F4F5` | Subtle backgrounds, tags             |
-| `--muted-foreground`     | `#64748B` | Placeholder, caption                 |
+| `--muted-foreground`     | `#586779` | Placeholder, caption (≥4.5:1)        |
 | `--border`               | `#E4E4E7` | Dividers, input borders              |
 | `--ring`                 | `#2563EB` | Focus ring                           |
 | `--destructive`          | `#DC2626` | Error states                         |
@@ -49,13 +50,21 @@
 | `--primary-foreground`   | `#09090B` | Text on primary                             |
 | `--secondary`            | `#27272A` | Secondary surface                           |
 | `--secondary-foreground` | `#A1A1AA` | Secondary text                              |
-| `--accent`               | `#3B82F6` | CTA, links, highlights (lightened for dark) |
-| `--accent-foreground`    | `#FFFFFF` | Text on accent                              |
+| `--accent`               | `#3B82F6` | Links, icons, highlights (lightened for dark) |
+| `--accent-foreground`    | `#FFFFFF` | Text on accent-solid                        |
+| `--accent-solid`         | `#2563EB` | Filled CTA / badge (white text 5.17:1)      |
 | `--muted`                | `#27272A` | Subtle backgrounds                          |
-| `--muted-foreground`     | `#71717A` | Placeholder, caption                        |
+| `--muted-foreground`     | `#A1A1AA` | Placeholder, caption (≥4.5:1)               |
 | `--border`               | `#27272A` | Dividers, input borders                     |
 | `--ring`                 | `#3B82F6` | Focus ring                                  |
 | `--destructive`          | `#EF4444` | Error states                                |
+
+### Contrast rules (WCAG 2.2 AA)
+
+- Body text needs 4.5:1, large text (24px+, or 18.66px+ bold) needs 3:1. Every token pair above passes on `--background`, `--card` and `--muted`.
+- Use `bg-accent-solid` (never `bg-accent`) behind white text. In dark mode `--accent` is lighter so it reads as text on near-black, but white on it is only 3.68:1.
+- Don't fade text with opacity (`text-muted-foreground/70`). Use the token at full strength; opacity is for decorative marks only.
+- Syntax colors in code mockups use the 700 shade in light mode and the 400 shade in dark.
 
 ### Implementation (CSS Variables)
 
@@ -71,8 +80,9 @@
   --secondary-foreground: #ffffff;
   --accent: #2563eb;
   --accent-foreground: #ffffff;
+  --accent-solid: #2563eb;
   --muted: #f4f4f5;
-  --muted-foreground: #64748b;
+  --muted-foreground: #586779;
   --border: #e4e4e7;
   --ring: #2563eb;
   --destructive: #dc2626;
@@ -89,8 +99,9 @@
   --secondary-foreground: #a1a1aa;
   --accent: #3b82f6;
   --accent-foreground: #ffffff;
+  --accent-solid: #2563eb;
   --muted: #27272a;
-  --muted-foreground: #71717a;
+  --muted-foreground: #a1a1aa;
   --border: #27272a;
   --ring: #3b82f6;
   --destructive: #ef4444;
@@ -433,3 +444,29 @@ xl      : 1280px
 5. **Min touch target 44px** untuk semua button/link
 6. **Gunakan `font-heading` untuk heading, `font-body` untuk konten**
 7. **Accent color hanya untuk CTA, link, dan highlight** — jangan overuse
+
+---
+
+## 16. Logo
+
+**Konsep:** `fandibayu` + text caret. Wordmark = domain (fandibayu.com), jadi cukup satu hal yang diingat. Caret = kursor teks, alat yang dipakai di Figma dan di code editor (designer yang juga engineer).
+
+| Bagian    | Spesifikasi                                                                                     |
+| --------- | ----------------------------------------------------------------------------------------------- |
+| Typeface  | Plus Jakarta Sans, sudah di-outline (tidak bergantung font load)                                |
+| Weight    | "fandi" ExtraBold 800 · "bayu" Regular 400 · tracking −25/1000                                  |
+| Caret     | Tinggi ascender → descender (satu baris penuh), lebar ≈ stem "bayu", radius 30%                 |
+| Warna     | Huruf `--foreground` · caret `--accent` (light #2563EB, dark #3B82F6)                           |
+| Mark      | "f" + caret di tile `--primary` (rx 23.4%). Caret turun melewati baseline agar tidak terbaca "fl" |
+| Min size  | Wordmark 80px lebar · mark 16px                                                                 |
+| Clear space | Setinggi x-height di semua sisi                                                               |
+
+**File:** source art di `assets/brand/logo/` (wordmark light/dark/mono, mark, `preview.html`). Di kode: `BrandWordmark` dan `BrandMark` (`src/components/ui/BrandLogo.tsx`, geometri di `brandPaths.ts`). Favicon, icon PWA, apple-icon, dan OG image dibuat dari SVG yang sama: `node scripts/generate-brand-assets.mjs`.
+
+**Motion:**
+
+- **Type-on:** hanya saat preloader tampil (kunjungan pertama per sesi). Nama di-rewind di balik tirai, lalu diketik 55ms/huruf dengan jeda 140ms sebelum "bayu". Caret melompat tanpa easing, seperti kursor asli.
+- **Blink:** `steps(1)` 1.06s, **3 kali saja** lalu diam (WCAG 2.2.2). Berkedip terus hanya saat link di-hover/focus.
+- **Select:** hover/focus menyapu highlight `--accent` 16% dari kanan ke kiri (400ms, ease enter), seperti teks di-select.
+
+**Jangan:** pakai monogram "fb" (terbaca seperti Facebook), ubah weight/tracking, beri efek (shadow, gradient, outline), atau taruh caret di warna selain `--accent`.

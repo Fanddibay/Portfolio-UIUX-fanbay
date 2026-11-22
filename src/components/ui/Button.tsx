@@ -4,7 +4,7 @@ type Variant = 'primary' | 'secondary' | 'ghost';
 
 /** Variant → Tailwind classes (see DESIGN.md §8). */
 const VARIANTS: Record<Variant, string> = {
-  primary: 'bg-accent text-accent-foreground hover:brightness-110',
+  primary: 'bg-accent-solid text-accent-foreground hover:brightness-110',
   secondary: 'border border-border bg-transparent text-foreground hover:bg-muted',
   ghost: 'bg-transparent text-foreground hover:bg-muted',
 };

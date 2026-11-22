@@ -1,224 +1,308 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { motion } from 'framer-motion';
-import { useTranslations, useLocale } from 'next-intl';
-import { Quote, ArrowUpRight, ArrowLeft, ArrowRight } from 'lucide-react';
-import { fadeUp, staggerContainer } from '@/lib/motion';
-import { testimonials, loc } from '@/lib/data';
+import { useRef, useState, type KeyboardEvent, type ReactNode } from 'react';
+import { motion, type Variants } from 'framer-motion';
+import { useLocale, useTranslations } from 'next-intl';
+import { ArrowLeft, ArrowRight, ArrowUpRight, BadgeCheck, Linkedin, Quote } from 'lucide-react';
+import { SectionHeader } from '@/components/ui/SectionHeader';
+import { FiverrGlyph, UpworkGlyph } from '@/components/ui/BrandIcons';
+import { testimonials, loc, type Testimonial } from '@/lib/data';
+
+const EASE = [0.16, 1, 0.3, 1] as const;
+
+/** Platform marks + brand colours for the "verified" proof. */
+const PLATFORM: Record<NonNullable<Testimonial['platform']>, { Icon: (p: { className?: string }) => ReactNode; color: string }> = {
+  Upwork: { Icon: UpworkGlyph, color: '#14A800' },
+  Fiverr: { Icon: FiverrGlyph, color: '#1DBF73' },
+  LinkedIn: { Icon: Linkedin, color: '#0A66C2' },
+};
+
+/** Soft per-person avatar tints (initials avatars — no photos are shared). */
+const AVATAR_TONES = [
+  'from-amber-400 to-rose-400',
+  'from-sky-400 to-indigo-500',
+  'from-emerald-400 to-teal-500',
+  'from-violet-400 to-fuchsia-500',
+];
+
+const initials = (name: string) =>
+  name
+    .replace(/\./g, '')
+    .split(' ')
+    .map((p) => p[0])
+    .slice(0, 2)
+    .join('')
+    .toUpperCase();
+
+/** Wrap the verbatim highlight phrase in a marker so the key line pops. */
+function withHighlight(quote: string, highlight?: string) {
+  if (!highlight) return quote;
+  const at = quote.indexOf(highlight);
+  if (at < 0) return quote;
+  return (
+    <>
+      {quote.slice(0, at)}
+      <mark
+        className="rounded-[3px] bg-transparent text-foreground"
+        style={{
+          backgroundImage: 'linear-gradient(rgb(var(--accent) / 0.2), rgb(var(--accent) / 0.2))',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: '0 90%',
+          backgroundSize: '100% 42%',
+        }}
+      >
+        {highlight}
+      </mark>
+      {quote.slice(at + highlight.length)}
+    </>
+  );
+}
+
+/** Crossfade between stacked quotes: the outgoing one leaves fast (ease-in),
+ * the incoming one lands just after it (ease-out) — no gap, no layout shift. */
+const quoteMotion: Variants = {
+  hidden: (dir: number) => ({
+    opacity: 0,
+    y: dir * -10,
+    filter: 'blur(6px)',
+    transition: { duration: 0.2, ease: 'easeIn' },
+  }),
+  shown: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.45, ease: EASE, delay: 0.12 } },
+};
 
 /**
- * Testimonials — an editorial carousel of client reviews.
+ * Testimonials — "spotlight + switcher".
  *
- * Layout: overline + title on the left, prev/next arrows on the right (a
- * magazine-style header), then a horizontal scroll-snap track of peeking cards
- * with synced dot indicators below. Cards peek to signal swipe-ability; arrows
- * and dots drive the same track, so touch (swipe), mouse (arrows), and keyboard
- * (focus + arrow keys / dots) all navigate the same content.
+ * One review at a time, set large and calm so it can actually be read, with the
+ * client's own key phrase highlighted (verbatim — never paraphrased). A
+ * reviewer list beside it (a row of chips on phones) shows who said what, on
+ * which platform, at a glance — and switches the spotlight. Each review links
+ * to its source so a recruiter can verify it in one click.
  *
- * Quotes are the client's verbatim words (original language); only the project
- * context under each is localized (see DESIGN.md §8 — one card system reused).
+ * Keyboard: the list is a tablist (↑/↓/←/→/Home/End); the arrow buttons step
+ * through too. No autoplay — quotes are long; the reader sets the pace.
  */
 export function Testimonials() {
   const t = useTranslations('testimonials');
   const locale = useLocale();
-  const trackRef = useRef<HTMLDivElement>(null);
+  const [active, setActive] = useState(0);
+  const [dir, setDir] = useState(1);
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const total = testimonials.length;
 
-  const [index, setIndex] = useState(0);
-  const [atStart, setAtStart] = useState(true);
-  const [atEnd, setAtEnd] = useState(false);
+  const go = (next: number, focus = false) => {
+    const i = (next + total) % total;
+    setDir(next > active ? 1 : -1);
+    setActive(i);
+    if (focus) tabRefs.current[i]?.focus();
+  };
 
-  // Derive the active card (left-most visible) + the scroll extents that
-  // enable/disable the arrows. A scroll listener is more reliable than an
-  // IntersectionObserver when several cards are visible at once on desktop.
-  useEffect(() => {
-    const track = trackRef.current;
-    if (!track) return;
-
-    // Direct (unthrottled) — cheap for a handful of cards, and avoids relying
-    // on rAF so the indicators stay in sync even under heavy scroll.
-    const update = () => {
-      const cards = Array.from(track.querySelectorAll<HTMLElement>('[data-card]'));
-      const trackLeft = track.getBoundingClientRect().left;
-      let best = 0;
-      let bestDist = Infinity;
-      cards.forEach((c, i) => {
-        const dist = Math.abs(c.getBoundingClientRect().left - trackLeft);
-        if (dist < bestDist) {
-          bestDist = dist;
-          best = i;
-        }
-      });
-      setIndex(best);
-      setAtStart(track.scrollLeft <= 4);
-      setAtEnd(track.scrollLeft >= track.scrollWidth - track.clientWidth - 4);
+  function onKeyDown(e: KeyboardEvent<HTMLDivElement>) {
+    const map: Record<string, number> = {
+      ArrowDown: active + 1,
+      ArrowRight: active + 1,
+      ArrowUp: active - 1,
+      ArrowLeft: active - 1,
+      Home: 0,
+      End: total - 1,
     };
+    if (!(e.key in map)) return;
+    e.preventDefault();
+    go(map[e.key], true);
+  }
 
-    update();
-    track.addEventListener('scroll', update, { passive: true });
-    window.addEventListener('resize', update);
-    return () => {
-      track.removeEventListener('scroll', update);
-      window.removeEventListener('resize', update);
-    };
-  }, []);
-
-  // Dots (mobile, one card per view): jump straight to a card.
-  const goTo = useCallback((i: number) => {
-    const track = trackRef.current;
-    if (!track) return;
-    const cards = Array.from(track.querySelectorAll<HTMLElement>('[data-card]'));
-    const clamped = Math.max(0, Math.min(i, cards.length - 1));
-    cards[clamped]?.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
-  }, []);
-
-  // Arrows (desktop, several cards per view): advance by one card-stride so
-  // navigation stays even no matter how many cards are on screen.
-  const scrollByCard = useCallback((dir: 1 | -1) => {
-    const track = trackRef.current;
-    if (!track) return;
-    const cards = Array.from(track.querySelectorAll<HTMLElement>('[data-card]'));
-    const stride = cards.length > 1 ? cards[1].offsetLeft - cards[0].offsetLeft : track.clientWidth;
-    track.scrollBy({ left: dir * stride, behavior: 'smooth' });
-  }, []);
+  const platforms = Array.from(new Set(testimonials.map((x) => x.platform).filter(Boolean))) as NonNullable<
+    Testimonial['platform']
+  >[];
 
   return (
-    <section className="section">
-      {/* Editorial header: overline + title (left), nav arrows (right) */}
+    <section id="testimonials" className="section">
+      <SectionHeader overline={t('overline')} title={t('title')} lead={t('lead')} split />
+
       <motion.div
-        variants={staggerContainer}
-        initial="hidden"
-        whileInView="visible"
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-80px' }}
-        className="mb-12 flex items-end justify-between gap-6"
+        transition={{ duration: 0.55, ease: EASE }}
+        className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_340px]"
       >
-        <div className="max-w-2xl">
-          <motion.p variants={fadeUp} className="overline mb-3">
-            {t('overline')}
-          </motion.p>
-          <motion.h2 variants={fadeUp} className="font-heading text-h2 text-foreground md:text-h1">
-            {t('title')}
-          </motion.h2>
+        {/* ---------------- Spotlight ---------------- */}
+        <div className="relative order-2 flex flex-col overflow-hidden rounded-3xl border border-border bg-card p-6 shadow-sm sm:p-8 lg:order-1 lg:p-10">
+          {/* soft accent wash */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-accent/[0.08] blur-3xl"
+          />
+          <Quote className="relative h-10 w-10 text-accent/30" aria-hidden="true" />
+
+          {/* All quotes share ONE grid cell, stacked. The cell is as tall as the
+              longest quote at the current width, so the card never changes height
+              when switching — the page doesn't jump, and the author row + arrows
+              stay put. Inactive quotes are invisible, inert and aria-hidden. */}
+          <div className="relative mt-4 grid flex-1">
+            {testimonials.map((x, i) => {
+              const on = i === active;
+              return (
+                <motion.figure
+                  key={x.name}
+                  custom={dir}
+                  variants={quoteMotion}
+                  initial={false}
+                  animate={on ? 'shown' : 'hidden'}
+                  id={on ? 'testimonial-panel' : undefined}
+                  role={on ? 'tabpanel' : undefined}
+                  aria-labelledby={on ? `testimonial-tab-${i}` : undefined}
+                  aria-hidden={!on}
+                  inert={!on}
+                  className={`col-start-1 row-start-1 flex flex-col ${on ? '' : 'pointer-events-none'}`}
+                >
+                  <blockquote className="flex-1 text-pretty font-heading text-[1.1875rem] font-medium leading-[1.55] tracking-[-0.01em] text-foreground/90 sm:text-[1.375rem] lg:text-[1.5rem]">
+                    {withHighlight(x.quote, x.highlight)}
+                  </blockquote>
+
+                  <figcaption className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-border pt-6">
+                    <div className="flex items-center gap-3">
+                      <span
+                        aria-hidden="true"
+                        className={`grid h-12 w-12 shrink-0 place-items-center rounded-full bg-gradient-to-br font-heading text-body-sm font-bold text-white ${AVATAR_TONES[i % AVATAR_TONES.length]}`}
+                      >
+                        {initials(x.name)}
+                      </span>
+                      <div>
+                        <p className="font-heading text-h4 text-foreground">{x.name}</p>
+                        <p className="text-body-sm text-muted-foreground">
+                          {x.role} · <span className="text-accent">{loc(x.project, locale)}</span>
+                        </p>
+                      </div>
+                    </div>
+
+                    {x.platform && x.url && (
+                      <a
+                        href={x.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group/v inline-flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1.5 text-[12.5px] font-medium text-foreground transition-colors duration-200 hover:border-accent/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      >
+                        <BadgeCheck className="h-4 w-4 text-emerald-500" aria-hidden="true" />
+                        {t('readOn', { platform: x.platform })}
+                        <ArrowUpRight className="h-3.5 w-3.5 text-muted-foreground transition-transform duration-200 group-hover/v:-translate-y-0.5 group-hover/v:translate-x-0.5" />
+                      </a>
+                    )}
+                  </figcaption>
+                </motion.figure>
+              );
+            })}
+          </div>
+
+          {/* Stepper: counter + arrows */}
+          <div className="relative mt-6 flex items-center justify-between">
+            <p className="font-mono text-[12px] font-semibold tabular-nums tracking-wider text-muted-foreground">
+              <span className="text-foreground">{String(active + 1).padStart(2, '0')}</span> /{' '}
+              {String(total).padStart(2, '0')}
+            </p>
+            <div className="flex gap-2">
+              <ArrowButton label={t('prev')} onClick={() => go(active - 1)}>
+                <ArrowLeft className="h-4 w-4" />
+              </ArrowButton>
+              <ArrowButton label={t('next')} onClick={() => go(active + 1)}>
+                <ArrowRight className="h-4 w-4" />
+              </ArrowButton>
+            </div>
+          </div>
         </div>
 
-        {/* Arrows — hidden on touch-first mobile, where swipe + dots lead */}
-        <motion.div variants={fadeUp} className="hidden shrink-0 items-center gap-2 sm:flex">
-          <ArrowButton
-            direction="prev"
-            label={t('prev')}
-            disabled={atStart}
-            onClick={() => scrollByCard(-1)}
-          />
-          <ArrowButton
-            direction="next"
-            label={t('next')}
-            disabled={atEnd}
-            onClick={() => scrollByCard(1)}
-          />
-        </motion.div>
-      </motion.div>
+        {/* ---------------- Reviewer switcher ---------------- */}
+        <div className="order-1 flex min-w-0 flex-col gap-4 lg:order-2">
+          {/* Proof strip */}
+          <div className="flex flex-wrap items-center gap-2 rounded-2xl border border-border bg-card px-4 py-3">
+            <span className="mr-1 text-[12px] font-medium text-muted-foreground">{t('verified')}</span>
+            {platforms.map((p) => {
+              const { Icon, color } = PLATFORM[p];
+              return (
+                <span
+                  key={p}
+                  className="inline-flex items-center gap-1.5 rounded-full bg-muted px-2.5 py-1 text-[12px] font-semibold text-foreground"
+                >
+                  <span style={{ color }}>
+                    <Icon className="h-3.5 w-3.5" />
+                  </span>
+                  {p}
+                </span>
+              );
+            })}
+          </div>
 
-      <motion.div
-        variants={fadeUp}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: '-80px' }}
-      >
-        {/* Scroll-snap track — peeking cards signal there's more to swipe */}
-        <div
-          ref={trackRef}
-          role="group"
-          aria-roledescription="carousel"
-          aria-label={t('overline')}
-          tabIndex={0}
-          className="no-scrollbar -mx-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pt-3 pb-6 focus-visible:outline-none sm:mx-0 sm:gap-5 sm:px-0"
-        >
-          {testimonials.map((item, i) => (
-            <figure
-              key={item.name}
-              data-card={i}
-              role="group"
-              aria-roledescription="slide"
-              aria-label={`${i + 1} / ${testimonials.length} — ${item.name}`}
-              className="group flex w-[86%] shrink-0 snap-center flex-col rounded-2xl border border-border bg-card p-6 transition-all duration-250 ease-out sm:w-[360px] sm:snap-start sm:p-7 sm:hover:-translate-y-1 sm:hover:border-accent/30 sm:hover:shadow-lg md:p-8"
-            >
-              <Quote className="h-8 w-8 shrink-0 text-accent/25" aria-hidden="true" />
-              <blockquote className="mt-4 flex-1 text-body text-card-foreground">
-                {item.quote}
-              </blockquote>
-              <figcaption className="mt-6 border-t border-border pt-5">
-                {/* Project context — what the engagement was about */}
-                <p className="flex items-center gap-2 text-body-sm font-medium text-accent">
-                  <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true" />
-                  {loc(item.project, locale)}
-                </p>
-                <div className="mt-3 flex items-end justify-between gap-3">
-                  <div>
-                    <p className="font-heading text-h4 text-card-foreground">{item.name}</p>
-                    <p className="text-body-sm text-muted-foreground">{item.role}</p>
-                  </div>
-                  {/* Verified source — only when the review has a public link */}
-                  {item.platform && item.url && (
-                    <a
-                      href={item.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`${item.name} ${t('via')} ${item.platform}`}
-                      className="inline-flex shrink-0 items-center gap-1 font-mono text-label text-muted-foreground transition-colors duration-150 ease-out hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card"
-                    >
-                      {t('via')} {item.platform}
-                      <ArrowUpRight className="h-3 w-3" />
-                    </a>
+          <div
+            role="tablist"
+            aria-label={t('listLabel')}
+            onKeyDown={onKeyDown}
+            className="no-scrollbar -mx-6 flex gap-2 overflow-x-auto px-6 sm:mx-0 sm:px-0 lg:flex-col lg:overflow-visible"
+          >
+            {testimonials.map((x, i) => {
+              const on = i === active;
+              const P = x.platform ? PLATFORM[x.platform] : null;
+              return (
+                <button
+                  key={x.name}
+                  ref={(el) => {
+                    tabRefs.current[i] = el;
+                  }}
+                  id={`testimonial-tab-${i}`}
+                  role="tab"
+                  type="button"
+                  aria-selected={on}
+                  aria-controls="testimonial-panel"
+                  tabIndex={on ? 0 : -1}
+                  onClick={() => go(i)}
+                  className={`group relative flex min-w-[230px] shrink-0 items-center gap-3 overflow-hidden rounded-2xl border p-3 text-left transition-[background-color,border-color,box-shadow] duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring lg:min-w-0 ${
+                    on
+                      ? 'border-accent/40 bg-accent/[0.06] shadow-sm'
+                      : 'border-border bg-card hover:border-accent/25 hover:bg-muted/50'
+                  }`}
+                >
+                  {/* active rail */}
+                  <span
+                    aria-hidden="true"
+                    className={`absolute inset-y-3 left-0 w-1 rounded-r-full bg-accent transition-transform duration-300 ease-out ${
+                      on ? 'scale-y-100' : 'scale-y-0'
+                    }`}
+                  />
+                  <span
+                    aria-hidden="true"
+                    className={`grid h-10 w-10 shrink-0 place-items-center rounded-full bg-gradient-to-br font-heading text-[12px] font-bold text-white transition-transform duration-300 ${
+                      AVATAR_TONES[i % AVATAR_TONES.length]
+                    } ${on ? 'scale-105' : 'group-hover:scale-105'}`}
+                  >
+                    {initials(x.name)}
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block truncate text-body-sm font-semibold text-foreground">{x.name}</span>
+                    <span className="block truncate text-[12px] text-muted-foreground">{loc(x.project, locale)}</span>
+                  </span>
+                  {P && (
+                    <span className="shrink-0" style={{ color: P.color }} title={x.platform}>
+                      <P.Icon className="h-4 w-4" />
+                    </span>
                   )}
-                </div>
-              </figcaption>
-            </figure>
-          ))}
-        </div>
-
-        {/* Dot indicators — mobile position affordance (one card per view maps
-            1:1 to a dot); desktop navigates with the header arrows instead. */}
-        <div className="mt-5 flex items-center justify-center gap-2 sm:hidden">
-          {testimonials.map((item, i) => (
-            <button
-              key={item.name}
-              type="button"
-              onClick={() => goTo(i)}
-              aria-label={`${item.name} — ${loc(item.project, locale)}`}
-              aria-current={i === index ? 'true' : undefined}
-              className={`h-2 rounded-full transition-all duration-250 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
-                i === index ? 'w-6 bg-accent' : 'w-2 bg-border hover:bg-muted-foreground/40'
-              }`}
-            />
-          ))}
+                </button>
+              );
+            })}
+          </div>
         </div>
       </motion.div>
     </section>
   );
 }
 
-/** Round nav button for the carousel header. */
-function ArrowButton({
-  direction,
-  label,
-  disabled,
-  onClick,
-}: {
-  direction: 'prev' | 'next';
-  label: string;
-  disabled: boolean;
-  onClick: () => void;
-}) {
-  const Icon = direction === 'prev' ? ArrowLeft : ArrowRight;
+function ArrowButton({ label, onClick, children }: { label: string; onClick: () => void; children: ReactNode }) {
   return (
     <button
       type="button"
       onClick={onClick}
-      disabled={disabled}
       aria-label={label}
-      className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border text-foreground transition-all duration-200 ease-out hover:border-accent hover:bg-accent hover:text-accent-foreground disabled:pointer-events-none disabled:opacity-35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+      className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border text-foreground transition-all duration-200 ease-out hover:border-accent hover:bg-accent-solid hover:text-accent-foreground active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card"
     >
-      <Icon className="h-4 w-4" />
+      {children}
     </button>
   );
 }

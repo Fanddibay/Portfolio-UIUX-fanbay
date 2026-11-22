@@ -12,47 +12,100 @@
   "hero": {
     "available": "Available for new projects",
     "role": "UI/UX Designer",
-    "tagline": "I design products people use — then I build them.",
-    "description": "**4 years** of full-cycle product work — research, Figma, production code. I bridge both sides: what users need and what the business must achieve. **10+ live launches** across SaaS, fintech, and web — **10+ international clients**.",
+    "tagline": "I design products people use, then I build them.",
+    "description": "**4 years** of full-cycle product work: research, Figma, production code. I bridge both sides: what users need and what the business must achieve. **10+ live launches** across SaaS, fintech, and web for **10+ international clients**.",
     "cta": "Let's work together"
+  },
+  "heroShowcase": {
+    "taglineAccent": ["design", "build"],
+    "greeting": "Hi, I'm",
+    "years": "{count}+ Years",
+    "yearsLabel": "(experience)",
+    "ctaSecondary": "View my work",
+    "toolsLabel": "Tools I work with",
+    "toolsHint": "Tap a tool to see how I use it",
+    "toolNames": {
+      "research": "Research",
+      "prd": "PRD",
+      "designSystem": "Design System"
+    },
+    "tools": {
+      "research": "Find the real problem",
+      "prd": "Requirements → screens",
+      "figma": "Design",
+      "designSystem": "Consistent at scale",
+      "claude": "AI pair",
+      "react": "Build",
+      "vue": "Build",
+      "clickup": "Plan & ship"
+    },
+    "mockLabel": "Portfolio overview",
+    "search": "Search…",
+    "mainMenu": "Main menu",
+    "overview": "Overview",
+    "profiles": "Profiles",
+    "lastSync": "Last sync",
+    "justNow": "Just now",
+    "connected": "{count} connected",
+    "hire": "Hire me",
+    "selectedWork": "Selected work",
+    "viewAll": "View all",
+    "clients": "Clients and platforms I've worked with"
   },
   "about": {
     "overline": "About",
-    "title": "Design built to survive the handoff",
-    "body": "Most handoffs lose something between Figma and code. I close that gap myself — I design in Figma and can read/build in React, Vue, and Tailwind, so what I design is what actually ships, pixel for pixel.",
+    "title": "Design built to survive the handoff.",
+    "body": "Details often get lost between Figma and code. I design in Figma and build in React, Vue, and Tailwind, so the screens that ship match the screens that were approved.",
     "designerTitle": "Design",
     "designerBody": "Research first, then wireframes, systems, and high-fidelity screens that hold up under real use.",
     "designItems": ["User research & flows", "Wireframing", "Design systems", "High-fidelity prototypes"],
     "engineerTitle": "Build",
-    "engineerBody": "Fluent enough in React, Vue, and Tailwind to hand off cleanly — or ship it myself, pixel for pixel.",
+    "engineerBody": "I write React, Vue, and Tailwind well enough to hand off clean specs or build the front end myself.",
     "buildItems": ["React & Vue", "Tailwind CSS", "Responsive & accessible", "Supabase integration"],
     "stackLabel": "Tools I work with",
     "roleTabsLabel": "Design or build",
     "systemsTitle": "Design systems from the first frame",
     "aiTitle": "Figma to code, with AI in the loop",
-    "codeTitle": "Production code, not just mockups",
+    "codeTitle": "Production code, built from the design",
     "stackTitle": "One stack, from design to deploy",
-    "motionTitle": "Motion that feels intentional"
-  },
-  "aiTools": {
-    "overline": "AI-Augmented",
-    "title": "AI is built into how I work.",
-    "body": "From research to production, AI tooling helps me iterate faster and explore more directions — so more of my time goes to the decisions that actually matter.",
-    "claudeCodeTitle": "Claude AI",
-    "claudeCodeBody": "My everyday design partner — connected to Figma through the Figma MCP, with custom skills that speed up real UI/UX work without giving up control of the details.",
-    "claudeDesignTitle": "Stitch",
-    "claudeDesignBody": "An AI design-generation tool I use to spin up layouts and visual directions fast — great for gathering references and exploring ideas before refining in Figma.",
-    "aiStudioTitle": "Google AI Studio",
-    "aiStudioBody": "Building real, working products end-to-end — like FanLearn, which I prototyped during a vibe-coding challenge.",
-    "aiStudioLinkLabel": "See the build"
+    "prdTitle": "Brief to PRD, every requirement mapped",
+    "prd": {
+      "file": "client-brief.md",
+      "reading": "Reading…",
+      "found": "{count} requirements",
+      "brief": "Charities need to see <r1>funds raised across currencies</r1>, organise <r2>hundreds of campaigns</r2>, and run <r3>group bookings without missing details</r3>.",
+      "coverage": "PRD coverage",
+      "reqs": [
+        {
+          "title": "Multi-currency analytics",
+          "screen": "Funds Raised"
+        },
+        {
+          "title": "Labels & saved views",
+          "screen": "Campaigns"
+        },
+        {
+          "title": "Missing-details tracking",
+          "screen": "Registrations"
+        }
+      ]
+    }
   },
   "experience": {
     "overline": "Experience",
     "title": "Four years, hands-on the whole way.",
-    "lead": "A track record of designing and shipping real products — backed by a proven freelance record.",
+    "lead": "Contract work on government and enterprise dashboards, plus freelance product design for international clients, with Top Rated status on Upwork.",
     "collaborateCta": "Collaborate via Upwork",
     "viewCertificate": "View certificate",
-    "skills": "Skills & tools"
+    "skills": "Skills & tools",
+    "glance": "At a glance",
+    "years": "years",
+    "yearsCaption": "designing and shipping real products",
+    "currently": "Currently",
+    "current": "Current",
+    "keyResult": "Key result",
+    "readMore": "Read more",
+    "readLess": "Show less"
   },
   "statsMarquee": {
     "aria": "Career highlights",
@@ -63,31 +116,94 @@
     "topRated": "Upwork Freelancer",
     "tags": [
       "UI/UX Design + Frontend Engineering",
-      "AI-Augmented Workflow",
+      "AI-Assisted Workflow",
       "SaaS · Dashboards · Web Apps"
     ]
   },
   "process": {
     "overline": "How I Work",
-    "title": "From problem to shipped — I stay across the whole path.",
-    "step1Title": "Research",
-    "step1Body": "Start with why: the user's problem and the business outcome, so design decisions have a reason.",
-    "step2Title": "Design",
-    "step2Body": "Wireframe, build the system, and prototype in Figma until the flow earns its place.",
-    "step3Title": "Build",
-    "step3Body": "Take it to production myself in clean, responsive, accessible code — so what ships matches the design.",
-    "step4Title": "AI-Augment",
-    "step4Body": "Use AI across the process to compress timelines while keeping the bar high."
+    "title": "From research to release.",
+    "lead": "I handle all four steps myself, from the first user interview to production code. Scroll through to see what I deliver at each one.",
+    "tablistLabel": "Process steps",
+    "stepOf": "Step {n} of {total}",
+    "deliverables": "What you get",
+    "tools": "Tools",
+    "aiHere": "AI in this step",
+    "scrollHint": "Scroll to walk through the process",
+    "steps": [
+      {
+        "label": "Discover",
+        "title": "Research",
+        "body": "I start with the user's problem and the business goal, so every design decision has a reason behind it.",
+        "deliverables": ["Stakeholder & user interviews", "Competitor analysis", "A clear problem statement"],
+        "tools": ["FigJam", "Google Forms", "Claude"],
+        "ai": "Sorting interview notes into themes takes minutes instead of days.",
+        "file": "research-board.fig"
+      },
+      {
+        "label": "Define",
+        "title": "PRD & flows",
+        "body": "Read the brief or PRD, map every requirement to a screen and its states, and agree on scope before any pixels.",
+        "deliverables": ["PRD coverage map", "User flows", "Edge-case states"],
+        "tools": ["ClickUp", "Google Docs", "FigJam"],
+        "ai": "Audit PRD coverage so no requirement slips through.",
+        "file": "group-booking.flow"
+      },
+      {
+        "label": "Design",
+        "title": "Design",
+        "body": "I wireframe the flow, build the design system, and turn it into a hi-fi Figma prototype for review.",
+        "deliverables": ["Wireframes", "Design system", "Hi-fi prototype"],
+        "tools": ["Figma", "Stitch", "Claude"],
+        "ai": "Explore more layout options early, then refine the chosen one by hand.",
+        "file": "dashboard.fig"
+      },
+      {
+        "label": "Deliver",
+        "title": "Build & ship",
+        "body": "I build the front end myself in responsive, accessible Vue or React, so the release matches the approved design.",
+        "deliverables": ["Production code (Vue / React)", "Responsive & accessible UI", "Clean developer handoff"],
+        "tools": ["React", "Vue", "Tailwind CSS", "Cursor"],
+        "ai": "AI-assisted coding speeds up the build, and I review every line before it ships.",
+        "file": "StatCard.vue"
+      }
+    ],
+    "preview": {
+      "notes": ["“I chase replies by email.”", "“Which revision is final?”", "“No proof they opened it.”", "“Files are everywhere.”"],
+      "insightLabel": "Insight",
+      "insight": "Teams can't confirm who actually read a document.",
+      "flow": ["Select event", "Add attendees", "Details complete?", "Confirm booking", "Flag & remind"],
+      "yes": "Yes",
+      "no": "No",
+      "wire": "Wireframe",
+      "hifi": "Hi-fi",
+      "stats": ["Raised", "Donors", "Campaigns"],
+      "export": "Export",
+      "build": "Build passed",
+      "deployed": "Deployed",
+      "checks": ["Responsive", "Accessible", "Matches design"]
+    }
   },
   "work": {
     "overline": "Selected Work",
     "title": "Work that starts with a problem.",
-    "lead": "How I approach each project — the problem, the method, the business behind it, and the outcome.",
+    "lead": "Client projects and one product of my own. Each page covers the problem, my process, the business context, and the result.",
     "viewProcess": "View process",
-    "protected": "Protected — shared on request",
+    "protected": "Under NDA, shared on request",
     "requestAccess": "Request access",
     "ownProduct": "My Product",
-    "liveShort": "Live"
+    "liveShort": "Live",
+    "filterLabel": "Filter projects",
+    "listLabel": "Projects",
+    "filters": {
+      "all": "All",
+      "saas": "SaaS & dashboards",
+      "mobile": "Mobile & PWA",
+      "live": "Live products"
+    },
+    "hint": "Select a project to preview it.",
+    "viewCase": "View project details",
+    "screens": "{count} screens"
   },
   "project": {
     "back": "Back to work",
@@ -101,21 +217,25 @@
     "businessProcess": "Business process",
     "goal": "Goals & outcome",
     "protectedTitle": "This work is under NDA",
-    "protectedBody": "The final visuals are protected. I can share sanitized, non-final work that shows the thinking and process — just reach out.",
+    "protectedBody": "The final visuals are under NDA. I can share sanitized drafts that show my process. Send me a message to request them.",
     "requestCta": "Contact me for more information",
     "viewExternal": "View on Behance"
   },
   "testimonials": {
     "overline": "Testimonials",
-    "title": "What people say about working with me.",
+    "title": "What clients say.",
     "via": "via",
     "prev": "Previous testimonial",
-    "next": "Next testimonial"
+    "next": "Next testimonial",
+    "lead": "Reviews from clients on Upwork, Fiverr, and LinkedIn. Each one links back to the platform it came from.",
+    "verified": "Verified on",
+    "listLabel": "Choose a review",
+    "readOn": "Read on {platform}"
   },
   "contact": {
     "overline": "Contact",
-    "title": "Let's build something worth shipping.",
-    "body": "I'm open to new projects and roles. Share a few lines about what you need — I usually reply within a day.",
+    "title": "Hiring, or have a project? Let's talk.",
+    "body": "I'm open to new roles and freelance projects. A few lines about what you need is enough to get started.",
     "nameLabel": "Name",
     "namePlaceholder": "Your name",
     "emailLabel": "Email",
@@ -124,15 +244,34 @@
     "messagePlaceholder": "Tell me about your project…",
     "send": "Send message",
     "sending": "Sending…",
-    "success": "Thanks — your message is on its way. I'll reply soon.",
+    "success": "Thanks, your message is on its way. I'll reply soon.",
     "error": "Something went wrong. Please try again or email me directly.",
-    "socials": "Find me on"
+    "socials": "Find me on",
+    "replyTime": "Usually replies within 24 hours",
+    "channels": "Reach me directly",
+    "copy": "Copy",
+    "copied": "Copied",
+    "linkedin": "Connect on LinkedIn",
+    "upwork": "Hire me on Upwork",
+    "intentLabel": "What brings you here?",
+    "intents": [
+      { "key": "hiring", "label": "Hiring for a role", "placeholder": "Role, team, remote or on-site, and your timeline…" },
+      { "key": "project", "label": "Freelance project", "placeholder": "What are you building, for whom, and by when?" },
+      { "key": "system", "label": "Design system / UX audit", "placeholder": "Your product, what feels inconsistent, and what you need…" },
+      { "key": "hello", "label": "Just saying hi", "placeholder": "Hi Fandi! …" }
+    ],
+    "emailInvalid": "Please enter a valid email address.",
+    "required": "This field is required.",
+    "successTitle": "Message sent!",
+    "successBody": "Thanks for reaching out. I'll reply within a day.",
+    "sendAnother": "Send another message",
+    "orEmail": "Prefer email? Write to"
   },
   "actions": {
     "backToTop": "Back to top"
   },
   "footer": {
-    "tagline": "UI/UX Designer who designs products people use — and builds them too.",
+    "tagline": "UI/UX designer who designs products and builds the front end.",
     "location": "Based in Indonesia · Remote-friendly",
     "emailLabel": "Email me",
     "rights": "All rights reserved.",
@@ -146,6 +285,13 @@
     "copyEmail": "Copy email address",
     "copied": "Copied"
   },
+  "notFound": {
+    "overline": "Error 404",
+    "title": "Page not found",
+    "body": "This page doesn't exist or has moved.",
+    "cta": "Back to home",
+    "secondary": "View my work"
+  },
   "preloader": {
     "loading": "Loading portfolio",
     "opening": "Opening portfolio.fig",
@@ -157,7 +303,7 @@
   "resume": {
     "trigger": "Download Resume",
     "title": "Download Resume",
-    "subtitle": "Available in two languages — pick the one you need.",
+    "subtitle": "Available in English and Bahasa Indonesia.",
     "optionIdLabel": "Bahasa Indonesia",
     "optionIdMeta": "PDF · 94 KB",
     "optionEnLabel": "English",

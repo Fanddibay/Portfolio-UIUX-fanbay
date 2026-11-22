@@ -32,7 +32,7 @@ export function CollaborateButton({
       {/* Mobile: simple labelled pill — text + icon */}
       <a
         href={href}
-        className={`inline-flex h-9 items-center gap-1 rounded-full bg-accent px-3 font-body text-xs font-medium text-accent-foreground transition-[filter] duration-200 ease-out hover:brightness-110 sm:hidden ${focus}`}
+        className={`inline-flex h-9 items-center gap-1 rounded-full bg-accent-solid px-3 font-body text-xs font-medium text-accent-foreground transition-[filter] duration-200 ease-out hover:brightness-110 sm:hidden ${focus}`}
       >
         <span className="whitespace-nowrap">{label}</span>
         <ArrowUpRight size={14} className="shrink-0" aria-hidden="true" />
@@ -41,7 +41,7 @@ export function CollaborateButton({
       {/* Desktop: animated pill with a sliding, rotating arrow badge */}
       <a
         href={href}
-        className={`group relative hidden h-10 items-center overflow-hidden rounded-full bg-accent font-body text-body-sm font-medium text-accent-foreground ps-6 pe-12 transition-all duration-500 ease-out hover:ps-12 hover:pe-6 sm:inline-flex ${focus} ${className}`}
+        className={`group relative hidden h-10 items-center overflow-hidden rounded-full bg-accent-solid font-body text-body-sm font-medium text-accent-foreground ps-6 pe-12 transition-all duration-500 ease-out hover:ps-12 hover:pe-6 sm:inline-flex ${focus} ${className}`}
       >
         <span className="relative z-10 whitespace-nowrap">{label}</span>
         <span

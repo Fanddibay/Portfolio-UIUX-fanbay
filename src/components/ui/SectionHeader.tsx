@@ -19,8 +19,10 @@ export function SectionHeader({
   lead?: string;
   /**
    * `split` places the lead to the right of the title on desktop (About-style,
-   * bottom-aligned) instead of stacked below — fills the width and removes the
-   * large right-side gap. Falls back to a stack on mobile.
+   * bottom-aligned) instead of stacked below. Columns are 7:5 so the display
+   * title gets the room to settle on two lines and the lead sits at a
+   * comfortable ~55-character measure. Stacks below `lg`, where a 2-column
+   * split would squeeze a 56px title into a ~380px column.
    */
   split?: boolean;
 }) {
@@ -37,12 +39,12 @@ export function SectionHeader({
       </motion.p>
 
       {split ? (
-        <div className="grid gap-x-16 gap-y-4 md:grid-cols-2 md:items-end">
-          <motion.h2 variants={fadeUp} className="font-heading text-h2 md:text-h1 text-foreground">
+        <div className="grid gap-x-12 gap-y-4 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:items-end">
+          <motion.h2 variants={fadeUp} className="text-balance font-heading text-h2 text-foreground md:text-h1">
             {title}
           </motion.h2>
           {lead && (
-            <motion.p variants={fadeUp} className="text-body-lg text-muted-foreground">
+            <motion.p variants={fadeUp} className="max-w-2xl text-pretty text-body-lg text-muted-foreground lg:max-w-none">
               {lead}
             </motion.p>
           )}

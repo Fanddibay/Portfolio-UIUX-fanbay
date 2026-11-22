@@ -9,8 +9,8 @@ import { SITE } from '@/lib/data';
 
 /** The two résumé variants — file paths live in SITE.resume (lib/data.ts). */
 const OPTIONS = [
-  { code: 'ID', href: () => SITE.resume.id, descKey: 'optionId', file: 'CV Fandi Bayu — Bahasa Indonesia.pdf' },
-  { code: 'EN', href: () => SITE.resume.en, descKey: 'optionEn', file: 'CV Fandi Bayu — English.pdf' },
+  { code: 'ID', href: () => SITE.resume.id, descKey: 'optionId', file: 'CV Fandi Bayu (Bahasa Indonesia).pdf' },
+  { code: 'EN', href: () => SITE.resume.en, descKey: 'optionEn', file: 'CV Fandi Bayu (English).pdf' },
 ] as const;
 
 /**

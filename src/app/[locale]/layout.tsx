@@ -7,6 +7,8 @@ import { Plus_Jakarta_Sans, Open_Sans } from 'next/font/google';
 import { routing } from '@/i18n/routing';
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import { ScrollProgress } from '@/components/layout/ScrollProgress';
+import { PauseOffscreenAnimations } from '@/components/layout/PauseOffscreenAnimations';
+import { Analytics } from '@/components/layout/Analytics';
 import { BackToTop } from '@/components/ui/BackToTop';
 import { Preloader } from '@/components/layout/Preloader';
 import { PRELOADER_KEY } from '@/lib/preloader';
@@ -20,7 +22,6 @@ import {
   localePath,
   personJsonLd,
   websiteJsonLd,
-  profilePageJsonLd,
   jsonLdString,
 } from '@/lib/seo';
 import '../globals.css';
@@ -82,12 +83,12 @@ export async function generateMetadata({
     openGraph: {
       type: 'website',
       url: localePath(locale),
-      siteName: `${SITE.name} — UI/UX Designer & Engineer`,
+      siteName: `${SITE.name} | UI/UX Designer & Engineer`,
       title: TITLE_DEFAULT,
       description,
       locale: locale === 'id' ? 'id_ID' : 'en_US',
       alternateLocale: locale === 'id' ? 'en_US' : 'id_ID',
-      images: [{ url: '/og.png', width: 1200, height: 630, alt: `${SITE.name} — UI/UX Designer & Engineer` }],
+      images: [{ url: '/og.png', width: 1200, height: 630, alt: `${SITE.name}, UI/UX Designer & Engineer` }],
     },
     twitter: {
       card: 'summary_large_image',
@@ -96,6 +97,10 @@ export async function generateMetadata({
       images: ['/og.png'],
     },
     robots: { index: true, follow: true },
+    // Google Search Console ownership (HTML tag method), if provided.
+    ...(process.env.NEXT_PUBLIC_GSC_VERIFICATION && {
+      verification: { google: process.env.NEXT_PUBLIC_GSC_VERIFICATION },
+    }),
   };
 }
 
@@ -154,18 +159,16 @@ export default async function LocaleLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: jsonLdString(websiteJsonLd()) }}
         />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: jsonLdString(profilePageJsonLd(locale)) }}
-        />
         <ThemeProvider>
           <NextIntlClientProvider messages={messages}>
             <Preloader />
             <ScrollProgress />
+            <PauseOffscreenAnimations />
             {children}
             <BackToTop />
           </NextIntlClientProvider>
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );

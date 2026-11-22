@@ -6,17 +6,21 @@ import { MobileTabBar } from '@/components/layout/MobileTabBar';
 import { Hero } from '@/components/sections/Hero';
 import { StatsMarquee } from '@/components/sections/StatsMarquee';
 import { About } from '@/components/sections/About';
-import { AITools } from '@/components/sections/AITools';
 import { Process } from '@/components/sections/Process';
 import { Work } from '@/components/sections/Work';
 import { Experience } from '@/components/sections/Experience';
 import { Testimonials } from '@/components/sections/Testimonials';
 import { Contact } from '@/components/sections/Contact';
+import { homeJsonLd, jsonLdString } from '@/lib/seo';
 
 /**
- * Home — single-page portfolio. Sections are ordered to lead with visual
- * impact (Hero → Work) while keeping depth (Process, Case Studies) available
- * for the hiring-manager audience (see DESIGN.md §9).
+ * Home — single-page portfolio. Order: Hero → Experience → About → Work, so
+ * credibility (track record) and the designer-engineer story land before the
+ * case studies; Process, Testimonials and Contact follow. (The standalone AI
+ * Tools section was removed — AI now shows up in context: the hero orbit, the
+ * About "Figma to code, with AI" card, and the case studies.) Nav menus
+ * (Navbar, Footer, MobileTabBar, hero mockup sidebar) list sections in this
+ * same order.
  */
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -24,15 +28,19 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
 
   return (
     <>
+      {/* ProfilePage + projects ItemList (home only; Person/WebSite live in the layout) */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdString(homeJsonLd(locale)) }}
+      />
       <Navbar />
       <main>
         <Hero />
         <StatsMarquee />
-        <Work />
-        <About />
         <Experience />
+        <About />
+        <Work />
         <Process />
-        <AITools />
         <Testimonials />
         <Contact />
       </main>

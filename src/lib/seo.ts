@@ -4,10 +4,17 @@
  * CreativeWork). Consumed by [locale]/layout.tsx, work/[slug]/page.tsx,
  * sitemap.ts, robots.ts, and manifest.ts so nothing drifts out of sync.
  */
-import { SITE, socials, upwork, experience, type Project } from '@/lib/data';
+import { SITE, socials, upwork, experience, projects, type Project } from '@/lib/data';
 import { loc } from '@/lib/data';
 
 export const BASE_URL = 'https://fandibayu.com';
+
+/**
+ * Last real content update (ISO date). Feeds sitemap <lastmod> and
+ * ProfilePage.dateModified. Bump it when copy/projects change: a lastmod that
+ * moves on every build without content changes teaches Google to ignore it.
+ */
+export const CONTENT_UPDATED = '2026-11-23';
 
 /** `en` is unprefixed (localePrefix: 'as-needed'); `id` lives under /id. */
 export function localePath(locale: string, path = ''): string {
@@ -44,13 +51,23 @@ export const KEYWORDS = [
   'Fandi Bayu',
 ];
 
+/** Meta descriptions: ≤160 characters so Google shows them whole. */
 export const DESCRIPTIONS = {
-  en:
-    'Fandi Bayu is a UI/UX Designer & Engineer from Jakarta, Indonesia with 4+ years of experience — designing SaaS dashboards, web apps, and design systems in Figma, then building them in production code (Vue, React, Tailwind CSS). Top Rated on Upwork with 2,400+ hours for 13 international clients.',
-  id: 'Fandi Bayu adalah UI/UX Designer & Engineer dari Jakarta, Indonesia dengan 4+ tahun pengalaman — mendesain dashboard SaaS, web app, dan design system di Figma, lalu membangunnya menjadi kode produksi (Vue, React, Tailwind CSS). Top Rated di Upwork dengan 2.400+ jam untuk 13 klien mancanegara.',
+  en: 'UI/UX Designer & Engineer in Jakarta. 4+ years designing SaaS dashboards and web apps in Figma, then building them in Vue and React. Top Rated on Upwork.',
+  id: 'UI/UX Designer & Engineer di Jakarta. 4+ tahun mendesain dashboard SaaS dan web app di Figma, lalu membangunnya dengan Vue dan React. Top Rated di Upwork.',
 } as const;
 
-export const TITLE_DEFAULT = `${SITE.name} — UI/UX Designer & Engineer · SaaS Dashboard & Web Design`;
+/**
+ * Longer, fact-dense bio for structured data and llms.txt. AI answer engines
+ * quote passages like this, so it states who, where, what, and proof points.
+ */
+export const BIO = {
+  en: 'Fandi Bayu is a UI/UX Designer & Engineer from Jakarta, Indonesia with 4+ years of experience designing SaaS dashboards, web apps, and design systems in Figma, then building them in production code (Vue, React, Tailwind CSS). Top Rated on Upwork with 2,400+ hours for 13 international clients.',
+  id: 'Fandi Bayu adalah UI/UX Designer & Engineer dari Jakarta, Indonesia dengan 4+ tahun pengalaman mendesain dashboard SaaS, web app, dan design system di Figma, lalu membangunnya menjadi kode produksi (Vue, React, Tailwind CSS). Top Rated di Upwork dengan 2.400+ jam untuk 13 klien mancanegara.',
+} as const;
+
+/** ≤60 characters so the full title shows in search results. */
+export const TITLE_DEFAULT = `${SITE.name} | UI/UX Designer & Engineer for SaaS Dashboards`;
 
 /* ------------------------------------------------------------------ */
 /* JSON-LD builders                                                    */
@@ -69,7 +86,7 @@ export function personJsonLd() {
     name: 'Fandi Bayu Anggoro Sakti',
     alternateName: SITE.name,
     jobTitle: 'UI/UX Designer & UI/UX Engineer',
-    description: DESCRIPTIONS.en,
+    description: BIO.en,
     url: BASE_URL,
     image: `${BASE_URL}/profile.webp`,
     email: `mailto:${SITE.email}`,
@@ -102,20 +119,50 @@ export function websiteJsonLd() {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     '@id': `${BASE_URL}/#website`,
-    name: `${SITE.name} — UI/UX Designer & Engineer Portfolio`,
+    name: `${SITE.name} | UI/UX Designer & Engineer Portfolio`,
     url: BASE_URL,
     inLanguage: ['en', 'id'],
     author: { '@id': `${BASE_URL}/#person` },
   };
 }
 
-/** ProfilePage wrapper for the home page (Google's profile-page rich result type). */
-export function profilePageJsonLd(locale: string) {
+/**
+ * Home page only (not the layout): ProfilePage marks the page as Fandi's
+ * profile, and an ItemList of the projects lets search and AI engines read the
+ * portfolio as data (name, type, URL) instead of guessing from the UI. One
+ * @graph so the references resolve inside the same block.
+ */
+export function homeJsonLd(locale: string) {
+  const url = localePath(locale);
   return {
     '@context': 'https://schema.org',
-    '@type': 'ProfilePage',
-    inLanguage: locale,
-    mainEntity: { '@id': `${BASE_URL}/#person` },
+    '@graph': [
+      {
+        '@type': 'ProfilePage',
+        '@id': `${url}#profilepage`,
+        url,
+        name: TITLE_DEFAULT,
+        description: locale === 'id' ? DESCRIPTIONS.id : DESCRIPTIONS.en,
+        inLanguage: locale,
+        dateModified: CONTENT_UPDATED,
+        isPartOf: { '@id': `${BASE_URL}/#website` },
+        mainEntity: { '@id': `${BASE_URL}/#person` },
+        hasPart: { '@id': `${url}#projects` },
+      },
+      {
+        '@type': 'ItemList',
+        '@id': `${url}#projects`,
+        name: locale === 'id' ? 'Proyek pilihan' : 'Selected projects',
+        numberOfItems: projects.length,
+        itemListElement: projects.map((p, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          url: localePath(locale, `/work/${p.slug}`),
+          name: p.title,
+          description: loc(p.impact ?? p.summary, locale),
+        })),
+      },
+    ],
   };
 }
 

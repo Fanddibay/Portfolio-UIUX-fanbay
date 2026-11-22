@@ -39,7 +39,7 @@ export function ProjectGallery({ images, title, isProtected, live }: Props) {
         <Image
           key={images[index]}
           src={images[index]}
-          alt={`${title} — screen ${index + 1} of ${images.length}`}
+          alt={`${title}, screen ${index + 1} of ${images.length}`}
           fill
           priority
           sizes="(max-width: 768px) 100vw, 900px"
@@ -50,7 +50,7 @@ export function ProjectGallery({ images, title, isProtected, live }: Props) {
         <button
           type="button"
           onClick={() => setOpen(true)}
-          aria-label={`Enlarge image — ${title}`}
+          aria-label={`View larger image of ${title}`}
           className="absolute inset-0 z-10 cursor-zoom-in focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         />
 
@@ -242,7 +242,7 @@ function Lightbox({
           ref={dialogRef}
           role="dialog"
           aria-modal="true"
-          aria-label={`${title} — image viewer`}
+          aria-label={`${title} image viewer`}
           onKeyDown={onKeyDown}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -289,7 +289,7 @@ function Lightbox({
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={images[index]}
-                alt={`${title} — screen ${index + 1} of ${images.length}`}
+                alt={`${title}, screen ${index + 1} of ${images.length}`}
                 className="max-h-[82vh] w-auto max-w-full rounded-xl border border-border bg-card shadow-2xl"
               />
 

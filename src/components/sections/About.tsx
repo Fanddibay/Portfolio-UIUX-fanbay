@@ -7,9 +7,9 @@ import { stack } from '@/lib/data';
 import {
   AiOrbit,
   BentoCard,
+  BriefToPrd,
   CardTitle,
   CodeWindow,
-  EasingDemo,
   RoleTabs,
   StackBelt,
   SystemsGrid,
@@ -21,7 +21,7 @@ import {
  *
  * Intro (heading left, body right) is unchanged. Below it, six cards each prove
  * one skill: design systems, design ↔ build (tabs), Figma + AI, production code
- * (Vue/React), the stack, and motion. The plain-text tool row stays at the end
+ * (Vue/React), the stack, and reading a brief into a traceable PRD. The plain-text tool row stays at the end
  * because recruiters scan text faster than animated logos.
  *
  * Grid: 1 col on mobile and 2 cols on tablet — the Design/Build card (the core
@@ -47,12 +47,12 @@ export function About() {
           {t('overline')}
         </motion.p>
 
-        {/* Intro — heading left, body right (fills the full width) */}
-        <div className="grid gap-x-16 gap-y-5 md:grid-cols-2 md:items-end">
-          <motion.h2 variants={fadeUp} className="font-heading text-h2 text-foreground md:text-h1">
+        {/* Intro — heading left, body right; same 7:5 split as SectionHeader */}
+        <div className="grid gap-x-12 gap-y-5 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:items-end">
+          <motion.h2 variants={fadeUp} className="text-balance font-heading text-h2 text-foreground md:text-h1">
             {t('title')}
           </motion.h2>
-          <motion.p variants={fadeUp} className="text-body-lg text-muted-foreground">
+          <motion.p variants={fadeUp} className="max-w-2xl text-pretty text-body-lg text-muted-foreground lg:max-w-none">
             {t('body')}
           </motion.p>
         </div>
@@ -87,8 +87,8 @@ export function About() {
             </BentoCard>
 
             <BentoCard className="min-h-[264px] pt-6 md:col-span-2 lg:col-span-1">
-              <CardTitle>{t('motionTitle')}</CardTitle>
-              <EasingDemo />
+              <CardTitle>{t('prdTitle')}</CardTitle>
+              <BriefToPrd />
             </BentoCard>
           </div>
         </div>

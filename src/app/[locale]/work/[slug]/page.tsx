@@ -44,9 +44,13 @@ export async function generateMetadata({
   const project = projects.find((p) => p.slug === slug);
   if (!project) return {};
 
-  const title = `${project.title} — ${project.category} Case Study`;
+  // Real shipped/client work — framed as a project, not a "case study".
+  const title = `${project.title} (${project.category})`;
   const description = loc(project.summary, locale);
   const path = `/work/${slug}`;
+  // 1200×630 JPG share card per project (public/og/<slug>.jpg, generated from
+  // the cover). JPG, not WebP: LinkedIn and some chat apps don't render WebP.
+  const ogImage = `${BASE_URL}/og/${slug}.jpg`;
 
   return {
     title,
@@ -61,13 +65,13 @@ export async function generateMetadata({
       title,
       description,
       locale: locale === 'id' ? 'id_ID' : 'en_US',
-      images: [{ url: `${BASE_URL}${project.image}`, width: 1200, height: 675, alt: project.title }],
+      images: [{ url: ogImage, width: 1200, height: 630, alt: project.title }],
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
-      images: [`${BASE_URL}${project.image}`],
+      images: [ogImage],
     },
   };
 }
@@ -216,7 +220,7 @@ export default async function CaseStudyPage({
               protectedTitle={t('protectedTitle')}
               protectedBody={t('protectedBody')}
               requestCta={t('requestCta')}
-              mailto={`mailto:${SITE.email}?subject=More information — ${project.title}`}
+              mailto={`mailto:${SITE.email}?subject=Question about ${project.title}`}
             />
           </>
         ) : (

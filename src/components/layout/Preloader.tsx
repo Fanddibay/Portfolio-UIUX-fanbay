@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 import { Code2 } from "lucide-react";
 import { FigmaMark, FIGMA_PIECES } from "@/components/ui/FigmaMark";
 import { SITE } from "@/lib/data";
-import { PRELOADER_KEY } from "@/lib/preloader";
+import { PRELOADER_EXIT_EVENT, PRELOADER_KEY } from "@/lib/preloader";
 
 /**
  * First-visit preloader — tells the story of the job in ~3 seconds:
@@ -112,7 +112,12 @@ export function Preloader() {
 
   // Decide on mount (the SSR markup is identical either way; CSS hides it when "off").
   useEffect(() => {
-    if (document.documentElement.dataset.preloader === "off") {
+    // Skipped for this session / reduced motion, or on the 404 page (which
+    // shouldn't consume the once-per-session intro either).
+    if (
+      document.documentElement.dataset.preloader === "off" ||
+      document.querySelector("[data-not-found]")
+    ) {
       setGone(true);
       return;
     }
@@ -145,6 +150,9 @@ export function Preloader() {
     } catch {
       // storage blocked (private mode) — it simply plays again next visit
     }
+    // Tell the hero the curtain is lifting so its entrance plays in view.
+    document.documentElement.dataset.intro = "ready";
+    window.dispatchEvent(new Event(PRELOADER_EXIT_EVENT));
     setVisible(false);
   }
 
@@ -450,7 +458,7 @@ function FigmaCanvas({ ms, opening }: { ms: number; opening: string }) {
           animate={framed ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.3 }}
         >
-          # Hero — Desktop
+          # Hero / Desktop
         </motion.p>
 
         <motion.div
@@ -516,7 +524,7 @@ function FigmaCanvas({ ms, opening }: { ms: number; opening: string }) {
             ◇ Button / Primary
           </span>
           <span
-            className="absolute left-1/2 top-full mt-2 -translate-x-1/2 whitespace-nowrap rounded bg-accent px-1.5 py-0.5 text-[9px] font-medium text-white"
+            className="absolute left-1/2 top-full mt-2 -translate-x-1/2 whitespace-nowrap rounded bg-accent-solid px-1.5 py-0.5 text-[9px] font-medium text-white"
             style={{ fontFamily: MONO }}
           >
             132 × 44
@@ -554,7 +562,7 @@ function FigmaCanvas({ ms, opening }: { ms: number; opening: string }) {
               strokeLinejoin="round"
             />
           </svg>
-          <span className="absolute left-3 top-4 whitespace-nowrap rounded-full bg-accent px-2 py-0.5 text-[10px] font-semibold text-white">
+          <span className="absolute left-3 top-4 whitespace-nowrap rounded-full bg-accent-solid px-2 py-0.5 text-[10px] font-semibold text-white">
             Fandi
           </span>
         </motion.div>

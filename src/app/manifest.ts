@@ -2,10 +2,10 @@ import type { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Fandi Bayu — UI/UX Designer & Engineer',
+    name: 'Fandi Bayu | UI/UX Designer & Engineer',
     short_name: 'Fandi Bayu',
     description:
-      'Portfolio of Fandi Bayu — UI/UX Designer & Engineer specializing in SaaS dashboards, web apps, and design systems.',
+      'Portfolio of Fandi Bayu, a UI/UX Designer & Engineer specializing in SaaS dashboards, web apps, and design systems.',
     start_url: '/',
     display: 'standalone',
     background_color: '#FAFAFA',

@@ -1,28 +1,19 @@
 /**
- * Contact form transport — Google Apps Script + Google Sheets.
+ * Contact form transport — Google Apps Script → Google Sheets (sheet only).
  *
- * The form POSTs to a Google Apps Script Web App that appends a row to a
- * Google Sheet AND emails a notification to Fandi (see the deployment steps
- * below). Set the deployed `/exec` URL in `NEXT_PUBLIC_CONTACT_ENDPOINT`.
+ * The form POSTs to a Google Apps Script Web App that inserts the message as a
+ * new row in the "Contact Fandi" spreadsheet (Inbox tab, newest first). No
+ * email is sent. The deployed `/exec` URL lives in `NEXT_PUBLIC_CONTACT_ENDPOINT`.
  *
  * Apps Script Web Apps don't return CORS headers we can control, so we send a
  * "simple" request (URLSearchParams → application/x-www-form-urlencoded) with
  * `mode: 'no-cors'`. That avoids a CORS preflight the script can't answer. The
- * trade-off: the response is opaque, so we can't read a status — a fetch that
- * doesn't throw is treated as sent. For Fandi, the notification email is the
- * real delivery confirmation.
+ * trade-off: the response is opaque, so a fetch that doesn't throw is treated
+ * as sent. The new row in the sheet is the delivery confirmation.
  *
- * ── Google Apps Script (already deployed in Fandi's account) ──────────────
- * The canonical script lives in the Apps Script project attached to the
- * "Email Feedback Fandi" spreadsheet. It opens the sheet BY ID (so it never
- * writes to the wrong file), appends to the "Messages" tab, styles rows, and
- * emails a notification with replyTo set to the sender.
- *
- * After editing the script code, ALWAYS redeploy:
- *   Deploy → Manage deployments → ✏️ Edit → Version: New version → Deploy.
- * The /exec URL stays the same; without a new version the old code keeps
- * running. Run `formatSheet()` once from the editor to (re)apply styling.
- * ──────────────────────────────────────────────────────────────────────────
+ * Script source + setup steps: scripts/contact-apps-script.gs. After editing
+ * the script, ALWAYS redeploy (Deploy → Manage deployments → ✏️ Edit →
+ * Version: New version → Deploy); the /exec URL stays the same.
  */
 
 const endpoint = process.env.NEXT_PUBLIC_CONTACT_ENDPOINT;
@@ -30,7 +21,17 @@ const endpoint = process.env.NEXT_PUBLIC_CONTACT_ENDPOINT;
 /** True when the Apps Script endpoint is set — lets the form fall back to mailto if not. */
 export const isContactConfigured = Boolean(endpoint);
 
-export type ContactPayload = { name: string; email: string; message: string };
+export type ContactPayload = {
+  name: string;
+  email: string;
+  message: string;
+  /** Intent key from the form chips: hiring | project | system | hello. */
+  intent: string;
+  /** Site language the visitor used (en | id). */
+  locale: string;
+  /** Path the form was sent from, e.g. "/" or "/id". */
+  page: string;
+};
 
 /**
  * Send a contact submission to the Apps Script endpoint.
@@ -40,11 +41,6 @@ export type ContactPayload = { name: string; email: string; message: string };
 export async function sendContactMessage(payload: ContactPayload): Promise<void> {
   if (!endpoint) throw new Error('Contact endpoint is not configured');
 
-  const body = new URLSearchParams({
-    name: payload.name,
-    email: payload.email,
-    message: payload.message,
-  });
-
+  const body = new URLSearchParams(payload);
   await fetch(endpoint, { method: 'POST', mode: 'no-cors', body });
 }

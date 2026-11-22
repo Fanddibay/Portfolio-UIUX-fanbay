@@ -10,7 +10,8 @@ import {
   type ReactNode,
 } from 'react';
 import { motion, AnimatePresence, useInView, useReducedMotion } from 'framer-motion';
-import { Check, Code2, Component, Palette, Sparkle } from 'lucide-react';
+import { ArrowRight, Check, Code2, Component, FileText, Palette, Sparkle } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import {
   IconBrandFigma,
   IconBrandNextjs,
@@ -191,7 +192,7 @@ export function RoleTabs({ roles, label }: { roles: Role[]; label: string }) {
                 <motion.span
                   layoutId="about-role-pill"
                   transition={reduce ? { duration: 0 } : { type: 'spring', stiffness: 500, damping: 38 }}
-                  className="absolute inset-0 rounded-full bg-accent"
+                  className="absolute inset-0 rounded-full bg-accent-solid"
                 />
               )}
               <span className="relative">{r.title}</span>
@@ -325,10 +326,10 @@ type Token = [text: string, className?: string];
 const S = {
   kw: 'text-violet-600 dark:text-violet-400',
   fn: 'text-accent',
-  tag: 'text-rose-600 dark:text-rose-400',
-  attr: 'text-amber-600 dark:text-amber-400',
-  str: 'text-emerald-600 dark:text-emerald-400',
-  expr: 'text-sky-600 dark:text-sky-400',
+  tag: 'text-rose-700 dark:text-rose-400',
+  attr: 'text-amber-700 dark:text-amber-400',
+  str: 'text-emerald-700 dark:text-emerald-400',
+  expr: 'text-sky-700 dark:text-sky-400',
 };
 
 const FILES: Record<'vue' | 'react', { name: string; lines: Token[][] }> = {
@@ -508,55 +509,217 @@ export function StackBelt() {
 }
 
 /* ------------------------------------------------------------------ */
-/* Card 6 — Motion: linear vs. the site's easing, side by side          */
+/* Card 6 — Brief → PRD: read the brief, extract requirements, map them */
 /* ------------------------------------------------------------------ */
 
-export function EasingDemo() {
+/**
+ * One hue per requirement, shared by its brief highlight, its PRD chip and its
+ * coverage segment — colour is the thread that traces phrase → requirement.
+ * (Tailwind amber-400 / sky-400 / violet-400 as rgb channels.)
+ */
+const REQ_HUES = [
+  { rgb: '251 191 36', chip: 'bg-amber-400/15 text-amber-700 dark:text-amber-300', bar: 'bg-amber-400' },
+  { rgb: '56 189 248', chip: 'bg-sky-400/15 text-sky-700 dark:text-sky-300', bar: 'bg-sky-400' },
+  { rgb: '167 139 250', chip: 'bg-violet-400/15 text-violet-700 dark:text-violet-300', bar: 'bg-violet-400' },
+];
+
+type Req = { title: string; screen: string };
+
+/**
+ * Loop (in view only): a highlighter sweeps each key phrase of a client brief,
+ * and every highlighted phrase becomes a PRD requirement mapped to a screen,
+ * filling the coverage bar to 3/3. Hover the card to explore the finished map —
+ * hovering a requirement lights up the phrase it came from (and vice versa):
+ * every screen stays traceable to the brief. Reduced motion → static, complete.
+ */
+export function BriefToPrd() {
+  const t = useTranslations('about.prd');
+  const reqs = t.raw('reqs') as Req[];
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { margin: '-40px' });
+  const reduce = useReducedMotion();
 
-  const tracks = [
-    { label: 'linear', cls: 'ease-ball--linear', color: 'bg-muted-foreground/60' },
-    { label: 'ease-out-expo', cls: 'ease-ball--spring', color: 'bg-accent' },
-  ];
+  // step = how many requirements have been extracted (0 … 3)
+  const [step, setStep] = useState(0);
+  const [exploring, setExploring] = useState(false);
+  const [focus, setFocus] = useState<number | null>(null);
+  const done = step >= reqs.length;
+
+  useEffect(() => {
+    if (reduce) {
+      setStep(reqs.length);
+      return;
+    }
+    if (!inView || exploring) return;
+    // beat: brief rests → 3 extractions → hold the finished map → reset
+    const wait = step === 0 ? 800 : step < reqs.length ? 1150 : 3200;
+    const id = setTimeout(() => setStep((s) => (s >= reqs.length ? 0 : s + 1)), wait);
+    return () => clearTimeout(id);
+  }, [step, inView, exploring, reduce, reqs.length]);
+
+  const marked = (i: number) => step > i;
+  const dimmed = (i: number) => focus !== null && focus !== i;
+
+  /** Highlighter: a gradient whose width animates 0 → 100%. With the default
+   * box-decoration-break (slice) it sweeps line by line, like a real marker.
+   * A plain render helper (not a component) so the <span> stays the same DOM
+   * node between steps and the CSS transition actually runs. */
+  const mark = (i: number, children: ReactNode) => {
+    const on = marked(i);
+    const strong = focus === i;
+    return (
+      <span
+        key={i}
+        onPointerEnter={() => on && setFocus(i)}
+        onPointerLeave={() => setFocus(null)}
+        className="rounded-[3px] transition-[background-size,opacity,color] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
+        style={{
+          backgroundImage: `linear-gradient(rgb(${REQ_HUES[i].rgb} / ${strong ? 0.5 : 0.32}), rgb(${REQ_HUES[i].rgb} / ${strong ? 0.5 : 0.32}))`,
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: '0 88%',
+          backgroundSize: `${on ? 100 : 0}% ${strong ? 100 : 62}%`,
+          color: on ? 'rgb(var(--foreground))' : undefined,
+          opacity: dimmed(i) ? 0.45 : 1,
+        }}
+      >
+        {children}
+      </span>
+    );
+  };
 
   return (
     <div
       ref={ref}
       aria-hidden="true"
-      className={`relative flex flex-1 flex-col justify-center gap-4 px-6 pb-7 pt-2 ${inView ? '' : 'is-paused'}`}
+      onPointerEnter={() => {
+        setExploring(true);
+        setStep(reqs.length); // fast-forward: show the whole map to explore
+      }}
+      onPointerLeave={() => {
+        setExploring(false);
+        setFocus(null);
+      }}
+      className="relative grid flex-1 content-center gap-2.5 px-5 pb-5 pt-3 md:grid-cols-2 md:items-center lg:grid-cols-1"
     >
-      {/* The curve itself: dashed = linear, accent = cubic-bezier(0.16, 1, 0.3, 1) */}
-      <svg viewBox="0 0 100 60" className="mx-auto h-20 w-36 overflow-visible">
-        <path d="M0 60 H100 M0 60 V0" fill="none" vectorEffect="non-scaling-stroke" className="stroke-border" />
-        <path
-          d="M0 60 L100 0"
-          fill="none"
-          strokeDasharray="2 3"
-          vectorEffect="non-scaling-stroke"
-          className="stroke-muted-foreground/50"
-        />
-        <motion.path
-          d="M0 60 C16 0 30 0 100 0"
-          fill="none"
-          strokeWidth={2}
-          strokeLinecap="round"
-          vectorEffect="non-scaling-stroke"
-          className="stroke-accent"
-          initial={{ pathLength: 0 }}
-          animate={inView ? { pathLength: 1 } : undefined}
-          transition={{ duration: 1.2, ease: EASE }}
-        />
-      </svg>
-
-      {tracks.map((t) => (
-        <div key={t.label}>
-          <span className="font-mono text-label text-muted-foreground">{t.label}</span>
-          <div className="relative mt-1.5 h-3.5 rounded-full bg-muted">
-            <span className={`ease-ball ${t.cls} absolute left-0 top-0 size-3.5 rounded-full ${t.color}`} />
-          </div>
+      {/* --- The brief --- */}
+      <div className="rounded-xl border border-border bg-muted/40 p-3">
+        <div className="flex items-center justify-between gap-2">
+          <span className="flex items-center gap-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
+            <FileText className="h-3 w-3" />
+            {t('file')}
+          </span>
+          <AnimatePresence mode="popLayout" initial={false}>
+            {done ? (
+              <motion.span
+                key="found"
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -6, transition: { duration: 0.2, ease: 'easeIn' } }}
+                transition={{ duration: 0.35, ease: EASE }}
+                className="flex items-center gap-1 text-[10.5px] font-medium text-emerald-700 dark:text-emerald-400"
+              >
+                <Check className="h-3 w-3" strokeWidth={3} />
+                {t('found', { count: reqs.length })}
+              </motion.span>
+            ) : (
+              <motion.span
+                key="reading"
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -6, transition: { duration: 0.2, ease: 'easeIn' } }}
+                transition={{ duration: 0.35, ease: EASE }}
+                className="flex items-center gap-1.5 text-[10.5px] text-muted-foreground"
+              >
+                <span className="h-1.5 w-1.5 rounded-full bg-accent motion-safe:animate-pulse" />
+                {t('reading')}
+              </motion.span>
+            )}
+          </AnimatePresence>
         </div>
-      ))}
+        <p className="mt-1.5 text-[12px] leading-[1.6] text-muted-foreground">
+          {t.rich('brief', {
+            r1: (c) => mark(0, c),
+            r2: (c) => mark(1, c),
+            r3: (c) => mark(2, c),
+          })}
+        </p>
+      </div>
+
+      {/* --- The PRD it becomes --- */}
+      <div>
+        <div className="flex items-center gap-2 px-0.5">
+          <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
+            {t('coverage')}
+          </span>
+          <span className="flex flex-1 gap-1">
+            {reqs.map((_, i) => (
+              <span key={i} className="h-1 flex-1 overflow-hidden rounded-full bg-muted">
+                <motion.span
+                  className={`block h-full origin-left rounded-full ${REQ_HUES[i].bar}`}
+                  initial={false}
+                  animate={{ scaleX: marked(i) ? 1 : 0 }}
+                  transition={{ duration: 0.6, ease: EASE, delay: marked(i) ? 0.25 : 0 }}
+                />
+              </span>
+            ))}
+          </span>
+          <span className="font-mono text-[10px] font-semibold tabular-nums text-foreground">
+            {Math.min(step, reqs.length)}/{reqs.length}
+          </span>
+        </div>
+
+        <ul className="mt-1.5 space-y-0.5">
+          {reqs.map((r, i) => {
+            const on = marked(i);
+            return (
+              <li
+                key={i}
+                onPointerEnter={() => on && setFocus(i)}
+                onPointerLeave={() => setFocus(null)}
+                className="relative h-7"
+              >
+                {/* Skeleton slot — the row "fills in" when its phrase is read */}
+                <span
+                  className={`absolute inset-y-[7px] left-0 right-10 rounded-md bg-muted transition-opacity duration-300 ${
+                    on ? 'opacity-0' : 'opacity-100'
+                  }`}
+                />
+                <motion.div
+                  initial={false}
+                  animate={
+                    on
+                      ? { opacity: dimmed(i) ? 0.45 : 1, y: 0, filter: 'blur(0px)' }
+                      : { opacity: 0, y: -6, filter: 'blur(4px)' }
+                  }
+                  transition={{ duration: on ? 0.55 : 0.25, ease: on ? EASE : 'easeIn', delay: on ? 0.15 : 0 }}
+                  className={`absolute inset-0 flex items-center gap-2 rounded-lg px-1.5 transition-colors duration-200 ${
+                    focus === i ? 'bg-muted/70' : ''
+                  }`}
+                >
+                  <span
+                    className={`shrink-0 rounded-md px-1.5 py-0.5 font-mono text-[9.5px] font-bold ${REQ_HUES[i].chip}`}
+                  >
+                    R{i + 1}
+                  </span>
+                  <span className="min-w-0 flex-1 truncate text-[12px] font-medium text-foreground">{r.title}</span>
+                  <span className="hidden shrink-0 items-center gap-1 text-[10.5px] text-muted-foreground min-[400px]:flex">
+                    <ArrowRight className="h-2.5 w-2.5" />
+                    {r.screen}
+                  </span>
+                  <motion.span
+                    initial={false}
+                    animate={{ scale: on ? 1 : 0, opacity: on ? 1 : 0 }}
+                    transition={{ type: 'spring', stiffness: 500, damping: 22, delay: on ? 0.45 : 0 }}
+                    className="grid h-4 w-4 shrink-0 place-items-center rounded-full bg-emerald-500 text-white"
+                  >
+                    <Check className="h-2.5 w-2.5" strokeWidth={3.5} />
+                  </motion.span>
+                </motion.div>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
     </div>
   );
 }

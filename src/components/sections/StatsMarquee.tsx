@@ -8,7 +8,7 @@ import { highlights } from '@/lib/data';
 /**
  * StatsMarquee — a full-bleed, blue highlights band that sits directly under the
  * hero. It ticks through career highlights (experience, hours logged, projects,
- * clients, earnings) plus a few qualitative tags.
+ * clients) plus a few qualitative tags.
  *
  * Design notes:
  * - The band colour is anchored to a fixed blue-600 (#2563eb) in BOTH themes
@@ -44,12 +44,17 @@ export function StatsMarquee() {
   const ref = useRef<HTMLElement>(null);
 
   // Dock choreography. The band is `sticky top-0`, so it pins itself; this
-  // effect only keeps the navbar glued directly *beneath* it via `--nav-top`:
-  //   • docked (top ≈ 0)      → navbar sits at the band's full height
-  //   • sliding in (0 < top ≤ h) → navbar tracks the band's live bottom edge, so
-  //                              it never peeks above nor gets half-covered
-  //   • hero region (top > h) → navbar returns to the very top (0)
-  // rAF-throttled so the scroll handler stays cheap.
+  // effect only keeps the navbar glued directly *beneath* it via `--nav-top`.
+  // The navbar always sits on the band's live bottom edge, clamped at 0:
+  //   • hero region (top > h)  → band is far below, navbar at the very top (0)
+  //   • sliding in / docked    → navbar rides the band's bottom edge (h when docked)
+  //   • end of <main>          → the sticky band is pushed off-screen by the
+  //                              footer; its bottom drops below 0, so the navbar
+  //                              follows it back to 0 instead of leaving a
+  //                              band-sized gap above itself.
+  // rAF-throttled, and `--nav-top` is only written when it changes: a custom
+  // property on <html> restyles the whole document, so writing it every frame
+  // was the most expensive part of scrolling.
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
@@ -58,15 +63,16 @@ export function StatsMarquee() {
     const setHeight = () => root.style.setProperty('--marquee-h', `${el.offsetHeight}px`);
 
     let ticking = false;
+    let lastTop = -1;
     const update = () => {
       ticking = false;
       const rect = el.getBoundingClientRect();
       const h = el.offsetHeight;
-      let navTop = 0;
-      if (rect.top <= 0.5) navTop = h;
-      else if (rect.top <= h) navTop = Math.round(rect.bottom);
+      const navTop = rect.top > h ? 0 : Math.max(0, Math.round(rect.bottom));
+      if (navTop === lastTop) return;
+      lastTop = navTop;
       root.style.setProperty('--nav-top', `${navTop}px`);
-      root.classList.toggle('marquee-docked', rect.top <= h);
+      root.classList.toggle('marquee-docked', navTop > 0);
     };
     const onScroll = () => {
       if (ticking) return;
@@ -75,6 +81,7 @@ export function StatsMarquee() {
     };
     const onResize = () => {
       setHeight();
+      lastTop = -1;
       update();
     };
 
@@ -112,8 +119,8 @@ export function StatsMarquee() {
             <span
               className={
                 item.value
-                  ? 'text-body-sm text-white/90'
-                  : 'text-body-sm font-semibold uppercase tracking-wide text-white/90'
+                  ? 'text-body-sm text-white'
+                  : 'text-body-sm font-semibold uppercase tracking-wide text-white'
               }
             >
               {item.label}

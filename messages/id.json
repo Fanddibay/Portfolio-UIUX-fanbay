@@ -12,47 +12,100 @@
   "hero": {
     "available": "Terbuka untuk proyek baru",
     "role": "UI/UX Designer",
-    "tagline": "Saya merancang produk yang dipakai orang — lalu membangunnya.",
-    "description": "**4 tahun** pengalaman penuh siklus — riset, Figma, hingga kode siap produksi. Saya memahami dua sisi: apa yang dibutuhkan pengguna dan apa yang harus dicapai bisnis. **10+ produk live** di SaaS, fintech, dan web — **10+ klien internasional**.",
+    "tagline": "Saya merancang produk yang dipakai orang, lalu membangunnya.",
+    "description": "**4 tahun** pengalaman penuh siklus: riset, Figma, hingga kode siap produksi. Saya memahami dua sisi: apa yang dibutuhkan pengguna dan apa yang harus dicapai bisnis. **10+ produk live** di SaaS, fintech, dan web untuk **10+ klien internasional**.",
     "cta": "Mari bekerja sama"
+  },
+  "heroShowcase": {
+    "taglineAccent": ["merancang", "membangunnya"],
+    "greeting": "Halo, saya",
+    "years": "{count}+ Tahun",
+    "yearsLabel": "(pengalaman)",
+    "ctaSecondary": "Lihat karya saya",
+    "toolsLabel": "Tools yang saya pakai",
+    "toolsHint": "Ketuk tool untuk melihat kegunaannya",
+    "toolNames": {
+      "research": "Riset",
+      "prd": "PRD",
+      "designSystem": "Design System"
+    },
+    "tools": {
+      "research": "Temukan masalah sebenarnya",
+      "prd": "Requirement → layar",
+      "figma": "Desain",
+      "designSystem": "Konsisten saat berkembang",
+      "claude": "Partner AI",
+      "react": "Bangun",
+      "vue": "Bangun",
+      "clickup": "Rencana & rilis"
+    },
+    "mockLabel": "Ringkasan portofolio",
+    "search": "Cari…",
+    "mainMenu": "Menu utama",
+    "overview": "Ringkasan",
+    "profiles": "Profil",
+    "lastSync": "Sinkron terakhir",
+    "justNow": "Baru saja",
+    "connected": "{count} terhubung",
+    "hire": "Rekrut saya",
+    "selectedWork": "Karya pilihan",
+    "viewAll": "Lihat semua",
+    "clients": "Klien dan platform yang pernah bekerja sama dengan saya"
   },
   "about": {
     "overline": "Tentang",
-    "title": "Desain yang dirancang untuk bertahan saat handoff.",
-    "body": "Kebanyakan handoff kehilangan sesuatu antara Figma dan kode. Saya menutup celah itu sendiri — saya mendesain di Figma dan bisa membaca/membangun dengan React, Vue, dan Tailwind, jadi apa yang saya desain adalah apa yang benar-benar dirilis, sampai ke detail piksel.",
+    "title": "Desain yang tetap utuh sampai rilis.",
+    "body": "Detail sering hilang di antara Figma dan kode. Saya mendesain di Figma dan membangun dengan React, Vue, dan Tailwind, jadi layar yang dirilis sama dengan layar yang disetujui.",
     "designerTitle": "Desain",
     "designerBody": "Diawali riset, lalu wireframe, sistem, dan layar high-fidelity yang tetap kokoh saat dipakai nyata.",
     "designItems": ["Riset & alur pengguna", "Wireframe", "Design system", "Prototipe high-fidelity"],
     "engineerTitle": "Bangun",
-    "engineerBody": "Cukup mahir di React, Vue, dan Tailwind untuk handoff yang bersih — atau langsung saya bangun sendiri, sampai ke piksel.",
+    "engineerBody": "Saya cukup menguasai React, Vue, dan Tailwind untuk memberi handoff yang rapi atau membangun front-end sendiri.",
     "buildItems": ["React & Vue", "Tailwind CSS", "Responsif & aksesibel", "Integrasi Supabase"],
     "stackLabel": "Tools yang saya pakai",
     "roleTabsLabel": "Desain atau bangun",
     "systemsTitle": "Design system sejak frame pertama",
     "aiTitle": "Dari Figma ke kode, dengan AI di dalam alurnya",
-    "codeTitle": "Kode produksi, bukan sekadar mockup",
+    "codeTitle": "Kode produksi, dibangun dari desain",
     "stackTitle": "Satu stack, dari desain sampai deploy",
-    "motionTitle": "Motion yang terasa disengaja"
-  },
-  "aiTools": {
-    "overline": "Diperkuat AI",
-    "title": "AI sudah menyatu dalam cara saya bekerja.",
-    "body": "Dari riset sampai produksi, tools AI membantu saya beriterasi lebih cepat dan mengeksplorasi lebih banyak arah — jadi lebih banyak waktu saya untuk keputusan yang benar-benar penting.",
-    "claudeCodeTitle": "Claude AI",
-    "claudeCodeBody": "Partner desain harian saya — terhubung ke Figma lewat Figma MCP, dengan skill khusus yang mempercepat pekerjaan UI/UX nyata tanpa melepas kendali atas detailnya.",
-    "claudeDesignTitle": "Stitch",
-    "claudeDesignBody": "Tools AI untuk generate desain — saya pakai untuk membuat layout dan arah visual dengan cepat, cocok untuk mengumpulkan referensi dan eksplorasi ide sebelum dirapikan di Figma.",
-    "aiStudioTitle": "Google AI Studio",
-    "aiStudioBody": "Membangun produk nyata yang berfungsi secara end-to-end — seperti FanLearn, yang saya prototipe dalam sebuah tantangan vibe-coding.",
-    "aiStudioLinkLabel": "Lihat hasilnya"
+    "prdTitle": "Dari brief ke PRD, semua requirement terpetakan",
+    "prd": {
+      "file": "client-brief.md",
+      "reading": "Membaca…",
+      "found": "{count} requirement",
+      "brief": "Lembaga amal perlu melihat <r1>dana terkumpul lintas mata uang</r1>, mengelola <r2>ratusan kampanye</r2>, dan menjalankan <r3>group booking tanpa data yang terlewat</r3>.",
+      "coverage": "Cakupan PRD",
+      "reqs": [
+        {
+          "title": "Analitik multi-mata uang",
+          "screen": "Funds Raised"
+        },
+        {
+          "title": "Label & saved views",
+          "screen": "Kampanye"
+        },
+        {
+          "title": "Pelacakan data kurang",
+          "screen": "Registrasi"
+        }
+      ]
+    }
   },
   "experience": {
     "overline": "Pengalaman",
-    "title": "Empat tahun, terjun langsung di setiap prosesnya.",
-    "lead": "Rekam jejak merancang dan merilis produk nyata — didukung reputasi freelance yang terbukti.",
+    "title": "Empat tahun, selalu terlibat langsung.",
+    "lead": "Kontrak untuk dashboard pemerintah dan enterprise, serta desain produk freelance untuk klien internasional dengan status Top Rated di Upwork.",
     "collaborateCta": "Kolaborasi via Upwork",
     "viewCertificate": "Lihat sertifikat",
-    "skills": "Keahlian & tools"
+    "skills": "Keahlian & tools",
+    "glance": "Sekilas",
+    "years": "tahun",
+    "yearsCaption": "mendesain dan merilis produk nyata",
+    "currently": "Saat ini",
+    "current": "Aktif",
+    "keyResult": "Hasil utama",
+    "readMore": "Selengkapnya",
+    "readLess": "Tutup"
   },
   "statsMarquee": {
     "aria": "Sorotan karier",
@@ -63,31 +116,94 @@
     "topRated": "Freelancer Upwork",
     "tags": [
       "Desain UI/UX + Frontend Engineering",
-      "Alur Kerja Didukung AI",
+      "Alur Kerja Berbantuan AI",
       "SaaS · Dashboard · Aplikasi Web"
     ]
   },
   "process": {
     "overline": "Cara Saya Bekerja",
-    "title": "Dari masalah sampai rilis — saya mengawal seluruh prosesnya.",
-    "step1Title": "Riset",
-    "step1Body": "Mulai dari alasannya: masalah pengguna dan hasil bisnis, jadi tiap keputusan desain punya dasar.",
-    "step2Title": "Desain",
-    "step2Body": "Wireframe, bangun sistemnya, dan prototipe di Figma sampai alurnya benar-benar layak.",
-    "step3Title": "Bangun",
-    "step3Body": "Bawa ke produksi sendiri dengan kode yang bersih, responsif, dan aksesibel — jadi hasil rilis sesuai desain.",
-    "step4Title": "Perkuat dengan AI",
-    "step4Body": "Pakai AI di sepanjang proses untuk memangkas waktu tanpa menurunkan standar."
+    "title": "Dari riset sampai rilis.",
+    "lead": "Keempat tahap saya tangani sendiri, dari wawancara pengguna pertama sampai kode produksi. Scroll untuk melihat apa yang saya serahkan di setiap tahap.",
+    "tablistLabel": "Tahapan proses",
+    "stepOf": "Tahap {n} dari {total}",
+    "deliverables": "Yang Anda dapatkan",
+    "tools": "Tools",
+    "aiHere": "AI di tahap ini",
+    "scrollHint": "Scroll untuk menelusuri prosesnya",
+    "steps": [
+      {
+        "label": "Discover",
+        "title": "Riset",
+        "body": "Saya mulai dari masalah pengguna dan tujuan bisnis, jadi setiap keputusan desain punya alasan.",
+        "deliverables": ["Wawancara stakeholder & pengguna", "Analisis kompetitor", "Problem statement yang jelas"],
+        "tools": ["FigJam", "Google Forms", "Claude"],
+        "ai": "Mengelompokkan catatan wawancara menjadi tema cukup beberapa menit.",
+        "file": "research-board.fig"
+      },
+      {
+        "label": "Define",
+        "title": "PRD & alur",
+        "body": "Membaca brief atau PRD, memetakan setiap requirement ke layar dan state-nya, lalu menyepakati scope sebelum masuk ke piksel.",
+        "deliverables": ["Peta cakupan PRD", "User flow", "State edge case"],
+        "tools": ["ClickUp", "Google Docs", "FigJam"],
+        "ai": "Mengaudit cakupan PRD supaya tidak ada requirement yang terlewat.",
+        "file": "group-booking.flow"
+      },
+      {
+        "label": "Design",
+        "title": "Desain",
+        "body": "Saya membuat wireframe alurnya, menyusun design system, lalu mengubahnya jadi prototipe hi-fi di Figma untuk direview.",
+        "deliverables": ["Wireframe", "Design system", "Prototipe hi-fi"],
+        "tools": ["Figma", "Stitch", "Claude"],
+        "ai": "Eksplorasi lebih banyak opsi layout di awal, lalu yang terpilih saya sempurnakan manual.",
+        "file": "dashboard.fig"
+      },
+      {
+        "label": "Deliver",
+        "title": "Bangun & rilis",
+        "body": "Front-end saya bangun sendiri dengan Vue atau React yang responsif dan aksesibel, jadi hasil rilis sesuai desain yang disetujui.",
+        "deliverables": ["Kode produksi (Vue / React)", "UI responsif & aksesibel", "Handoff developer yang rapi"],
+        "tools": ["React", "Vue", "Tailwind CSS", "Cursor"],
+        "ai": "Coding berbantuan AI mempercepat build, dan setiap baris saya review sebelum rilis.",
+        "file": "StatCard.vue"
+      }
+    ],
+    "preview": {
+      "notes": ["“Saya kejar balasan lewat email.”", "“Revisi mana yang final?”", "“Tak ada bukti mereka membukanya.”", "“File tersebar di mana-mana.”"],
+      "insightLabel": "Insight",
+      "insight": "Tim tidak bisa memastikan siapa yang benar-benar membaca dokumen.",
+      "flow": ["Pilih event", "Tambah peserta", "Data lengkap?", "Konfirmasi booking", "Tandai & ingatkan"],
+      "yes": "Ya",
+      "no": "Tidak",
+      "wire": "Wireframe",
+      "hifi": "Hi-fi",
+      "stats": ["Terkumpul", "Donatur", "Kampanye"],
+      "export": "Ekspor",
+      "build": "Build berhasil",
+      "deployed": "Terdeploy",
+      "checks": ["Responsif", "Aksesibel", "Sesuai desain"]
+    }
   },
   "work": {
     "overline": "Karya Pilihan",
     "title": "Karya yang berawal dari masalah.",
-    "lead": "Cara saya menangani tiap proyek — masalahnya, metodenya, bisnis di baliknya, dan hasilnya.",
+    "lead": "Proyek klien dan satu produk milik saya sendiri. Setiap halaman membahas masalahnya, proses saya, konteks bisnis, dan hasilnya.",
     "viewProcess": "Lihat proses",
-    "protected": "Terlindungi — dibagikan atas permintaan",
+    "protected": "Di bawah NDA, dibagikan atas permintaan",
     "requestAccess": "Minta akses",
     "ownProduct": "Produk Saya",
-    "liveShort": "Live"
+    "liveShort": "Live",
+    "filterLabel": "Filter proyek",
+    "listLabel": "Daftar proyek",
+    "filters": {
+      "all": "Semua",
+      "saas": "SaaS & dashboard",
+      "mobile": "Mobile & PWA",
+      "live": "Produk live"
+    },
+    "hint": "Pilih proyek untuk melihat ringkasannya.",
+    "viewCase": "Lihat detail proyek",
+    "screens": "{count} layar"
   },
   "project": {
     "back": "Kembali ke karya",
@@ -101,21 +217,25 @@
     "businessProcess": "Proses bisnis",
     "goal": "Tujuan & hasil",
     "protectedTitle": "Karya ini di bawah NDA",
-    "protectedBody": "Visual finalnya terlindungi. Saya bisa membagikan versi yang sudah disterilkan dan belum final yang menunjukkan pemikiran dan prosesnya — tinggal hubungi saya.",
+    "protectedBody": "Visual finalnya berada di bawah NDA. Saya bisa membagikan draf yang sudah disamarkan untuk menunjukkan proses saya. Kirim pesan untuk memintanya.",
     "requestCta": "Hubungi saya untuk informasi lebih lanjut",
     "viewExternal": "Lihat di Behance"
   },
   "testimonials": {
     "overline": "Testimoni",
-    "title": "Kata mereka tentang bekerja dengan saya.",
+    "title": "Apa kata klien.",
     "via": "via",
     "prev": "Testimoni sebelumnya",
-    "next": "Testimoni berikutnya"
+    "next": "Testimoni berikutnya",
+    "lead": "Ulasan dari klien di Upwork, Fiverr, dan LinkedIn. Setiap ulasan terhubung ke platform asalnya.",
+    "verified": "Terverifikasi di",
+    "listLabel": "Pilih ulasan",
+    "readOn": "Baca di {platform}"
   },
   "contact": {
     "overline": "Kontak",
-    "title": "Mari bangun sesuatu yang layak dirilis.",
-    "body": "Saya terbuka untuk proyek dan posisi baru. Ceritakan sedikit tentang kebutuhan Anda — biasanya saya membalas dalam sehari.",
+    "title": "Sedang merekrut atau punya proyek? Mari berdiskusi.",
+    "body": "Saya terbuka untuk posisi baru dan proyek freelance. Beberapa kalimat tentang kebutuhan Anda sudah cukup untuk memulai.",
     "nameLabel": "Nama",
     "namePlaceholder": "Nama Anda",
     "emailLabel": "Email",
@@ -124,15 +244,34 @@
     "messagePlaceholder": "Ceritakan tentang proyek Anda…",
     "send": "Kirim pesan",
     "sending": "Mengirim…",
-    "success": "Terima kasih — pesan Anda sedang dikirim. Saya akan segera membalas.",
+    "success": "Terima kasih, pesan Anda sedang dikirim. Saya akan segera membalas.",
     "error": "Terjadi kesalahan. Coba lagi atau email saya langsung.",
-    "socials": "Temukan saya di"
+    "socials": "Temukan saya di",
+    "replyTime": "Biasanya membalas dalam 24 jam",
+    "channels": "Hubungi langsung",
+    "copy": "Salin",
+    "copied": "Tersalin",
+    "linkedin": "Terhubung di LinkedIn",
+    "upwork": "Rekrut saya di Upwork",
+    "intentLabel": "Ada keperluan apa?",
+    "intents": [
+      { "key": "hiring", "label": "Rekrutmen posisi", "placeholder": "Posisi, tim, remote atau on-site, dan timeline-nya…" },
+      { "key": "project", "label": "Proyek freelance", "placeholder": "Apa yang sedang dibangun, untuk siapa, dan kapan target selesainya?" },
+      { "key": "system", "label": "Design system / audit UX", "placeholder": "Produknya, bagian yang terasa tidak konsisten, dan kebutuhan Anda…" },
+      { "key": "hello", "label": "Sekadar menyapa", "placeholder": "Halo Fandi! …" }
+    ],
+    "emailInvalid": "Masukkan alamat email yang valid.",
+    "required": "Kolom ini wajib diisi.",
+    "successTitle": "Pesan terkirim!",
+    "successBody": "Terima kasih sudah menghubungi. Saya akan membalas dalam sehari.",
+    "sendAnother": "Kirim pesan lain",
+    "orEmail": "Lebih suka email? Kirim ke"
   },
   "actions": {
     "backToTop": "Kembali ke atas"
   },
   "footer": {
-    "tagline": "UI/UX Designer yang merancang produk yang dipakai orang — dan membangunnya juga.",
+    "tagline": "UI/UX Designer yang mendesain produk dan membangun front-end-nya.",
     "location": "Berbasis di Indonesia · Terbuka untuk remote",
     "emailLabel": "Email saya",
     "rights": "Hak cipta dilindungi.",
@@ -146,6 +285,13 @@
     "copyEmail": "Salin alamat email",
     "copied": "Tersalin"
   },
+  "notFound": {
+    "overline": "Error 404",
+    "title": "Halaman tidak ditemukan",
+    "body": "Halaman ini tidak ada atau sudah dipindahkan.",
+    "cta": "Kembali ke beranda",
+    "secondary": "Lihat karya saya"
+  },
   "preloader": {
     "loading": "Memuat portofolio",
     "opening": "Membuka portfolio.fig",
@@ -157,7 +303,7 @@
   "resume": {
     "trigger": "Unduh Resume",
     "title": "Unduh Resume",
-    "subtitle": "Tersedia dalam dua bahasa — pilih yang kamu perlukan.",
+    "subtitle": "Tersedia dalam bahasa Inggris dan Bahasa Indonesia.",
     "optionIdLabel": "Bahasa Indonesia",
     "optionIdMeta": "PDF · 94 KB",
     "optionEnLabel": "English",

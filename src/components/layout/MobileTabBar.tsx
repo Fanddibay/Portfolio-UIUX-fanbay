@@ -16,8 +16,8 @@ import { ThemeToggle } from './ThemeToggle';
  */
 const TABS: { id: string; key: 'home' | 'work' | 'about' | 'contact'; icon: LucideIcon }[] = [
   { id: 'top', key: 'home', icon: Home },
-  { id: 'work', key: 'work', icon: LayoutGrid },
   { id: 'about', key: 'about', icon: User },
+  { id: 'work', key: 'work', icon: LayoutGrid },
   { id: 'contact', key: 'contact', icon: Mail },
 ];
 
@@ -65,7 +65,7 @@ export function MobileTabBar() {
               href={navHref(id)}
               aria-current={isActive ? 'page' : undefined}
               className={`flex min-w-[60px] flex-col items-center gap-0.5 rounded-full px-3 py-2 transition-colors duration-150 ease-out ${
-                isActive ? 'bg-accent text-accent-foreground' : 'text-muted-foreground hover:text-foreground'
+                isActive ? 'bg-accent-solid text-accent-foreground' : 'text-muted-foreground hover:text-foreground'
               }`}
             >
               <Icon className="h-5 w-5" />

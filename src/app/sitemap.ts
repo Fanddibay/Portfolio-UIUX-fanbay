@@ -1,13 +1,14 @@
 import type { MetadataRoute } from 'next';
 import { projects } from '@/lib/data';
-import { BASE_URL, languageAlternates, localePath } from '@/lib/seo';
+import { BASE_URL, CONTENT_UPDATED, languageAlternates, localePath } from '@/lib/seo';
 
 /**
  * Sitemap: home + every case study, in both locales, with hreflang
  * alternates so Google indexes the EN/ID pair as one page per language.
  */
 export default function sitemap(): MetadataRoute.Sitemap {
-  const lastModified = new Date();
+  // Fixed content date (see CONTENT_UPDATED), not the build time.
+  const lastModified = new Date(CONTENT_UPDATED);
 
   const home: MetadataRoute.Sitemap = [
     {
@@ -24,6 +25,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'weekly',
       priority: 0.9,
       alternates: { languages: languageAlternates() },
+      images: [`${BASE_URL}/og.png`, `${BASE_URL}/profile.webp`],
     },
   ];
 

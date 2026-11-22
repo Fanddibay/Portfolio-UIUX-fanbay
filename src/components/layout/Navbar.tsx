@@ -3,21 +3,23 @@
 import { useEffect, useState } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { usePathname } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { ThemeToggle } from './ThemeToggle';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { CollaborateButton } from '@/components/ui/CollaborateButton';
+import { BrandWordmark } from '@/components/ui/BrandLogo';
 import { SITE, projects } from '@/lib/data';
 
 /** In-page anchor targets — keys match the `nav` namespace in /messages. */
-const LINKS = ['work', 'about', 'experience', 'process', 'contact'] as const;
+const LINKS = ['experience', 'about', 'work', 'process', 'contact'] as const; // = page order
 
 /**
  * Sticky top navigation (DESIGN.md §9, §12).
  *
  * Scroll behaviour: slides up when scrolling down, back in when scrolling up;
- * gains a blurred background once past the hero; the availability pill
- * cross-fades into the wordmark (desktop only).
+ * gains a blurred background once past the hero. The brand ("fandibayu"
+ * wordmark + availability dot) stays put so the site is always
+ * recognisably Fandi's.
  *
  * Right cluster (theme · language · résumé) is shared across breakpoints.
  * Primary navigation on mobile lives in the bottom tab bar, so there is no
@@ -38,18 +40,30 @@ export function Navbar() {
   const isHome = pathname === `/${locale}` || pathname === '/';
   const navHref = (hash: string) => (isHome ? `#${hash}` : `/${locale}#${hash}`);
 
+  // Hide on scroll down, reveal on scroll up. rAF-throttled (one read per
+  // frame), and direction only flips after a 6px move so trackpad jitter and
+  // momentum tails don't make the bar flicker in and out.
   useEffect(() => {
     let last = window.scrollY;
+    let ticking = false;
     const syncNavState = () => {
+      ticking = false;
       const y = window.scrollY;
       setScrolled(y > 24);
-      setHidden(y > last && y > 140);
+      if (y <= 140) setHidden(false);
+      else if (Math.abs(y - last) > 6) setHidden(y > last);
+      else return; // keep `last` anchored until the move is big enough
       last = y;
+    };
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(syncNavState);
     };
 
     syncNavState();
-    window.addEventListener('scroll', syncNavState, { passive: true });
-    return () => window.removeEventListener('scroll', syncNavState);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
   return (
@@ -65,46 +79,29 @@ export function Navbar() {
       }`}
     >
       <nav className="mx-auto flex h-16 max-w-content items-center justify-between px-4 md:px-8">
-        {/* Left: wordmark on mobile; animated pill ↔ wordmark on desktop */}
-        <a href={navHref('top')} className="flex items-center focus-visible:outline-none">
-          <span className="whitespace-nowrap font-heading text-h4 font-bold text-foreground md:hidden">
-            {SITE.name}
-            <span className="text-accent">.</span>
+        {/* Left: brand. The "fandibayu" wordmark (= the domain) types itself on
+            as the preloader lifts; hover/focus selects it like text. Desktop adds
+            the live availability dot, like an "online" badge on the caret. */}
+        <a
+          href={navHref('top')}
+          aria-label={`${SITE.name}, ${tHero('available')}`}
+          className="group/brand relative flex items-center rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background"
+        >
+          <span className="relative flex items-center">
+            <BrandWordmark intro className="h-[22px] w-auto md:h-6" />
+            <span className="absolute -right-3.5 -top-1 hidden h-2.5 w-2.5 md:flex">
+              <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-60 motion-safe:animate-ping" />
+              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500 ring-2 ring-background" />
+            </span>
           </span>
 
-          <span className="relative hidden items-center md:flex">
-            <AnimatePresence mode="wait" initial={false}>
-              {scrolled ? (
-                <motion.span
-                  key="wordmark"
-                  initial={{ opacity: 0, y: -6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 6 }}
-                  transition={{ duration: 0.2 }}
-                  className="font-heading text-h4 font-bold text-foreground"
-                >
-                  {SITE.name}
-                  <span className="text-accent">.</span>
-                </motion.span>
-              ) : (
-                <motion.span
-                  key="pill"
-                  initial={{ opacity: 0, y: -6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 6 }}
-                  transition={{ duration: 0.2 }}
-                  className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5"
-                >
-                  <span className="relative flex h-2 w-2">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" />
-                    <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
-                  </span>
-                  <span className="font-mono text-label text-muted-foreground">
-                    {tHero('available')}
-                  </span>
-                </motion.span>
-              )}
-            </AnimatePresence>
+          {/* Hover hint — what the green dot means */}
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute left-0 top-full mt-3 hidden -translate-y-1 items-center gap-1.5 whitespace-nowrap rounded-full border border-border bg-card px-2.5 py-1 font-body text-[11px] text-muted-foreground opacity-0 shadow-md transition-[opacity,transform] duration-200 ease-out group-hover/brand:translate-y-0 group-hover/brand:opacity-100 md:inline-flex"
+          >
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+            {tHero('available')}
           </span>
         </a>
 

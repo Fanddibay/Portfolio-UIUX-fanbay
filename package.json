@@ -11,7 +11,8 @@
     "pages:build": "npx @cloudflare/next-on-pages@1 && node scripts/check-pages-assets.mjs",
     "pages:preview": "npm run pages:build && npx wrangler pages dev",
     "pages:deploy": "npm run pages:build && npx wrangler pages deploy",
-    "images": "node scripts/optimize-images.mjs"
+    "images": "node scripts/optimize-images.mjs",
+    "resume": "node scripts/build-resume.mjs"
   },
   "dependencies": {
     "@tabler/icons-react": "^3.52.0",

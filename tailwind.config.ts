@@ -34,6 +34,8 @@ const config: Config = {
         accent: {
           DEFAULT: 'rgb(var(--accent) / <alpha-value>)',
           foreground: 'rgb(var(--accent-foreground) / <alpha-value>)',
+          // Filled surfaces with white text — see --accent-solid in globals.css.
+          solid: 'rgb(var(--accent-solid) / <alpha-value>)',
         },
         muted: {
           DEFAULT: 'rgb(var(--muted) / <alpha-value>)',

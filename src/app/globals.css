@@ -27,8 +27,13 @@
     --secondary-foreground: 255 255 255;
     --accent: 37 99 235;
     --accent-foreground: 255 255 255;
+    /* Filled accent surfaces that carry white text (buttons, badges, active
+     * chips). Same blue as --accent in light; stays #2563EB in dark so white
+     * text keeps 5.17:1 (white on the lighter dark accent is only 3.68:1). */
+    --accent-solid: 37 99 235;
     --muted: 244 244 245;
-    --muted-foreground: 100 116 139;
+    /* #586779 — 5.3:1 on --muted, 5.8:1 on --card (WCAG AA for body text). */
+    --muted-foreground: 88 103 121;
     --border: 228 228 231;
     --ring: 37 99 235;
     --destructive: 220 38 38;
@@ -52,8 +57,10 @@
     --secondary-foreground: 161 161 170;
     --accent: 59 130 246;
     --accent-foreground: 255 255 255;
+    --accent-solid: 37 99 235;
     --muted: 39 39 42;
-    --muted-foreground: 113 113 122;
+    /* #A1A1AA — 7.8:1 on --background, 5.8:1 on --muted. */
+    --muted-foreground: 161 161 170;
     --border: 39 39 42;
     --ring: 59 130 246;
     --destructive: 239 68 68;
@@ -67,8 +74,12 @@
     @apply bg-background text-foreground font-body antialiased;
   }
 
-  /* Smooth in-page anchor scrolling for the single-page nav */
+  /* Smooth in-page anchor scrolling for the single-page nav.
+   * position: relative makes <html> the offset parent for framer-motion's
+   * useScroll target measurements (it warns and can mis-measure when the scroll
+   * container is static). Verified: no absolutely positioned element moves. */
   html {
+    position: relative;
     scroll-behavior: smooth;
   }
 }
@@ -208,7 +219,7 @@ html.marquee-docked {
 }
 
 /*
- * Marquee — auto-scrolling row (StatsMarquee band + AI Tools on mobile). The
+ * Marquee — auto-scrolling row (StatsMarquee band + hero client logos on mobile). The
  * track holds two identical sets; translating by -50% loops seamlessly. Pauses
  * on hover (CSS) or tap (data-paused, toggled in JS). Each item carries its own
  * right margin (no flex gap) so the -50% offset stays perfectly seamless.
@@ -303,30 +314,231 @@ html.marquee-docked {
 }
 
 /*
- * About bento — "Motion" card. Two balls cross the same track: one linear, one
- * on the site's enter curve (DESIGN.md §7) so the difference is visible side by
- * side. `.is-paused` stops them while the card is off-screen.
+ * Hero orbit (src/components/sections/hero/ToolOrbit.tsx).
+ * .hero-float — slow idle bob for the tool tiles (per-tile negative delay
+ *   de-syncs them so they never move in lockstep).
+ * .hero-orbit — accent arcs drifting around the ring centre (the SVG's 0,0),
+ *   very slowly so it reads as ambient, not as a spinner.
+ * .hero-ring-flow — the dashes of the two "connector" rings (the ones the
+ *   tiles sit on) creep along the line, so it reads as a live link.
  */
-@keyframes ease-travel {
+@keyframes hero-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-9px);
+  }
+}
+.hero-float {
+  animation: hero-float 6s ease-in-out infinite;
+}
+
+@keyframes hero-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.hero-orbit {
+  transform-box: view-box;
+  transform-origin: 0 0;
+  animation: hero-orbit 90s linear infinite;
+}
+@keyframes hero-ring-flow {
+  to {
+    stroke-dashoffset: -120;
+  }
+}
+.hero-ring-flow {
+  animation: hero-ring-flow 9s linear infinite;
+}
+.hero-orbit--reverse {
+  animation-duration: 120s;
+  animation-direction: reverse;
+}
+/* Touch layouts have no cursor parallax — let the comets travel visibly faster. */
+@media (max-width: 1023px) {
+  .hero-orbit {
+    animation-duration: 34s;
+  }
+  .hero-orbit--reverse {
+    animation-duration: 46s;
+  }
+}
+
+/* Hero name underline — redraws on hover. Framer normalises the path to
+ * pathLength=1, so offset 1 → 0 replays the draw-in. */
+@keyframes name-redraw {
   from {
-    left: 0;
+    stroke-dashoffset: 1;
   }
   to {
-    left: calc(100% - 0.875rem);
+    stroke-dashoffset: 0;
   }
 }
-.ease-ball {
-  animation: ease-travel 1.6s infinite alternate;
-  animation-delay: 0.3s;
+
+/* Portfolio mockup: dissolve the bottom edge into the page, like a screenshot
+ * fading out (src/components/sections/hero/PortfolioMockup.tsx). */
+.mock-fade {
+  -webkit-mask-image: linear-gradient(to bottom, #000 58%, transparent 97%);
+  mask-image: linear-gradient(to bottom, #000 58%, transparent 97%);
 }
-.ease-ball--linear {
-  animation-timing-function: linear;
+
+/* ------------------------------------------------------------------ */
+/* 404 page (src/app/[locale]/not-found.tsx + ui/LostRobot.tsx)          */
+/* Idle loops are CSS so the robot's JS only runs while it tracks.       */
+/* ------------------------------------------------------------------ */
+@keyframes nf-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
 }
-.ease-ball--spring {
-  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+.nf-float {
+  animation: nf-float 4s ease-in-out infinite;
 }
-.is-paused .ease-ball {
-  animation-play-state: paused;
+@keyframes nf-shadow {
+  0%,
+  100% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scaleX(0.86);
+    opacity: 0.7;
+  }
+}
+.nf-shadow {
+  animation: nf-shadow 4s ease-in-out infinite;
+}
+@keyframes nf-blink {
+  0%,
+  90%,
+  100% {
+    transform: scaleY(1);
+  }
+  94% {
+    transform: scaleY(0.1);
+  }
+}
+.nf-blink {
+  animation: nf-blink 4.6s ease-in-out infinite;
+}
+@keyframes nf-scratch {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-7deg);
+  }
+  50% {
+    transform: rotate(2deg);
+  }
+  75% {
+    transform: rotate(-5deg);
+  }
+}
+.nf-scratch {
+  animation: nf-scratch 1.8s ease-in-out infinite;
+}
+@keyframes nf-q {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.8);
+  }
+  20%,
+  65% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-14px) scale(0.9);
+  }
+}
+.nf-q {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: nf-q 2.6s ease-in-out infinite both;
+}
+@keyframes nf-dot {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+.nf-dot {
+  animation: nf-dot 1.2s ease-in-out infinite;
+}
+.nf-bulb {
+  animation: nf-dot 2s ease-in-out infinite;
+}
+/* Entrance: same fade-up + easing as the rest of the site (DESIGN.md §7). */
+@keyframes nf-rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.nf-rise {
+  animation: nf-rise 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+/* Faint dot grid that fades out toward the edges */
+.nf-grid {
+  background-image: radial-gradient(rgb(var(--foreground) / 0.09) 1px, transparent 1px);
+  background-size: 22px 22px;
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 20%, transparent 70%);
+  mask-image: radial-gradient(ellipse at center, #000 20%, transparent 70%);
+}
+
+/* Performance: sections flagged off-screen by PauseOffscreenAnimations stop
+ * ticking their looping CSS animations (no work for what nobody can see). */
+/* Brand wordmark (BrandLogo.tsx, DESIGN.md §16): the caret blinks like a real
+ * cursor (steps, no fade) 3 times after load, then rests solid. Hovering or
+ * focusing the wrapping link restarts the blink and "selects" the name. */
+@keyframes brand-caret {
+  50% {
+    opacity: 0;
+  }
+}
+@keyframes brand-caret-hover {
+  50% {
+    opacity: 0;
+  }
+}
+.brand-caret {
+  animation: brand-caret 1.06s steps(1) 3;
+}
+.brand-select {
+  opacity: 0.16;
+  transform: scaleX(0);
+  transform-box: fill-box;
+  transform-origin: right center;
+  transition: transform 400ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+:is(a, button):is(:hover, :focus-visible) .brand-wordmark .brand-caret {
+  animation: brand-caret-hover 1.06s steps(1) infinite;
+}
+:is(a, button):is(:hover, :focus-visible) .brand-wordmark .brand-select {
+  transform: scaleX(1);
+}
+
+[data-offscreen] *,
+[data-offscreen] *::before,
+[data-offscreen] *::after {
+  animation-play-state: paused !important;
 }
 
 /* Accessibility: honor reduced-motion across all animations (DESIGN.md §7) */
@@ -351,4 +563,11 @@ html[data-preloader='off'] .preloader {
 }
 html:not([data-preloader='off']):has(.preloader) {
   overflow: hidden;
+}
+/* No intro on the 404 page: CSS-only, so it's hidden from the first paint. */
+html:has([data-not-found]) .preloader {
+  display: none;
+}
+html:has([data-not-found]) {
+  overflow: auto;
 }

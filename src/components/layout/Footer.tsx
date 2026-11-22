@@ -21,7 +21,7 @@ import { SITE, fiverr, socials, upwork } from '@/lib/data';
  * Collaborate button, focus rings — themes itself with no special cases.
  */
 
-const NAV = ['work', 'about', 'experience', 'process', 'contact'] as const;
+const NAV = ['experience', 'about', 'work', 'process', 'contact'] as const; // = page order
 const EASE = [0.16, 1, 0.3, 1] as const;
 const ROLE = 'UI/UX Designer & Engineer';
 
@@ -181,7 +181,7 @@ export function Footer() {
         {/* 4 — Bottom bar (extra bottom padding on mobile clears the floating tab bar) */}
         <div className="flex flex-col gap-4 border-t border-foreground/10 pb-28 pt-6 sm:flex-row sm:items-center sm:justify-between md:pb-8">
           <p className="text-body-sm text-foreground/50">
-            © {year} {SITE.name} — {ROLE}. {t('rights')}
+            © {year} {SITE.name} · {ROLE}. {t('rights')}
           </p>
           <button
             type="button"
@@ -189,7 +189,7 @@ export function Footer() {
             className="group inline-flex w-fit items-center gap-3 rounded-full text-body-sm text-foreground/70 transition-colors duration-200 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background"
           >
             {tActions('backToTop')}
-            <span className="flex size-9 items-center justify-center rounded-full border border-foreground/15 transition-colors duration-200 group-hover:border-accent group-hover:bg-accent group-hover:text-accent-foreground">
+            <span className="flex size-9 items-center justify-center rounded-full border border-foreground/15 transition-colors duration-200 group-hover:border-accent group-hover:bg-accent-solid group-hover:text-accent-foreground">
               <ArrowUp className="size-4 transition-transform duration-200 ease-out group-hover:-translate-y-0.5" />
             </span>
           </button>
