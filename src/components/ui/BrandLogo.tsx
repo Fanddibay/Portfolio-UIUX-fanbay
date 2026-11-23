@@ -36,13 +36,27 @@ const BAYU_INDEX = 5; // first letter of "bayu"
  * - The caret blinks 3 times, then rests. It only keeps blinking while the
  *   wrapping link is hovered or focused (WCAG 2.2.2: no endless auto-blink).
  * - Hover/focus on the wrapping link sweeps a text-selection highlight in.
+ *
+ * Variants:
+ * - `caret={false}`: for a lockup next to <BrandMark>, which already carries
+ *   the caret (two carets side by side read as a glitch).
+ * - `blink`: gate the 3 blinks, e.g. on an in-view check for the footer.
+ * - `inkClassName` / `caretClassName`: tone it down for decorative use.
  */
 export function BrandWordmark({
   className = 'h-6 w-auto',
   intro = false,
+  caret: showCaret = true,
+  blink = true,
+  inkClassName = 'fill-foreground',
+  caretClassName = 'fill-accent',
 }: {
   className?: string;
   intro?: boolean;
+  caret?: boolean;
+  blink?: boolean;
+  inkClassName?: string;
+  caretClassName?: string;
 }) {
   const ready = useIntroReady(250);
   const [typed, setTyped] = useState(WORDMARK_LETTERS.length);
@@ -77,10 +91,12 @@ export function BrandWordmark({
   const { minX, width, height, caret, caretGap } = WORDMARK;
   // A real caret jumps (no easing) to just after the last typed letter.
   const caretX = typed === 0 ? minX : WORDMARK_LETTERS[typed - 1].end + caretGap;
+  // Without the caret, the box ends at the last letter's advance.
+  const boxWidth = showCaret ? width : WORDMARK_LETTERS[WORDMARK_LETTERS.length - 1].end - minX;
 
   return (
     <svg
-      viewBox={`${minX} 0 ${width} ${height}`}
+      viewBox={`${minX} 0 ${boxWidth} ${height}`}
       aria-hidden="true"
       className={`brand-wordmark shrink-0 overflow-visible ${className}`}
     >
@@ -88,24 +104,26 @@ export function BrandWordmark({
         className="brand-select fill-accent"
         x={minX - 50}
         y={0}
-        width={caret.x - minX + 30}
+        width={(showCaret ? caret.x - 20 : minX + boxWidth + 30) - (minX - 50)}
         height={height}
         rx={48}
       />
-      <g className="fill-foreground">
+      <g className={inkClassName}>
         {WORDMARK_LETTERS.map((l, i) => (
           <path key={i} d={l.d} className={i < typed ? undefined : 'opacity-0'} />
         ))}
       </g>
-      <rect
-        className={`fill-accent ${typing ? '' : 'brand-caret'}`}
-        x={caret.x}
-        y={0}
-        width={caret.w}
-        height={height}
-        rx={caret.r}
-        style={{ transform: `translateX(${caretX - caret.x}px)` }}
-      />
+      {showCaret && (
+        <rect
+          className={`${caretClassName} ${!typing && blink ? 'brand-caret' : ''}`}
+          x={caret.x}
+          y={0}
+          width={caret.w}
+          height={height}
+          rx={caret.r}
+          style={{ transform: `translateX(${caretX - caret.x}px)` }}
+        />
+      )}
     </svg>
   );
 }

@@ -1,10 +1,12 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
+import { motion, useInView, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import { useLocale, useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import { ArrowUp, ArrowUpRight, Check, Copy } from 'lucide-react';
+import { BrandWordmark } from '@/components/ui/BrandLogo';
+import { WORDMARK } from '@/components/ui/brandPaths';
 import { CollaborateButton } from '@/components/ui/CollaborateButton';
 import { ResumeModal } from '@/components/ui/ResumeModal';
 import { SITE, fiverr, socials, upwork } from '@/lib/data';
@@ -13,7 +15,7 @@ import { SITE, fiverr, socials, upwork } from '@/lib/data';
  * Closing footer — a dark, full-bleed band:
  *   1. a big two-line CTA (second line faded) + the Collaborate button
  *   2. four columns: brand · navigation · find me · contact (+ live local time)
- *   3. a giant faded wordmark that rises into place as you reach the bottom
+ *   3. a giant faded "fandibayu" logo that rises into place as you reach the bottom
  *   4. copyright + back to top
  *
  * The `dark` class on <footer> re-scopes the design tokens (globals.css), so the
@@ -40,6 +42,10 @@ const LINK =
 
 const LABEL = 'font-mono text-label uppercase tracking-[0.2em] text-foreground/50';
 
+/** Giant wordmark crop: keep the top 589 of 977 units, i.e. cut 168 units above
+ * the baseline, so the name sits on the bottom bar like a horizon. */
+const HORIZON = 589;
+
 export function Footer() {
   const t = useTranslations('footer');
   const tNav = useTranslations('nav');
@@ -57,6 +63,9 @@ export function Footer() {
   // Wordmark rises into its slot as the footer scrolls into view.
   const { scrollYProgress } = useScroll({ target: footerRef, offset: ['start end', 'end end'] });
   const wordmarkY = useTransform(scrollYProgress, [0, 1], ['45%', '0%']);
+  // Its caret blinks 3 times once you actually reach it: "end of document".
+  const wordmarkRef = useRef<HTMLDivElement>(null);
+  const wordmarkInView = useInView(wordmarkRef, { once: true, margin: '0px 0px -15% 0px' });
 
   // Masked line reveal. The in-view trigger lives on the <h2>, not the lines:
   // a line parked at y:105% inside its overflow-hidden mask is fully clipped,
@@ -110,9 +119,10 @@ export function Footer() {
         <div className="grid grid-cols-2 gap-x-8 gap-y-12 py-14 md:grid-cols-3 md:py-16 lg:grid-cols-[1.5fr_1fr_1fr_1.5fr]">
           {/* Brand — own row on phone/tablet, first column on desktop */}
           <div className="col-span-2 md:col-span-3 lg:col-span-1">
-            <p className="font-heading text-h4 font-bold">
-              {SITE.name}
-              <span className="text-accent">.</span>
+            {/* Static caret here; the giant wordmark below does the blinking. */}
+            <p>
+              <BrandWordmark blink={false} className="h-6 w-auto" />
+              <span className="sr-only">{SITE.name}</span>
             </p>
             <p className={`mt-1.5 ${LABEL}`}>{ROLE}</p>
             <p className="mt-5 max-w-xs text-body-sm text-foreground/70">{t('tagline')}</p>
@@ -167,15 +177,22 @@ export function Footer() {
 
       {/* 3 — Giant wordmark, cropped at its base like a horizon */}
       <div className="relative mx-auto max-w-content px-6 md:px-8">
-        {/* Font size = available width ÷ 5 (the name is ~4.8em wide), capped at the
-            1152px content width — so the wordmark spans edge to edge at every size. */}
-        <div aria-hidden="true" className="h-[0.74em] select-none overflow-hidden text-[min(calc((100vw-4rem)/5),13.5rem)]">
-          <motion.p
-            style={reduce ? undefined : { y: wordmarkY }}
-            className="whitespace-nowrap font-heading text-[1em] font-bold leading-none tracking-tighter text-foreground/[0.07]"
-          >
-            {SITE.name}
-          </motion.p>
+        {/* The logo SVG at full content width (edge to edge at every size), in a
+            box cropped to HORIZON so its lower part stays hidden as it rises. */}
+        <div
+          ref={wordmarkRef}
+          aria-hidden="true"
+          className="select-none overflow-hidden"
+          style={{ aspectRatio: `${WORDMARK.width} / ${HORIZON}` }}
+        >
+          <motion.div style={reduce ? undefined : { y: wordmarkY }}>
+            <BrandWordmark
+              blink={wordmarkInView}
+              className="block h-auto w-full"
+              inkClassName="fill-foreground/[0.07]"
+              caretClassName="fill-accent/25"
+            />
+          </motion.div>
         </div>
 
         {/* 4 — Bottom bar (extra bottom padding on mobile clears the floating tab bar) */}

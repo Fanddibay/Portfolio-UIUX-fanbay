@@ -29,7 +29,7 @@ import {
 } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { Behance } from '@/components/ui/SocialLinks';
-import { BrandMark } from '@/components/ui/BrandLogo';
+import { BrandMark, BrandWordmark } from '@/components/ui/BrandLogo';
 import { FiverrGlyph, UpworkGlyph } from '@/components/ui/BrandIcons';
 import { SITE, fiverr, loc, projects, socials, upwork } from '@/lib/data';
 
@@ -80,12 +80,11 @@ function Sidebar() {
   return (
     <aside className="hidden w-[212px] shrink-0 flex-col border-r border-border bg-muted/40 p-3 md:flex">
       <div className="flex items-center justify-between px-1.5 py-1">
+        {/* App-style lockup: the mark carries the caret, so the wordmark drops its own. */}
         <span className="flex items-center gap-2">
           <BrandMark className="h-7 w-7" />
-          <span className="font-heading text-[15px] font-bold tracking-tight text-foreground">
-            {SITE.name}
-            <span className="text-accent">.</span>
-          </span>
+          <BrandWordmark caret={false} className="h-4 w-auto" />
+          <span className="sr-only">{SITE.name}</span>
         </span>
         <ChevronsLeft className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
       </div>

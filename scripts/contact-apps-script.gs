@@ -6,19 +6,17 @@
  *           (newest first), styled, with a Status dropdown and a mailto link.
  *   setup   one-time (re-runnable) formatting: Inbox + "Overview" dashboard.
  *
- * Setup (keeps the current /exec URL, so the website needs no change)
- *   1. Open the existing Apps Script project behind the contact form
- *      (script.google.com, or Extensions → Apps Script from the old
- *      "Email Feedback Fandi" spreadsheet).
- *   2. Replace all code with this file → Save.
- *   3. Pick `setup` in the toolbar → ▶ Run → approve the permissions.
- *      Optional: run `previewRow` to see a styled sample row, then delete it.
- *   4. Deploy → Manage deployments → ✏️ Edit → Version: "New version" → Deploy.
- *      Without a new version the OLD code (with the email) keeps running.
- *
- * If you create a brand-new script instead, deploy it as a Web app
- * (Execute as: Me, Who has access: Anyone) and put its /exec URL in
- * NEXT_PUBLIC_CONTACT_ENDPOINT (.env.local and Cloudflare Pages settings).
+ * Setup
+ *   1. Paste this file into the Apps Script project → Save.
+ *   2. Pick `setup` in the toolbar → ▶ Run → approve the permissions.
+ *      (Re-run it any time; it never deletes messages.)
+ *   3. First deploy: Deploy → New deployment → ⚙ Web app →
+ *      Execute as: Me · Who has access: Anyone → Deploy, then put the
+ *      /exec URL in NEXT_PUBLIC_CONTACT_ENDPOINT (.env.local + Cloudflare
+ *      Pages env vars) and redeploy the site.
+ *   4. After later code edits: Deploy → Manage deployments → ✏️ Edit →
+ *      Version: "New version" → Deploy (the /exec URL stays the same).
+ *   Optional: run `previewRow` to see a styled sample row, then delete it.
  */
 
 const SPREADSHEET_ID = '1Lmwv-RkBtln-L4mm1Yacp_OHXXoliXEKUPeMjublf9Q';
