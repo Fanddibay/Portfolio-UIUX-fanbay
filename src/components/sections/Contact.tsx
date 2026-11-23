@@ -6,7 +6,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { AlertCircle, ArrowUpRight, Check, Copy, Linkedin, Loader2, Mail, Send } from 'lucide-react';
 import { SocialLinks } from '@/components/ui/SocialLinks';
 import { UpworkGlyph } from '@/components/ui/BrandIcons';
-import { sendContactMessage, isContactConfigured } from '@/lib/contact';
+import { sendContactMessage } from '@/lib/contact';
 import { track } from '@/lib/analytics';
 import { SITE, socials, upwork } from '@/lib/data';
 
@@ -101,13 +101,6 @@ export function Contact() {
     setStatus('sending');
 
     try {
-      if (!isContactConfigured) {
-        window.location.href = `mailto:${SITE.email}?subject=${encodeURIComponent(
-          `${current.label} · ${payload.name}`,
-        )}&body=${encodeURIComponent(raw.message)}`;
-        setStatus('idle');
-        return;
-      }
       await sendContactMessage(payload);
       track('generate_lead', { lead_source: 'contact_form', topic: current.key });
       form.reset();
@@ -347,14 +340,13 @@ export function Contact() {
                         <AlertCircle className="h-4 w-4" aria-hidden="true" />
                         {t('error')}
                       </span>
-                    ) : (
-                      <span className="text-muted-foreground">
-                        {t('orEmail')}{' '}
-                        <a href={`mailto:${SITE.email}`} className="font-medium text-accent hover:underline">
-                          {SITE.email}
-                        </a>
-                      </span>
-                    )}
+                    ) : null}
+                    <p className="text-muted-foreground">
+                      {t('orEmail')}{' '}
+                      <a href={`mailto:${SITE.email}`} className="font-medium text-accent hover:underline">
+                        {SITE.email}
+                      </a>
+                    </p>
                   </div>
                 </motion.form>
               )}

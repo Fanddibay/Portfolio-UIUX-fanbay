@@ -12,7 +12,7 @@
  *      (Re-run it any time; it never deletes messages.)
  *   3. First deploy: Deploy → New deployment → ⚙ Web app →
  *      Execute as: Me · Who has access: Anyone → Deploy, then put the
- *      /exec URL in NEXT_PUBLIC_CONTACT_ENDPOINT (.env.local + Cloudflare
+ *      /exec URL in CONTACT_ENDPOINT (.env.local + Cloudflare
  *      Pages env vars) and redeploy the site.
  *   4. After later code edits: Deploy → Manage deployments → ✏️ Edit →
  *      Version: "New version" → Deploy (the /exec URL stays the same).
@@ -99,12 +99,11 @@ function doPost(e) {
   // Flood guard: one message per email address every 30 seconds.
   const cache = CacheService.getScriptCache();
   const key = 'contact:' + email.toLowerCase();
-  if (cache.get(key)) return text_('ok');
-  cache.put(key, '1', 30);
-
   const lock = LockService.getScriptLock();
   lock.waitLock(10000);
   try {
+    if (cache.get(key)) return text_('rate_limited');
+
     const sheet = inbox_();
     sheet.insertRowBefore(2);
     sheet.getRange(2, 1, 1, COLUMNS.length).setValues([[
@@ -123,6 +122,7 @@ function doPost(e) {
     );
     styleRow_(sheet, 2);
     applyRules_(sheet);
+    cache.put(key, '1', 30);
   } finally {
     lock.releaseLock();
   }

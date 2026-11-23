@@ -245,7 +245,7 @@
     "send": "Send message",
     "sending": "Sending…",
     "success": "Thanks, your message is on its way. I'll reply soon.",
-    "error": "Something went wrong. Please try again or email me directly.",
+    "error": "Your message could not be sent. Please try again.",
     "socials": "Find me on",
     "replyTime": "Usually replies within 24 hours",
     "channels": "Reach me directly",
